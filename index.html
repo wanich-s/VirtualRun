@@ -25,7 +25,7 @@
                             <a class="nav-link" href="#">กิจกรรมของฉัน / ส่งผล</a>
                         </li>
                         <li class="nav-item ms-auto">
-                            <a class="nav-link" href="#">เข้าสู่ระบบ</a>
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
                         </li>
                     </ul>
                 </div>
@@ -40,15 +40,133 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                ...
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            สังกัดโรงเรียนสาธิต
+                        </label>
+                    </div>
+                   
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">นักเรียน</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">ครู</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">บุคลากร/เจ้าหน้าที่</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4">
+                        <label class="form-check-label" for="inlineRadio4">ผู้ปกครอง</label>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>--กรุณาเลือกโรงเรียนที่ท่านสังกัด--</option>
+                            <option value="1">โรงเรียนสาธิต "พิบูลบำเพ็ญ" มหาวิทยาลัยบูรพา</option>
+                            <option value="2">โรงเรียนสาธิตมหาวิทยาลัยศรีนครินทรวิโรฒ</option>
+                            <option value="3">โรงเรียนสาธิตมหาวิทยาลัยศิลปากร</option>
+                            <option value="4">โรงเรียนสาธิตมหาวิทยาลัยเชียงใหม่</option>
+                            <option value="5">โรงเรียนมัธยมสาธิตมหาวิทยาลัยนเรศวร</option>
+                            <option value="6">โรงเรียนสาธิต 6</option>
+                            <option value="7">โรงเรียนสาธิต 7</option>
+                            <option value="8">โรงเรียนสาธิต 8</option>
+                            <option value="9">โรงเรียนสาธิต 9</option>
+                            <option value="10">โรงเรียนสาธิต 10</option>
+                            <option value="11">โรงเรียนสาธิต 11</option>
+                            <option value="12">โรงเรียนสาธิต 12</option>
+                            <option value="13">โรงเรียนสาธิต 13</option>
+                            <option value="14">โรงเรียนสาธิต 14</option>
+                            <option value="15">โรงเรียนสาธิต 15</option>
+                            <option value="16">โรงเรียนสาธิต 16</option>
+                            <option value="17">โรงเรียนสาธิต 17</option>
+                            <option value="18">โรงเรียนสาธิต 18</option>
+                            <option value="19">โรงเรียนสาธิต 19</option>
+                            <option value="20">โรงเรียนสาธิต 20</option>
+                            <option value="21">โรงเรียนสาธิต 21</option>
+                            <option value="22">โรงเรียนสาธิต 22</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            บุคคลทั่วไป
+                        </label>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">ชื่อ - นามสกุล</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2" placeholder="ระบุชื่อ - นามสกุล">  
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">หมายเลขบัตรประชาชน</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput3" placeholder="ระบุหมายเลขบัตรประชาชน">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">เบอร์ติดต่อ</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput4" placeholder="ระบุเบอร์ติดต่อ">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">ที่อยู่สำหรับจัดส่ง</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="ระบุที่อยู่สำหรับจัดส่ง"></textarea>
+                    </div> 
+                    <div class="nput-group mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">ขนาดเสื้อ</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>--กรุณาเลือกขนาดเสื้อ--</option>
+                            <option value="1">2S (รอบอก 34" ความยาว 25")</option>
+                            <option value="2">S (รอบอก 36" ความยาว 26")</option>
+                            <option value="3">M (รอบอก 38" ความยาว 27")</option>
+                            <option value="4">L (รอบอก 40" ความยาว 28")</option>
+                            <option value="5">XL (รอบอก 42" ความยาว 29")</option>
+                            <option value="6">2XL (รอบอก 44" ความยาว 30")</option>
+                            <option value="7">3XL (รอบอก 46" ความยาว 31") </option>
+                        </select>
+                    </div> 
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" class="btn btn-primary" >Understood</button>
                 </div>
             </div>
             </div>
         </div>
+
+        <!-- Modal Login -->
+        <div class="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalLogin">กรุณาเข้าสู่ระบบบัญชีของท่าน</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form2Example1" class="form-control" />
+                    <label class="form-label" for="form2Example1">รหัสผู้ใช้</label>
+                </div>
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form2Example2" class="form-control" />
+                    <label class="form-label" for="form2Example2">รหัสผ่าน</label>
+                </div>
+                <!-- Submit button -->
+                <button type="button" class="btn btn-primary btn-block mb-4">เข้าสู่ระบบ</button>
+                </form>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -65,7 +183,7 @@
                 // });
                 var modalApplication = document.getElementById('modalApplication')
                 modalApplication.addEventListener('show.bs.modal', function (event) {
-                    // do something...
+                    //do something...
                     // alert('OK');
                 })
             });
