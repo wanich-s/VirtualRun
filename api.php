@@ -3,9 +3,9 @@
     // only ajax request
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {        
         
-        $function = $_REQUEST['func'];        
+        $function = $_REQUEST['func'];
         $logged = false;
-        if(isset($_SESSION['LOGGED_TIME'])) {
+        if(isset($_SESSION['LOGGED_TIME']) && isset($_SESSION['UserID'])) {
             // session started more than 30 minutes ago
             if (time() - $_SESSION['LOGGED_TIME'] < 1800) {
                 session_regenerate_id(true);    // change session ID for the current session and invalidate old session ID
@@ -23,6 +23,9 @@
         switch ($function) {
             case 'login':
                 include 'functions/login.php';
+                break;
+            case 'logout':
+                include 'functions/logout.php';
                 break;
             case 'application':
                 include 'functions/application.php';
