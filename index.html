@@ -22,7 +22,7 @@
                             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalApplication">สมัคร</a>
                         </li>
                         <li class="nav-item ms-auto">
-                            <a class="nav-link" href="#">กิจกรรมของฉัน / ส่งผล</a>
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalActivityLog">กิจกรรมของฉัน / ส่งผล</a>
                         </li>
                         <li class="nav-item ms-auto">
                             <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
@@ -134,6 +134,34 @@
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" >Understood</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Modal ActivityLog -->
+        <div class="modal fade" id="modalActivityLog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalActivityLogLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="modalActivityLog">ส่งผลการทำกิจกรรม</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <form>
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <input type="email" id="form2Example1" class="form-control" />
+                    <label class="form-label" for="form2Example1">รหัสผู้ใช้</label>
+                </div>
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <input type="password" id="form2Example2" class="form-control" />
+                    <label class="form-label" for="form2Example2">รหัสผ่าน</label>
+                </div>
+                <!-- Submit button -->
+                <button type="button" class="btn btn-primary btn-block mb-4">เข้าสู่ระบบ</button>
+                </form>
                 </div>
             </div>
             </div>
