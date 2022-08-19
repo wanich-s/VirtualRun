@@ -1,16 +1,15 @@
-<?php
-    session_start();
-    // require 'config.php';
-
-    // $sql = "SELECT * FROM Users";
-    // $query = $mysqli -> query($sql);
-    // $result = $query -> fetch_all(MYSQLI_ASSOC);
-    $user_id = '1';
-    if(!isset($_SESSION['LoggedIn'])) {
-        $_SESSION[UserID] = $user_id;
+<?php    
+    require 'config.php';
+    $user_name = 'wanich';
+    $password = 'wanich';
+    $sql = "SELECT id FROM Users WHERE user_name = '$user_name' AND password = MD5('$password');";
+    $query = $mysqli -> query($sql);
+    $user = $query -> fetch_array(MYSQLI_ASSOC);
+    if($user) {
+        $_SESSION['UserID'] = $result['ID'];
+        $_SESSION['LOGGED_TIME'] = time();
         session_write_close();
+        echo json_encode(array("logged" => true));    
     }
-    
-    
-    echo json_encode(array("logged" => true));
+    echo json_encode(array("logged" => false));
 ?>

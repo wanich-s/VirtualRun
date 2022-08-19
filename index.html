@@ -254,26 +254,26 @@
                         pass: "Pass"
                     }
                 })
-                // .done(function( res ) {
-                //     try {
-                //         let data = JSON.parse(res);
-                //         if(data.logged) {
-                //             alert('Logged In');
-                //         }
-                //         // if(data.status === 'duplicate') {
-                //         //     idCard.classList.add("is-invalid");
-                //         //     $('#smStudentIDCard').html('หมายเลขบัตรประชาชนนี้ ถูกใช้ลงทะเบียนแล้ว!');
-                //         //     $('#smStudentIDCard').show();
-                //         // }else {
-                //         //     idCard.classList.remove("is-invalid");
-                //         //     $('#smStudentIDCard').hide();
-                //         // }
-                //     } catch (error) {
-                //         console.log(error);
-                //     }
-                // }).fail(function(response) {
-                //     console.log(response);
-                // });
+                .done(function( res ) {
+                    try {
+                        let data = JSON.parse(res);
+                        if(data.logged) {
+                            // alert('Logged In');
+                        }
+                        // if(data.status === 'duplicate') {
+                        //     idCard.classList.add("is-invalid");
+                        //     $('#smStudentIDCard').html('หมายเลขบัตรประชาชนนี้ ถูกใช้ลงทะเบียนแล้ว!');
+                        //     $('#smStudentIDCard').show();
+                        // }else {
+                        //     idCard.classList.remove("is-invalid");
+                        //     $('#smStudentIDCard').hide();
+                        // }
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }).fail(function(response) {
+                    console.log(response);
+                });
 
                 var modalApplication = document.getElementById('modalApplication')
                 modalApplication.addEventListener('show.bs.modal', function (event) {
