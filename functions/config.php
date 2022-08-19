@@ -10,7 +10,7 @@
     $db_user,
     $db_password,
     $db_db,
-	$db_port
+	  $db_port
   );
 	
   if ($mysqli->connect_error) {
