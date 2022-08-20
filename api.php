@@ -2,19 +2,11 @@
     session_start();
     // only ajax request
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {        
-        
+        include 'functions/utility.php';
         $function = $_REQUEST['func'];
-        $logged = false;
-        if(isset($_SESSION['LOGGED_TIME']) && isset($_SESSION['UserID'])) {
-            // session started more than 30 minutes ago
-            if (time() - $_SESSION['LOGGED_TIME'] < 1800) {
-                session_regenerate_id(true);    // change session ID for the current session and invalidate old session ID
-                $_SESSION['LOGGED_TIME'] = time();  // update creation time
-                $logged = true;
-            }
-        }
+        $logged = login_state();        
         // check login status
-        $allow_functions = array('login', 'application');
+        $allow_functions = array('loginState', 'login', 'application');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array("logged" => false));
             exit(0);
@@ -25,13 +17,17 @@
                 include 'functions/login.php';
                 break;
             case 'logout':
-                include 'functions/logout.php';
+                logout();
                 break;
             case 'application':
                 include 'functions/application.php';
                 break;
             default:
-                echo json_encode(array("logged" => false));
+                if(login_state()) {
+                    echo json_encode(array('logged' => true, 'username' => $_SESSION['UserName']));
+                }else{
+                    echo json_encode(array('logged' => false));
+                }
                 break;
         }
     }
