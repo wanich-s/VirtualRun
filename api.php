@@ -24,7 +24,7 @@
                 break;
             default:
                 if(login_state()) {
-                    echo json_encode(array('logged' => true, 'username' => $_SESSION['UserName']));
+                    echo json_encode(array('logged' => true, 'username' => $_SESSION['UserName'], 'profile' => $_SESSION['UserProfile']));
                 }else{
                     echo json_encode(array('logged' => false));
                 }

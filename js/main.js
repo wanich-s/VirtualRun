@@ -30,7 +30,6 @@ $( document ).ready(function() {
     });
 
     $('#btn-login').on('click', (e) => {
-        e.preventDefault();
         logIn();
     });    
 
@@ -41,19 +40,8 @@ $( document ).ready(function() {
             data: { func: "loginState" },
         }).done(function( res ) {
             try {
-                let data = JSON.parse(res);                            
-                if(data.logged) {
-                    let username = capitalize(data.username);
-                    $('#linkUser').html(`ชื่อผู้ใช้ ${username}`);
-                    $('#linkUser').attr('data-login', true);
-                    $('#liUser').show();
-                    $('#liLogout').show();
-                    $('#liLogin').hide();
-                    // modalLogin.hide();
-                }else{
-                    $('#linkUser').attr('data-login', false);
-                    $('#liLogin').show();
-                }
+                let user = JSON.parse(res);                            
+                userMenu(user);
             } catch (error) {
                 console.log(error);
             }
@@ -77,16 +65,9 @@ $( document ).ready(function() {
             }
         }).done(function( res ) {
             try {
-                let data = JSON.parse(res);
-                let username = capitalize(data.username);
-                if(data.logged) {
-                    $('#linkUser').html(`ชื่อผู้ใช้ ${username}`);
-                    $('#linkUser').attr('data-login', true);
-                    $('#liLogout').show();
-                    $('#liLogin').hide();
-                    $('#liUser').show();
-                    modalLogin.hide();
-                }
+                let user = JSON.parse(res);
+                userMenu(user);
+                modalLogin.hide();
             } catch (error) {
                 console.log(error);
             }
@@ -96,10 +77,6 @@ $( document ).ready(function() {
     }
 
     function logOut() {
-        let user = $('#input-username').val();
-        let pass = $('#input-password').val();
-        $('#input-username').val('');
-        $('#input-password').val('');
         $.ajax({
             method: "POST",
             url: "api.php",
@@ -110,7 +87,10 @@ $( document ).ready(function() {
                 let data = JSON.parse(res);
                 if(!data.logged) {
                     $('#linkLogin').html('เข้าสู่ระบบ');
+                    $('#liAdmin').hide();
+                    $('#liUser').hide();
                     $('#linkLogout').hide();
+                    $('#liLogin').show();
                 }
             } catch (error) {
                 console.log(error);
@@ -118,6 +98,26 @@ $( document ).ready(function() {
         }).fail(function(response) {
             console.log(response);
         });
+    }
+
+    function userMenu(user) {
+        if(user.logged) {
+            let username = capitalize(user.username);
+            $('#linkUser').html(`ชื่อผู้ใช้ ${username}`);
+            $('#linkUser').attr('data-login', true);
+            if(user.profile === 'admin') {
+                $('#liAdmin').show();
+            }else{
+                $('#liAdmin').hide();
+            }
+            $('#liLogin').hide();
+            $('#liUser').show();
+            $('#liLogout').show();
+        }else{
+            $('#linkUser').attr('data-login', false);
+            $('#liAdmin').hide();
+            $('#liLogin').show();
+        }
     }
 
     function capitalize(word) {
