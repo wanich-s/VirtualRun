@@ -20,12 +20,12 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item ms-auto">
                             <a class="nav-link active" aria-current="page" href="#">หน้าแรก</a>
-                        </li>
-                        <li class="nav-item ms-auto">
-                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalApplication">สมัคร</a>
-                        </li>
+                        </li>                        
                         <li class="nav-item ms-auto">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalActivityLog">กิจกรรมของฉัน / ส่งผล</a>
+                        </li>
+                        <li class="nav-item ms-auto">
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalRegister">สมัครสมาชิก</a>
                         </li>
                         <li class="nav-item ms-auto" id="liLogin" style="display: none;">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
@@ -201,15 +201,15 @@
                            
                             <label for="exampleFormControlInput1" class="form-label">ระยะเวลาที่ทำ</label>
                             <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="" class="form-control" placeholder="0">ชั่วโมง  
+                                <input type="text" type="number" id="hour" class="form-control" placeholder="0">ชั่วโมง  
                             </div>
 
                             <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="" class="form-control" placeholder="0">นาที
+                                <input type="text" type="number" id="minute" class="form-control" placeholder="0">นาที
                             </div>
 
                             <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="" class="form-control" placeholder="0">วินาที
+                                <input type="text" type="number" id="second" class="form-control" placeholder="0">วินาที
                             </div>
                             <div class="w-100 d-none d-md-block"></div>
                             <div class="mb-3">
@@ -247,11 +247,58 @@
                     <input type="password" id="input-password" name="password" pattern="[a-zA-Z0-9]" maxlength="64" class="form-control" required/>
                     <label class="form-label" for="input-password">รหัสผ่าน</label>
                 </div>
+                <div id="loginAlert"></div>
                 <!-- Submit button -->
-                <button type="button" id="btn-login" class="btn btn-primary btn-block mb-4">เข้าสู่ระบบ</button>
+                    <button type="button" id="btn-login" class="btn btn-primary btn-block mb-4">เข้าสู่ระบบ</button>
                 </form>
                 </div>
             </div>
+            </div>
+        </div>
+
+        <!-- Modal Register -->
+        <div class="modal fade" id="modalRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalLogin">สมัครสมาชิก</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-12">
+                                <label for="inputEmail" class="form-label">อีเมล์</label>
+                                <input type="email" class="form-control" id="inputEmail" name="email" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputUsername" class="form-label">ชื่อผู้ใช้</label>
+                                <input type="text" class="form-control" id="inputUsername" name="username" pattern="[a-zA-Zก-๙]+$" maxlength="64" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword" class="form-label">รหัสผ่าน</label>
+                                <input type="password" class="form-control" id="inputPassword" name="password" minlength="6" maxlength="64" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputFirstname" class="form-label">ชื่อ</label>
+                                <input type="text" class="form-control" id="inputFirstname" name="firstname" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputLastname" class="form-label">นามสกุล</label>
+                                <input type="text" class="form-control" id="inputLastname" name="lastname" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputTel" class="form-label">เบอร์ติดต่อ</label>
+                                <input type="text" class="form-control" id="inputTel" name="tel" pattern="[0-9]{10}" required>
+                            </div>
+                            <div class="col-md-12">
+                                <div id="registerAlert"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" id="btnRegister" class="btn btn-primary btn-block mb-4">สมัครสมาชิก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -67,7 +67,11 @@ $( document ).ready(function() {
             try {
                 let user = JSON.parse(res);
                 userMenu(user);
-                modalLogin.hide();
+                if(user.logged) {
+                    modalLogin.hide();
+                }else{
+                    $('#loginAlert').append(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -118,6 +122,28 @@ $( document ).ready(function() {
             $('#liAdmin').hide();
             $('#liLogin').show();
         }
+    }
+
+    window.addEventListener('load', function() {
+        let forms = document.getElementsByClassName('needs-validation');
+        let validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                // $('#comfirmModal').modal('show');
+                event.preventDefault();
+            }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+    function alert(message, type) {
+        let wrapper = document.createElement('div')
+        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        return wrapper;
     }
 
     function capitalize(word) {
