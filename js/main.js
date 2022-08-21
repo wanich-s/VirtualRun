@@ -10,11 +10,63 @@ $( document ).ready(function() {
         // alert('OK');
     });
     
+    // modalLogin
     var modalLoginEl = document.querySelector('#modalLogin')
     modalLoginEl.addEventListener('shown.bs.modal', function (event) {
         $('#input-username').focus();
     });
     var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl)
+
+    // modalApplication
+    var modalApplicationEl = document.querySelector('#modalApplication')
+    modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
+        // $('#input-username').focus();
+    });
+    var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl)
+
+    $('#btnParticipate').on('click', (e) => {
+        $.ajax({
+            method: "GET",
+            url: "api.php",
+            data: { activity: "1", func: "participate" },
+        }).done(function( res ) {
+            try {
+                let user = JSON.parse(res);
+                if(user.logged) {
+                    showApplication(user);
+                    modalApplication.show();
+                }else{
+                    modalLogin.show();
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }).fail(function( res ) {
+            console.log(res);
+        });
+    });
+
+    function showApplication(user) {
+        $('#inputAppEmail').val(user.userinfo['email']);
+        $('#inputAppFirstname').val(user.userinfo['first_name']);
+        $('#inputAppLastname').val(user.userinfo['last_name']);
+        $('#inputAppIDCard').val(user.userinfo['id_card']);
+        $('#inputAppTel').val(user.userinfo['tel']);
+    }
+
+    $( "input[name*='beAMemberWith']" ).on('change', (e) => {
+        if($('#flexRadio1').is(":checked")) {
+            $('#collapseCareer').show();
+            $( "input[name*='radioCareer']" ).attr("required", "true");
+            $( "#selectSchool" ).attr("required", "true");
+        }else{
+            $('#collapseCareer').hide();
+            $( "input[name*='radioCareer']" ).removeAttr("required");
+            $( "#selectSchool" ).removeAttr("required");
+            $( "#selectSchool" ).val('');
+            $( "input[name*='radioCareer']" ).prop('checked', false);
+        }
+    });
 
     $('#linkLogin').on('click', (e) => {
         let login = $('#linkLogin').attr('data-login');
@@ -40,7 +92,7 @@ $( document ).ready(function() {
             data: { func: "loginState" },
         }).done(function( res ) {
             try {
-                let user = JSON.parse(res);                            
+                let user = JSON.parse(res);
                 userMenu(user);
             } catch (error) {
                 console.log(error);
@@ -70,7 +122,7 @@ $( document ).ready(function() {
                 if(user.logged) {
                     modalLogin.hide();
                 }else{
-                    $('#loginAlert').append(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
+                    $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
                 }
             } catch (error) {
                 console.log(error);
@@ -113,12 +165,14 @@ $( document ).ready(function() {
                 $('#liAdmin').show();
             }else{
                 $('#liAdmin').hide();
-            }
+            }            
+            $('#liRegister').hide();
             $('#liLogin').hide();
             $('#liUser').show();
             $('#liLogout').show();
         }else{
             $('#linkUser').attr('data-login', false);
+            $('#liRegister').show();
             $('#liAdmin').hide();
             $('#liLogin').show();
         }

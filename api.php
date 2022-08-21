@@ -4,7 +4,7 @@
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {        
         include 'functions/utility.php';
         $function = $_REQUEST['func'];
-        $logged = login_state();        
+        $logged = login_state();
         // check login status
         $allow_functions = array('loginState', 'login', 'application');
         if(!in_array($function, $allow_functions) && !$logged) {
@@ -13,6 +13,9 @@
         }
 
         switch ($function) {
+            case 'participate':
+                include 'functions/participate.php';
+                break;
             case 'login':
                 include 'functions/login.php';
                 break;

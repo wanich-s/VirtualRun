@@ -6,6 +6,8 @@
                 session_regenerate_id(true);
                 $_SESSION['LOGGED_TIME'] = time();
                 return true;
+            }else{
+                session_destroy();
             }
         }
         return false;
