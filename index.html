@@ -19,7 +19,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item ms-auto">
-                            <a class="nav-link active" aria-current="page" href="#">หน้าแรก</a>
+                            <a class="nav-link active" aria-current="page" href="">หน้าแรก</a>
                         </li>
                         <li class="nav-item ms-auto" id="liRegister">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalApplication">สมัคร</a>
@@ -64,7 +64,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formApplication" name="formApplication" class="row g-3 needs-validation" autocomplete="off" novalidate>                          
+                        <form id="formApplication" name="formApplication" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="beAMemberWith" id="flexRadio1" checked required>
                                 <label class="form-check-label" for="flexRadio1">
@@ -72,7 +72,7 @@
                                 </label>
                             </div>
                             <div class="collapse show" id="collapseCareer">
-                                <div class="card card-body col-md-12">
+                                <div class="card card-body">
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="radioCareer" id="radioCareer1" value="1" required>
                                         <label class="form-check-label" for="inlineRadio1">นักเรียน</label>
@@ -125,13 +125,19 @@
                                     บุคคลทั่วไป
                                 </label>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppUsername" class="form-label">ชื่อผู้ใช้</label>
-                                <input type="text" class="form-control" id="inputAppUsername" name="username" pattern="[a-zA-Zก-๙]+$" maxlength="64" required>
+                                <input type="text" class="form-control" id="inputAppUsername" name="username" pattern="[a-zA-Z0-9]{6,64}" maxlength="64" required>
+                                <div class="invalid-feedback">
+                                    ชื่อผู้ใช้ a-z, A-Z, 0-9 อย่างน้อย 6 ตัวอักษร
+                                </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppPassword" class="form-label">รหัสผ่าน</label>
-                                <input type="password" class="form-control" id="inputAppPassword" name="password" minlength="6" maxlength="64" required>
+                                <input type="password" class="form-control" id="inputAppPassword" name="password" pattern="[a-zA-Z0-9]{6,64}" minlength="6" maxlength="64" required>
+                                <div class="invalid-feedback">
+                                    ชื่อผู้ใช้ a-z, A-Z, 0-9 อย่างน้อย 6 ตัวอักษร
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <label for="inputAppEmail" class="form-label">อีเมล์</label>
@@ -182,72 +188,67 @@
         <!-- Modal ActivityLog -->
         <div class="modal fade" id="modalActivityLog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalActivityLogLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="modalActivityLog">ส่งผลการทำกิจกรรม</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                
-                    <div class="container">
-                        <div class="row">
-                            <label for="exampleFormControlInput1" class="form-label">วันที่เริ่มทำกิจกรรม</label>
-                            <div class="col-6 col-sm-4">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalActivityLog">ส่งผลการทำกิจกรรม</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formActivityLog" name="formActivityLog" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-6">
+                                <label for="exampleFormControlInput1" class="form-label">วันที่เริ่มทำกิจกรรม</label>
                                 <div class='input-group date' id='datepicker1'>
-                                    <input type='text' class="form-control" name="datepicker1" />
+                                    <input type='text' class="form-control" name="activitydate" required />
                                     <span class="input-group-addon input-group-text">
                                         <span class="bi bi-calendar-date"></span>
                                     </span>
                                 </div>
                             </div>
-                            <div class="w-100 d-none d-md-block"></div>
-                            <label for="exampleFormControlInput1" class="form-label">เวลาที่เริ่มทำกิจกรรม</label>
-                            <div class="col-6 col-sm-4">
-                                <div class='input-group-time' >
-                                    <input type='time' class="form-control" name="dateTimePicker" />
-                                </div>           
-                            </div>            
-                            <div class="w-100 d-none d-md-block"></div>
-                           
-                            <label for="exampleFormControlInput1" class="form-label">จำนวนที่ทำได้</label>
-                            <div class="col-6 col-sm-4">
-                                <input type="number" type="number" id="" min="0" step="0.01" class="form-control" placeholder="0">
+                            <div class="col-md-6">
+                                <label for="activitytime" class="form-label">เวลาที่เริ่มทำกิจกรรม</label>
+                                <div class='input-group-time'>
+                                    <input type='time' class="form-control" name="activitytime" required />
+                                </div>
                             </div>
-                            <div class="col-6 col-sm-4">กิโลเมตร</div>
-
-                            <div class="w-100 d-none d-md-block"></div>
-                           
-                            <label for="exampleFormControlInput1" class="form-label">ระยะเวลาที่ทำ</label>
-                            <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="hour" class="form-control" placeholder="0">ชั่วโมง  
+                            <div class="col-md-6">
+                                <label for="inputDistance" class="form-label">จำนวนที่ทำได้</label>
+                                <div class="input-group">
+                                    <input type="number" type="number" id="inputDistance" name="distance" min="0.00" step="0.10" class="form-control" placeholder="0" required>
+                                    <span class="input-group-text">กิโลเมตร</span>
+                                </div>
                             </div>
-
-                            <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="minute" class="form-control" placeholder="0">นาที
+                            <div class="col-md-6">
+                                <div class="row row-cols-sm-auto">
+                                    <div class="col-4 col-md-4">
+                                        <label for="inputHour" class="form-label">ชั่วโมง</label>
+                                        <input type="text" type="number" id="inputHour" name="hour" class="form-control" placeholder="0" required/>
+                                    </div>
+                                    <div class="col-4 col-md-4">
+                                        <label for="inputMinute" class="form-label">นาที</label>
+                                        <input type="text" type="number" id="inputMinute" name="minute" class="form-control" placeholder="0" required/>
+                                    </div>
+                                    <div class="col-4 col-md-4">
+                                        <label for="inputSecond" class="form-label">วินาที</label>
+                                        <input type="text" type="number" id="inputSecond" name="second" class="form-control" placeholder="0" required/>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="col-6 col-sm-4">
-                                <input type="text" type="number" id="second" class="form-control" placeholder="0">วินาที
-                            </div>
-                            <div class="w-100 d-none d-md-block"></div>
-                            <div class="mb-3">
-                                <label for="formFileSm" class="form-label">ภาพผลการทำกิจกรรม</label>
-                                <input class="form-control form-control-sm" id="formFileSm" type="file">
-                            </div>
-                            <div class="w-100 d-none d-md-block"></div>
-                            <div class="col-6">
-                                <button type="button" class="btn btn-primary btn-block mb-4">ส่งผล</button>
-                            </div>  
+                            <div class="col-md-12">
+                                <label for="fileActivityImage" class="form-label">ภาพผลการทำกิจกรรม</label>
+                                <input type="file" class="form-control" id="fileActivityImage">
+                            </div>                            
                         </div>
-                    </div>
+                        <div class="modal-footer">
+                            <button id="btnSendResult" type="submit" class="btn btn-primary" >ส่งผล</button>
+                        </div>
+                    </form>
                 </div>
-            </div>
             </div>
         </div>
 
         <!-- Modal Login -->
         <div class="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-md">
                 <div class="modal-content">                    
                     <div class="modal-header">
                         <h5 class="modal-title" id="modalLogin">กรุณาเข้าสู่ระบบบัญชีของท่าน</h5>
@@ -255,67 +256,25 @@
                     </div>
                     <div class="modal-body">
                         <form id="formLogin" name="formLogin" class="row g-3 needs-validation" autocomplete="off" novalidate>
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-8 offset-md-2">
                                 <label class="form-label" for="input-username">รหัสผู้ใช้</label>
-                                <input type="text" id="input-username" name="username" pattern="[a-zA-Z0-9]" maxlength="64" class="form-control" required/>
+                                <input type="text" id="input-username" name="username" minlength="1" maxlength="64" class="form-control" required/>
                             </div>
-                            <div class="col-md-6 offset-md-3">
+                            <div class="col-md-8 offset-md-2">
                                 <label class="form-label" for="input-password">รหัสผ่าน</label>
-                                <input type="password" id="input-password" name="password" pattern="[a-zA-Z0-9]" maxlength="64" class="form-control" required/>
+                                <input type="password" id="input-password" name="password" minlength="1" maxlength="64" class="form-control" required/>
                             </div>
-                            <div id="loginAlert"></div>
-                            <button id="btn-login" type="submit" class="btn btn-primary" >เข้าสู่ระบบ</button>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="loginAlert"></div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <button id="btn-login" type="submit" class="btn btn-primary w-100" >เข้าสู่ระบบ</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Modal Register -->
-        <!-- <div class="modal fade" id="modalRegister" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRegisterLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalLogin">สมัครสมาชิก</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="row g-3 needs-validation" autocomplete="off" novalidate>
-                            <div class="col-md-12">
-                                <label for="inputEmail" class="form-label">อีเมล์</label>
-                                <input type="email" class="form-control" id="inputEmail" name="email" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputUsername" class="form-label">ชื่อผู้ใช้</label>
-                                <input type="text" class="form-control" id="inputUsername" name="username" pattern="[a-zA-Zก-๙]+$" maxlength="64" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputPassword" class="form-label">รหัสผ่าน</label>
-                                <input type="password" class="form-control" id="inputPassword" name="password" minlength="6" maxlength="64" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputFirstname" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control" id="inputFirstname" name="firstname" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputLastname" class="form-label">นามสกุล</label>
-                                <input type="text" class="form-control" id="inputLastname" name="lastname" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputTel" class="form-label">เบอร์ติดต่อ</label>
-                                <input type="text" class="form-control" id="inputTel" name="tel" pattern="[0-9]{10}" required>
-                            </div>
-                            <div class="col-md-12">
-                                <div id="registerAlert"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <button type="submit" id="btnRegister" class="btn btn-primary btn-block mb-4">สมัครสมาชิก</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
