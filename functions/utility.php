@@ -1,4 +1,13 @@
 <?php
+    function logged($user_id, $user_name, $user_profile='') {
+        $_SESSION['UserID'] = $user_id;
+        $_SESSION['UserName'] = $user_name;
+        $_SESSION['UserProfile'] = $user_profile;
+        $_SESSION['LOGGED_TIME'] = time();
+        session_write_close();
+        echo json_encode(array('logged' => true, 'username' => $user_name, 'profile' => $user_profile));
+    }
+
     function login_state() {
         if(isset($_SESSION['LOGGED_TIME']) && isset($_SESSION['UserID'])) {
             // session started more than 30 minutes ago

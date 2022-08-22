@@ -24,47 +24,47 @@ $( document ).ready(function() {
     });
     var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl)
 
-    $('#btnParticipate').on('click', (e) => {
-        $.ajax({
-            method: "GET",
-            url: "api.php",
-            data: { activity: "1", func: "participate" },
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                if(user.logged) {
-                    showApplication(user);
-                    modalApplication.show();
-                }else{
-                    modalLogin.show();
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function( res ) {
-            console.log(res);
-        });
-    });
+    // $('#btnParticipate').on('click', (e) => {
+    //     $.ajax({
+    //         method: "GET",
+    //         url: "api.php",
+    //         data: { activity: "1", func: "participate" },
+    //     }).done(function( res ) {
+    //         try {
+    //             let user = JSON.parse(res);
+    //             if(user.logged) {
+    //                 showApplication(user);
+    //                 modalApplication.show();
+    //             }else{
+    //                 modalLogin.show();
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }).fail(function( res ) {
+    //         console.log(res);
+    //     });
+    // });
 
-    function showApplication(user) {
-        $('#inputAppEmail').val(user.userinfo['email']);
-        $('#inputAppFirstname').val(user.userinfo['first_name']);
-        $('#inputAppLastname').val(user.userinfo['last_name']);
-        $('#inputAppIDCard').val(user.userinfo['id_card']);
-        $('#inputAppTel').val(user.userinfo['tel']);
-    }
+    // function showApplication(user) {
+    //     $('#inputAppEmail').val(user.userinfo['email']);
+    //     $('#inputAppFirstname').val(user.userinfo['first_name']);
+    //     $('#inputAppLastname').val(user.userinfo['last_name']);
+    //     $('#inputAppIDCard').val(user.userinfo['id_card']);
+    //     $('#inputAppTel').val(user.userinfo['tel']);
+    // }
 
     $( "input[name*='beAMemberWith']" ).on('change', (e) => {
         if($('#flexRadio1').is(":checked")) {
             $('#collapseCareer').show();
-            $( "input[name*='radioCareer']" ).attr("required", "true");
+            $( "input[name*='career']" ).attr("required", "true");
             $( "#selectSchool" ).attr("required", "true");
         }else{
             $('#collapseCareer').hide();
-            $( "input[name*='radioCareer']" ).removeAttr("required");
+            $( "input[name*='career']" ).removeAttr("required");
             $( "#selectSchool" ).removeAttr("required");
             $( "#selectSchool" ).val('');
-            $( "input[name*='radioCareer']" ).prop('checked', false);
+            $( "input[name*='career']" ).prop('checked', false);
         }
     });
 
@@ -170,6 +170,7 @@ $( document ).ready(function() {
             $('#liLogin').hide();
             $('#liUser').show();
             $('#liLogout').show();
+            $('.modal').modal('hide');
         }else{
             $('#linkUser').attr('data-login', false);
             $('#liRegister').show();
@@ -180,19 +181,36 @@ $( document ).ready(function() {
 
     window.addEventListener('load', function() {
         let forms = document.getElementsByClassName('needs-validation');
-        let validation = Array.prototype.filter.call(forms, function(form) {
+        const validation = Array.prototype.filter.call(forms, function(form) {
         form.addEventListener('submit', function(event) {
             if (form.checkValidity() === false) {
                 event.preventDefault();
                 event.stopPropagation();
             } else {
-                // $('#comfirmModal').modal('show');
+                submitForm(form);
                 event.preventDefault();
             }
                 form.classList.add('was-validated');
             }, false);
         });
     }, false);
+
+    function submitForm(form) {
+        $.ajax({
+            method: "POST",
+            url: $(form).attr('action'),
+            data: $(form).serialize(),
+        }).done(function( res ) {
+            try {
+                let user = JSON.parse(res);
+                userMenu(user);
+            } catch (error) {
+                console.log(error);
+            }
+        }).fail(function(response) {
+            console.log(response);
+        });
+    }
 
     function alert(message, type) {
         let wrapper = document.createElement('div')

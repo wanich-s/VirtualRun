@@ -64,7 +64,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formApplication" name="formApplication" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formApplication" name="formApplication" action="api.php?func=register" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="beAMemberWith" id="flexRadio1" checked required>
                                 <label class="form-check-label" for="flexRadio1">
@@ -74,19 +74,19 @@
                             <div class="collapse show" id="collapseCareer">
                                 <div class="card card-body">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCareer" id="radioCareer1" value="1" required>
+                                        <input class="form-check-input" type="radio" name="career" id="radioCareer1" value="1" required>
                                         <label class="form-check-label" for="inlineRadio1">นักเรียน</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCareer" id="radioCareer2" value="2" required>
+                                        <input class="form-check-input" type="radio" name="career" id="radioCareer2" value="2" required>
                                         <label class="form-check-label" for="inlineRadio2">ครู</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCareer" id="radioCareer3" value="3" required>
+                                        <input class="form-check-input" type="radio" name="career" id="radioCareer3" value="3" required>
                                         <label class="form-check-label" for="inlineRadio3">บุคลากร/เจ้าหน้าที่</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="radioCareer" id="radioCareer4" value="4" required>
+                                        <input class="form-check-input" type="radio" name="career" id="radioCareer4" value="4" required>
                                         <label class="form-check-label" for="inlineRadio4">ผู้ปกครอง</label>
                                     </div>
                                     <div class="mb-2 mt-2">
@@ -143,17 +143,26 @@
                                 <label for="inputAppEmail" class="form-label">อีเมล์</label>
                                 <input type="email" class="form-control" id="inputAppEmail" name="email" placeholder="ระบุอีเมล์" required>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppFirstname" class="form-label">ชื่อ</label>
                                 <input type="text" class="form-control" id="inputAppFirstname" name="firstname" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <div class="invalid-feedback">
+                                    ชื่อ (a-z, A-Z, ก-ฮ)
+                                </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppLastname" class="form-label">นามสกุล</label>
                                 <input type="text" class="form-control" id="inputAppLastname" name="lastname" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <div class="invalid-feedback">
+                                    นามสกุล (a-z, A-Z, ก-ฮ)
+                                </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppIDCard" class="form-label">หมายเลขบัตรประชาชน</label>
                                 <input type="text" class="form-control" id="inputAppIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชน" required>
+                                <div class="invalid-feedback">
+                                    หมายเลขบัตรประชาชนไม่ถูกต้อง
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="inputAppTel" class="form-label">เบอร์ติดต่อ</label>
@@ -281,7 +290,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js" integrity="sha512-WHnaxy6FscGMvbIB5EgmjW71v5BCQyz5kQTcZ5iMxann3HczLlBHH5PQk7030XmmK5siar66qzY+EJxKHZTPEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="js/main.js?v4"></script>
+        <script src="js/main.js?v5"></script>
         <script type="text/javascript">
             $(function () {
                 var date = new Date();

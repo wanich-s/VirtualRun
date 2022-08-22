@@ -6,15 +6,15 @@
         $function = $_REQUEST['func'];
         $logged = login_state();
         // check login status
-        $allow_functions = array('loginState', 'login', 'application');
+        $allow_functions = array('loginState', 'login', 'register');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array("logged" => false));
             exit(0);
         }
 
         switch ($function) {
-            case 'participate':
-                include 'functions/participate.php';
+            case 'register':
+                include 'functions/register.php';
                 break;
             case 'login':
                 include 'functions/login.php';
