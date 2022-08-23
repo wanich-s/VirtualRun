@@ -4,10 +4,16 @@ $( document ).ready(function() {
 
     // $('#modalApplication').modal('show');
 
-    var modalApplication = document.getElementById('modalApplication')
+    var modalApplication = document.getElementById('modalApplication');
     modalApplication.addEventListener('show.bs.modal', function (event) {
         //do something...
-        // alert('OK');
+        $('#formApplication').trigger("reset");
+        console.log('OK');
+    });
+    modalApplication.addEventListener('show.bs.modal', function (event) {
+        const form = $('#formApplication');
+        form.trigger("reset");
+        form.removeClass('was-validated');
     });
     
     // modalLogin
@@ -15,14 +21,16 @@ $( document ).ready(function() {
     modalLoginEl.addEventListener('shown.bs.modal', function (event) {
         $('#input-username').focus();
     });
-    var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl)
+
+    var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl);
 
     // modalApplication
-    var modalApplicationEl = document.querySelector('#modalApplication')
+    var modalApplicationEl = document.querySelector('#modalApplication');
     modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
         // $('#input-username').focus();
     });
-    var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl)
+
+    var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
 
     // $('#btnParticipate').on('click', (e) => {
     //     $.ajax({
