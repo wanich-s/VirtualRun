@@ -235,10 +235,12 @@ $( document ).ready(function() {
                 $('#liAdmin').show();
                 $('#liManageActivity').show();
                 $('#liManageApplicant').show();
+                $('#liManageSender').show();   
             }else{
                 $('#liAdmin').hide();
                 $('#liManageActivity').hide();
                 $('#liManageApplicant').hide();
+                $('#liManageBankTransfer').show();
             }            
             $('#liRegister').hide();
             $('#liLogin').hide();
