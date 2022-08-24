@@ -2,6 +2,8 @@ $( document ).ready(function() {
     // Login state
     loginState();
 
+    var table = $('#example').DataTable();
+
     // modalApplication
     var modalApplication = document.getElementById('modalApplication');
     if(modalApplication) {
@@ -28,6 +30,15 @@ $( document ).ready(function() {
             // $('#input-username').focus();
         });
         var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
+    }
+
+    // modalManageApplicant
+    var modalManageApplicantEl = document.querySelector('#modalManageApplicant');
+    if(modalManageApplicantEl) {
+        modalManageApplicantEl.addEventListener('shown.bs.modal', function (event) {
+            // $('#input-username').focus();
+        });
+        var modalManageApplicant = bootstrap.Modal.getOrCreateInstance(modalManageApplicantEl);
     }
 
     // $('#btnParticipate').on('click', (e) => {
