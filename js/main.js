@@ -209,7 +209,9 @@ $( document ).ready(function() {
                 event.stopPropagation();
             } else {
                 submitForm(form);
-                event.preventDefault();
+                if(event) {
+                    event.preventDefault();
+                }
             }
                 form.classList.add('was-validated');
             }, false);
