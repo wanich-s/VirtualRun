@@ -6,13 +6,21 @@
         $function = $_REQUEST['func'];
         $logged = login_state();
         // check login status
-        $allow_functions = array('loginState', 'login', 'register');
+        $allow_functions = array('loginState', 'login', 'register', 'checkIDCard');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array("logged" => false));
             exit(0);
         }
 
         switch ($function) {
+            case 'checkIDCard':
+                $id_card = htmlspecialchars($_REQUEST['idcard']);
+                if(!check_id_card($id_card)) {
+                    echo json_encode(array('status' => false, 'msg' => 'เลขบัตรประชาชนไม่ถูกต้อง'));
+                    break;
+                }
+                include 'functions/checkIDCard.php';
+                break;
             case 'register':
                 include 'functions/register.php';
                 break;

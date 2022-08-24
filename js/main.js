@@ -111,9 +111,35 @@ $( document ).ready(function() {
         logOut();
     });
 
-    // $('#btn-login').on('click', (e) => {
-    //     logIn();
-    // });
+    $('#inputAppIDCard').on('keyup', function(e) {
+        const IDCard = this.value;
+        if(IDCard.length == 13) {
+            checkIDCard(this);
+        }
+    });
+
+    function checkIDCard(input) {
+        $.ajax({
+            method: "GET",
+            url: "api.php",
+            data: { func: "checkIDCard", idcard: input.value },
+        }).done(function( res ) {
+            try {
+                let idcard = JSON.parse(res);
+                if(!idcard.status) {
+                    input.setCustomValidity('Error!');
+                    input.addClass('required');
+                }else{
+                    input.setCustomValidity('');
+                    input.removeClass('required');
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }).fail(function(res) {
+            console.log(res);
+        });
+    }
 
     function loginState() {
         $.ajax({

@@ -19,5 +19,5 @@
         logged($user['id'], $user['user_name'], $user['profile']);
         exit(0);
     }
-    echo json_encode(array("logged" => false));
+    echo json_encode(array('logged' => false));
 ?>

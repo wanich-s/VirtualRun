@@ -25,4 +25,16 @@
         session_destroy();
         echo json_encode(array('logged' => false));
     }
+
+    function check_id_card($id_card) {
+        $chars = str_split($id_card);
+        if(count($chars) != 13) return false;
+        $lastDigit = array_pop($chars);
+        $digit = 13; $sum = 0;
+        foreach($chars as $char) {
+            $sum += $char * $digit;
+            $digit--;
+        }
+        return (11 - ($sum % 11)) % 10 == $lastDigit;
+    }
 ?>

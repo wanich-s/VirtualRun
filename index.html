@@ -31,7 +31,7 @@
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalBankTransfer">ส่งหลักฐานการชำระเงิน</a>
                         </li>
                         <li class="nav-item ms-auto" id="liManageActivity" style="display: none;">
-                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalActivity">จัดการกิจกรรม</a>
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalManageActivity">จัดการกิจกรรม</a>
                         </li>
                         <li class="nav-item ms-auto" id="liManageApplicant" style="display: none;">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalManageApplicant">จัดการข้อมูลผู้สมัคร</a>
@@ -168,14 +168,17 @@
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppIDCard" class="form-label">หมายเลขบัตรประชาชน</label>
-                                <input type="text" class="form-control" id="inputAppIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชน" required>
+                                <input type="text" class="form-control" id="inputAppIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชน" pattern="[0-9]{13}" required>
                                 <div class="invalid-feedback">
                                     หมายเลขบัตรประชาชนไม่ถูกต้อง
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" has-validation>
                                 <label for="inputAppTel" class="form-label">เบอร์ติดต่อ</label>
-                                <input type="text" class="form-control" id="inputAppTel" name="tel" placeholder="ระบุเบอร์ติดต่อ" required>
+                                <input type="text" class="form-control" id="inputAppTel" name="tel" placeholder="ระบุเบอร์ติดต่อ" pattern="[0-9]{10,13}" required>
+                                <div class="invalid-feedback">
+                                    หมายเลขโทรศัพท์ไม่ถูกต้อง (10-13หลัก)
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="inputAppAddress" class="form-label">ที่อยู่สำหรับจัดส่ง</label>
@@ -361,7 +364,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <button id="test" type="button">คลิก</button>
                         <div class="table-responsive-md">
                             <table id="example" class="table table-striped">
                                 <thead>
