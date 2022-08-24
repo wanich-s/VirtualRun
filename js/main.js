@@ -4,28 +4,31 @@ $( document ).ready(function() {
 
     // modalApplication
     var modalApplication = document.getElementById('modalApplication');
-
-    modalApplication.addEventListener('show.bs.modal', function (event) {
-        const form = $('#formApplication');
-        form.trigger("reset");
-        form.removeClass('was-validated');
-    });
+    if(modalApplication) {
+        modalApplication.addEventListener('show.bs.modal', function (event) {
+            const form = $('#formApplication');
+            form.trigger("reset");
+            form.removeClass('was-validated');
+        });
+    }
     
     // modalLogin
-    var modalLoginEl = document.querySelector('#modalLogin')
-    modalLoginEl.addEventListener('shown.bs.modal', function (event) {
-        $('#input-username').focus();
-    });
-
-    var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl);
+    var modalLoginEl = document.querySelector('#modalLogin');
+    if(modalLoginEl) {
+        modalLoginEl.addEventListener('shown.bs.modal', function (event) {
+            $('#input-username').focus();
+        });
+        var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl);
+    }
 
     // modalApplication
     var modalApplicationEl = document.querySelector('#modalApplication');
-    modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
-        // $('#input-username').focus();
-    });
-
-    var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
+    if(modalApplicationEl) {
+        modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
+            // $('#input-username').focus();
+        });
+        var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
+    }
 
     // $('#btnParticipate').on('click', (e) => {
     //     $.ajax({
@@ -161,13 +164,17 @@ $( document ).ready(function() {
 
     function userMenu(user) {
         if(user.logged) {
-            let username = capitalize(user.username);
-            $('#linkUser').html(`ชื่อผู้ใช้ ${username}`);
+            // let username = capitalize(user.username);
+            $('#linkUser').html(`ชื่อผู้ใช้ ${user.username}`);
             $('#linkUser').attr('data-login', true);
             if(user.profile === 'admin') {
                 $('#liAdmin').show();
+                $('#liManageActivity').show();
+                $('#liManageApplicant').show();
             }else{
                 $('#liAdmin').hide();
+                $('#liManageActivity').hide();
+                $('#liManageApplicant').hide();
             }            
             $('#liRegister').hide();
             $('#liLogin').hide();
