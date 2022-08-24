@@ -2,14 +2,9 @@ $( document ).ready(function() {
     // Login state
     loginState();
 
-    // $('#modalApplication').modal('show');
-
+    // modalApplication
     var modalApplication = document.getElementById('modalApplication');
-    modalApplication.addEventListener('show.bs.modal', function (event) {
-        //do something...
-        $('#formApplication').trigger("reset");
-        console.log('OK');
-    });
+
     modalApplication.addEventListener('show.bs.modal', function (event) {
         const form = $('#formApplication');
         form.trigger("reset");
@@ -95,7 +90,7 @@ $( document ).ready(function() {
 
     function loginState() {
         $.ajax({
-            method: "POST",
+            method: "GET",
             url: "api.php",
             data: { func: "loginState" },
         }).done(function( res ) {
@@ -105,8 +100,8 @@ $( document ).ready(function() {
             } catch (error) {
                 console.log(error);
             }
-        }).fail(function(response) {
-            console.log(response);
+        }).fail(function(res) {
+            console.log(res);
         });
     }
 
