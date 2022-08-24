@@ -27,11 +27,17 @@
                         <li class="nav-item ms-auto">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalActivityLog">กิจกรรมของฉัน / ส่งผล</a>
                         </li>
+                        <li class="nav-item ms-auto" id="liManageBankTransfer" style="display: none;">
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalBankTransfer">ส่งหลักฐานการชำระเงิน</a>
+                        </li>
                         <li class="nav-item ms-auto" id="liManageActivity" style="display: none;">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalActivity">จัดการกิจกรรม</a>
                         </li>
                         <li class="nav-item ms-auto" id="liManageApplicant" style="display: none;">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalManageApplicant">จัดการข้อมูลผู้สมัคร</a>
+                        </li>
+                        <li class="nav-item ms-auto" id="liManageSender" style="display: none;">
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalManageSender">จัดการข้อมูลที่อยู่ผู้ส่ง</a>
                         </li>
                         <li class="nav-item ms-auto" id="liLogin" style="display: none;">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
@@ -197,6 +203,29 @@
             </div>
         </div>
 
+        <!-- Modal ManageSender -->
+        <div class="modal fade" id="modalManageSender" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalManageSenderLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalManageSenderLabel">ข้อมูลที่อยู่สำหรับผู้จัดส่ง</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formSender" name="formSender" action="api.php?func=sender" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-12">
+                                <label for="inputSenderAddress" class="form-label">ที่อยู่สำหรับผู้จัดส่ง</label>
+                                <textarea class="form-control" id="inputSenderAddress" name="address" rows="2" placeholder="ระบุที่อยู่สำหรับผู้จัดส่ง" required></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnSender" type="submit" class="btn btn-primary" >บันทึก</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal ActivityLog -->
         <div class="modal fade" id="modalActivityLog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalActivityLogLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
@@ -252,6 +281,71 @@
                         </div>
                         <div class="modal-footer">
                             <button id="btnSendResult" type="submit" class="btn btn-primary" >ส่งผล</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal BankTransfer -->
+        <div class="modal fade" id="modalBankTransfer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalBankTransferLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalBankTransferLabel">ส่งหลักฐานการชำระเงิน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-sm">
+                            <div class="font-light">ขั้นตอนการชำระเงินโดยการโอนเงินผ่านบัญชีธนาคาร</div>
+                                <div class="p-2">
+                                    <ol class="list-inside list-decimal">
+                                        <li>โอนเงินไปบัญชีที่ระบุด้านล่างเต็มจำนวน โดยไม่หักค่าธรรมเนียมการโอน</li>
+                                        <li>เก็บหลักฐานการโอนเงิน พร้อมทั้งถ่ายภาพไว้</li>
+                                        <li>แจ้งข้อมูลการโอนเงินผ่านเว็บไซต์ โดยแจ้ง วัน เวลา และจำนวนเงิน พร้อมทั้งแนบรูปภาพหลักฐานการการโอน</li>
+                                        <li>เจ้าหน้าที่จะใช้เวลาตรวจสอบ 1-2 วันทำการ และจะยืนยันการชำระเงินในระบบให้คุณทราบ</li>
+                                    </ol>
+                            </div>
+                            <div class="font-light">ข้อมูลบัญชีธนาคารสำหรับโอนเงิน</div>
+                                <div class="p-2">
+                                    <ul class="list-inside">
+                                        <li>ธนาคาร XXXXXXXX </li>
+                                        <li>เลขบัญชี 000-0-00000-0</li>
+                                        <li>ชื่อบัญชี  ชื่อบัญชีนี้เท่านั้น</li>
+                                    </ul>
+                            </div>
+                        </div>
+
+                        <form id="formBankTransfer" name="formBankTransfer" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-6">
+                                <label for="inputamount" class="form-label">จำนวนเงินที่โอน/ฝากเงิน</label>
+                                <div class="input-group">
+                                    <input type="number" type="number" id="inputamount" name="amount" min="0.00" step="0.10" class="form-control" placeholder="0" required>
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleFormControlInput1" class="form-label">วันที่บนใบโอน/ฝากเงิน</label>
+                                <div class='input-group date' id='datepicker1'>
+                                    <input type='text' class="form-control" name="transferdate" required />
+                                    <span class="input-group-addon input-group-text">
+                                        <span class="bi bi-calendar-date"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="transfertime" class="form-label">เวลาบนใบโอน/ฝากเงิน</label>
+                                <div class='input-group-time'>
+                                    <input type='time' class="form-control" name="transfertime" required />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="fileTransferImage" class="form-label">ภาพผลการทำกิจกรรม</label>
+                                <input type="file" class="form-control" id="fileTransferImage">
+                            </div>                            
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnSendResult" type="submit" class="btn btn-primary" >บันทึก</button>
                         </div>
                     </form>
                 </div>
