@@ -1,8 +1,21 @@
 $( document ).ready(function() {
     // Login state
     loginState();
-
+    // DataTable
     var table = $('#example').DataTable();
+    // DatePicker
+    var date = new Date();
+    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    $('#datepicker1').datepicker({
+        format: "dd-mm-yyyy",
+        todayHighlight: true,
+        endDate: end,
+        minView: 0,
+        maxView: 4,
+        autoclose: true,
+        todayBtn:true
+    });
 
     // modalApplication
     var modalApplication = document.getElementById('modalApplication');
@@ -98,9 +111,9 @@ $( document ).ready(function() {
         logOut();
     });
 
-    $('#btn-login').on('click', (e) => {
-        logIn();
-    });    
+    // $('#btn-login').on('click', (e) => {
+    //     logIn();
+    // });
 
     function loginState() {
         $.ajax({
@@ -119,35 +132,35 @@ $( document ).ready(function() {
         });
     }
 
-    function logIn() {
-        let user = $('#input-username').val();
-        let pass = $('#input-password').val();
-        $('#input-username').val('');
-        $('#input-password').val('');
-        $.ajax({
-            method: "POST",
-            url: "api.php",
-            data: { 
-                func: "login",
-                username: user,
-                password: pass
-            }
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                userMenu(user);
-                if(user.logged) {
-                    modalLogin.hide();
-                }else{
-                    $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(response) {
-            console.log(response);
-        });
-    }
+    // function logIn() {
+    //     let user = $('#input-username').val();
+    //     let pass = $('#input-password').val();
+    //     $('#input-username').val('');
+    //     $('#input-password').val('');
+    //     $.ajax({
+    //         method: "POST",
+    //         url: "api.php",
+    //         data: { 
+    //             func: "login",
+    //             username: user,
+    //             password: pass
+    //         }
+    //     }).done(function( res ) {
+    //         try {
+    //             let user = JSON.parse(res);
+    //             userMenu(user);
+    //             if(user.logged) {
+    //                 modalLogin.hide();
+    //             }else{
+    //                 $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }).fail(function(response) {
+    //         console.log(response);
+    //     });
+    // }
 
     function logOut() {
         $.ajax({
@@ -164,6 +177,46 @@ $( document ).ready(function() {
                     $('#liUser').hide();
                     $('#linkLogout').hide();
                     $('#liLogin').show();
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }).fail(function(response) {
+            console.log(response);
+        });
+    }    
+
+    window.addEventListener('load', function() {
+        let forms = document.getElementsByClassName('needs-validation');
+        const validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                submitForm(form);
+                event.preventDefault();
+            }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+    function submitForm(form) {
+        $.ajax({
+            method: "POST",
+            url: $(form).attr('action'),
+            data: $(form).serialize(),
+        }).done(function( res ) {
+            try {
+                let user = JSON.parse(res);
+                userMenu(user);
+                if(user.logged) {
+                    $(form).trigger("reset");
+                    $(form).removeClass('was-validated');
+                    $('.modal, .show').hide();
+                }else{
+                    $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
                 }
             } catch (error) {
                 console.log(error);
@@ -190,49 +243,13 @@ $( document ).ready(function() {
             $('#liRegister').hide();
             $('#liLogin').hide();
             $('#liUser').show();
-            $('#liLogout').show();
-            $('.modal, .show').hide();
+            $('#liLogout').show();            
         }else{
             $('#linkUser').attr('data-login', false);
             $('#liRegister').show();
             $('#liAdmin').hide();
             $('#liLogin').show();
         }
-    }
-
-    window.addEventListener('load', function() {
-        let forms = document.getElementsByClassName('needs-validation');
-        const validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                submitForm(form);
-                if(event) {
-                    event.preventDefault();
-                }
-            }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
-
-    function submitForm(form) {
-        $.ajax({
-            method: "POST",
-            url: $(form).attr('action'),
-            data: $(form).serialize(),
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                userMenu(user);
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(response) {
-            console.log(response);
-        });
     }
 
     function alert(message, type) {
