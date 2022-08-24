@@ -191,7 +191,7 @@ $( document ).ready(function() {
             $('#liLogin').hide();
             $('#liUser').show();
             $('#liLogout').show();
-            $('.modal').modal('hide');
+            $('.modal, .show').hide();
         }else{
             $('#linkUser').attr('data-login', false);
             $('#liRegister').show();
