@@ -113,7 +113,7 @@ $( document ).ready(function() {
 
     $('#inputAppIDCard').on('keyup', function(e) {
         const IDCard = this.value;
-        if(IDCard.length == 13) {
+        if(IDCard.length >= 7 && IDCard.length <= 13) {
             checkIDCard(this);
         }
     });
@@ -157,36 +157,6 @@ $( document ).ready(function() {
             console.log(res);
         });
     }
-
-    // function logIn() {
-    //     let user = $('#input-username').val();
-    //     let pass = $('#input-password').val();
-    //     $('#input-username').val('');
-    //     $('#input-password').val('');
-    //     $.ajax({
-    //         method: "POST",
-    //         url: "api.php",
-    //         data: { 
-    //             func: "login",
-    //             username: user,
-    //             password: pass
-    //         }
-    //     }).done(function( res ) {
-    //         try {
-    //             let user = JSON.parse(res);
-    //             userMenu(user);
-    //             if(user.logged) {
-    //                 modalLogin.hide();
-    //             }else{
-    //                 $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }).fail(function(response) {
-    //         console.log(response);
-    //     });
-    // }
 
     function logOut() {
         $.ajax({

@@ -15,7 +15,10 @@
         switch ($function) {
             case 'checkIDCard':
                 $id_card = htmlspecialchars($_REQUEST['idcard']);
-                if(!check_id_card($id_card)) {
+                if((strlen($id_card) < 7 || strlen($id_card) > 9) && strlen($id_card) != 13) {
+                    echo json_encode(array('status' => false, 'msg' => 'เลขบัตรประชาชนไม่ถูกต้อง'));
+                    break;
+                }else if(strlen($id_card) == 13 && !check_id_card($id_card)) {
                     echo json_encode(array('status' => false, 'msg' => 'เลขบัตรประชาชนไม่ถูกต้อง'));
                     break;
                 }

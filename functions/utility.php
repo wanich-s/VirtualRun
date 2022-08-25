@@ -32,8 +32,12 @@
         $lastDigit = array_pop($chars);
         $digit = 13; $sum = 0;
         foreach($chars as $char) {
-            $sum += $char * $digit;
-            $digit--;
+            if(is_numeric($char)) {
+                $sum += $char * $digit;
+                $digit--;
+            }else {
+                return false;
+            }
         }
         return (11 - ($sum % 11)) % 10 == $lastDigit;
     }
