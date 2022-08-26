@@ -26,6 +26,25 @@ $( document ).ready(function() {
             form.removeClass('was-validated');
         });
     }
+
+     // modalSender
+     var modalManageSender = document.getElementById('formManageSender');
+     if(modalManageSender) {
+         modalManageSender.addEventListener('show.bs.modal', function (event) {
+             const form = $('#formManageSender');
+             form.trigger("reset");
+             form.removeClass('was-validated');
+         });
+     }
+
+    var modalManageSenderEl = document.querySelector('#modalManageSender');
+    if(modalManageSenderEl) {
+        modalManageSenderEl.addEventListener('shown.bs.modal', function (event) {
+            $('#inputSenderAddress').focus();
+            // SenderState();
+        });
+        var modalManageSender = bootstrap.Modal.getOrCreateInstance(modalManageSenderEl);
+    }
     
     // modalLogin
     var modalLoginEl = document.querySelector('#modalLogin');
@@ -53,6 +72,132 @@ $( document ).ready(function() {
         });
         var modalManageApplicant = bootstrap.Modal.getOrCreateInstance(modalManageApplicantEl);
     }
+
+    //modalResultAll
+    var options = {
+        responsive : true,
+        maintainAspectRatio : false,
+        indexAxis: 'x',
+        legend :{
+                    display : true, 
+                    position : "bottom"
+                },
+        scales : {
+                    yAxes : [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]},
+        title : {
+                    display : true,
+                    position : "top",
+                    text : "Bar Chart Example"
+                },
+        borderWidth: 1,
+    } ; 
+    var data1 = {
+        labels : ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"],
+        datasets : [{
+            label: 'My First Dataset',
+            data: [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+            backgroundColor: [
+                'rgba(220,20,60, 0.2)',
+                'rgba(255,127,80,0.2)',
+                'rgba(250,128,114,0.2)',
+                'rgba(255,165,0,0.2)',
+                'rgba(218,165,32,0.2)',
+                'rgba(189,183,107,0.2)',
+                'rgba(255,255,0,0.2)',
+                'rgba(107,142,35,0.2)',
+                'rgba(173,255,47,0.2)',
+                'rgba(34,139,34,0.2)',
+                'rgba(32,178,170,0.2)',
+                'rgba(0,255,255,0.2)',
+                'rgba(72,209,204,0.2)',
+                'rgba(100,149,237,0.2)',
+                'rgba(65,105,225,0.2)',
+                'rgba(123,104,238,0.2)',
+                'rgba(186,85,211,0.2)',
+                'rgba(255,0,255,0.2)',
+                'rgba(210,105,30,0.2)',
+                'rgba(188,143,143,0.2)',
+                'rgba(112,128,144,0.2)',
+                'rgba(123,104,238,0.2)',
+                'rgba(240,255,240,0.2)'
+            ],
+            borderColor: [
+                'rgb(220,20,60)',
+                'rgb(255,127,80)',
+                'rgb(250,128,114)',
+                'rgb(255,165,0)',
+                'rgb(218,165,32)',
+                'rgb(189,183,107)',
+                'rgb(255,255,0)',
+                'rgb(107,142,35)',
+                'rgb(173,255,47)',
+                'rgb(34,139,34)',
+                'rgb(32,178,170)',
+                'rgb(0,255,255)',
+                'rgb(72,209,204)',
+                'rgb(100,149,237)',
+                'rgb(65,105,225)',
+                'rgb(123,104,238)',
+                'rgb(186,85,211)',
+                'rgb(255,0,255)',
+                'rgb(210,105,30)',
+                'rgb(188,143,143)',
+                'rgb(112,128,144)',
+                'rgb(123,104,238)',
+                'rgb(240,255,240)'
+                ],
+        }]
+    };
+    var modalResultAll = document.getElementById('myChart');
+    var myChart = new Chart(modalResultAll, {
+        type : 'bar',
+        data : data1,
+        options: options
+    });
+    /* ******** Ex Chart doughnut ************ */
+    // var data2 = {
+    //     labels : ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"],
+    //     datasets: [{
+    //       label: 'My First Dataset',
+    //       data: [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
+    //       backgroundColor: [
+    //         'rgb(220,20,60)',
+    //         'rgb(255,127,80)',
+    //         'rgb(250,128,114)',
+    //         'rgb(255,165,0)',
+    //         'rgb(218,165,32)',
+    //         'rgb(189,183,107)',
+    //         'rgb(255,255,0)',
+    //         'rgb(107,142,35)',
+    //         'rgb(173,255,47)',
+    //         'rgb(34,139,34)',
+    //         'rgb(32,178,170)',
+    //         'rgb(0,255,255)',
+    //         'rgb(72,209,204)',
+    //         'rgb(100,149,237)',
+    //         'rgb(65,105,225)',
+    //         'rgb(123,104,238)',
+    //         'rgb(186,85,211)',
+    //         'rgb(255,0,255)',
+    //         'rgb(210,105,30)',
+    //         'rgb(188,143,143)',
+    //         'rgb(112,128,144)',
+    //         'rgb(123,104,238)',
+    //         'rgb(240,255,240)'
+    //       ],
+    //       hoverOffset: 4
+    //     }]
+    //   };
+
+    // var modalResultAll = document.getElementById('myChart1');
+    // var myChart1 = new Chart(modalResultAll, {
+    //     type : 'doughnut',
+    //     data : data2,
+    // });
 
     // $('#btnParticipate').on('click', (e) => {
     //     $.ajax({
@@ -182,6 +327,23 @@ $( document ).ready(function() {
         });
     }    
 
+    function SenderState() {
+        $.ajax({
+            method: "GET",
+            url: "api.php",
+            data: { func: "sender" },
+        }).done(function( res ) {
+            try {
+                let user = JSON.parse(res);
+                $('#inputSenderAddress').val(user.sender_info)
+            } catch (error) {
+                console.log(error);
+            }
+        }).fail(function(res) {
+            console.log(res);
+        });
+    }
+
     window.addEventListener('load', function() {
         let forms = document.getElementsByClassName('needs-validation');
         const validation = Array.prototype.filter.call(forms, function(form) {
@@ -247,6 +409,7 @@ $( document ).ready(function() {
             $('#liRegister').show();
             $('#liAdmin').hide();
             $('#liLogin').show();
+            $('#liResultAll').show();
         }
     }
 
