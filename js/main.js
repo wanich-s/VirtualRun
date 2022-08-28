@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+    
     // Login state
     loginState();
     // DataTable
@@ -342,76 +343,9 @@ $( document ).ready(function() {
         }).fail(function(res) {
             console.log(res);
         });
-    }
+    }    
 
-    window.addEventListener('load', function() {
-        let forms = document.getElementsByClassName('needs-validation');
-        const validation = Array.prototype.filter.call(forms, function(form) {
-        form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                submitForm(form);
-                event.preventDefault();
-            }
-                form.classList.add('was-validated');
-            }, false);
-        });
-    }, false);
 
-    function submitForm(form) {
-        $.ajax({
-            method: "POST",
-            url: $(form).attr('action'),
-            data: $(form).serialize(),
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                userMenu(user);
-                if(user.logged) {
-                    $(form).trigger("reset");
-                    $(form).removeClass('was-validated');
-                    $('.modal, .show').hide();
-                }else{
-                    $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(response) {
-            console.log(response);
-        });
-    }
-
-    function userMenu(user) {
-        if(user.logged) {
-            // let username = capitalize(user.username);
-            $('#linkUser').html(`ชื่อผู้ใช้ ${user.username}`);
-            $('#linkUser').attr('data-login', true);
-            if(user.profile === 'admin') {
-                $('#liAdmin').show();
-                $('#liManageActivity').show();
-                $('#liManageApplicant').show();
-                $('#liManageSender').show();   
-            }else{
-                $('#liAdmin').hide();
-                $('#liManageActivity').hide();
-                $('#liManageApplicant').hide();
-                $('#liManageBankTransfer').show();
-            }            
-            $('#liRegister').hide();
-            $('#liLogin').hide();
-            $('#liUser').show();
-            $('#liLogout').show();            
-        }else{
-            $('#linkUser').attr('data-login', false);
-            $('#liRegister').show();
-            $('#liAdmin').hide();
-            $('#liLogin').show();
-            $('#liResultAll').show();
-        }
-    }
 
     function alert(message, type) {
         let wrapper = document.createElement('div')
@@ -424,3 +358,77 @@ $( document ).ready(function() {
         return word.charAt(0).toUpperCase() + lower.slice(1);
     }
 });
+
+function userMenu(user) {
+    if(user.logged) {
+        // let username = capitalize(user.username);
+        $('#linkUser').html(`ชื่อผู้ใช้ ${user.username}`);
+        $('#linkUser').attr('data-login', true);
+        if(user.profile === 'admin') {
+            $('#liAdmin').show();
+            $('#liManageActivity').show();
+            $('#liManageApplicant').show();
+            $('#liManageSender').show();   
+        }else{
+            $('#liAdmin').hide();
+            $('#liManageActivity').hide();
+            $('#liManageApplicant').hide();
+            $('#liManageBankTransfer').show();
+        }            
+        $('#liRegister').hide();
+        $('#liLogin').hide();
+        $('#liUser').show();
+        $('#liLogout').show();            
+    }else{
+        $('#linkUser').attr('data-login', false);
+        $('#liRegister').show();
+        $('#liAdmin').hide();
+        $('#liLogin').show();
+        $('#liResultAll').show();
+    }
+}
+
+function submitForm(form) {
+    $.ajax({
+        method: "POST",
+        url: $(form).attr('action'),
+        data: $(form).serialize(),
+    }).done(function( res ) {
+        try {
+            let user = JSON.parse(res);
+            userMenu(user);
+            if(user.logged) {
+                $(form).trigger("reset");
+                $(form).removeClass('was-validated');
+                $('.modal, .show').hide();
+            }else{
+                $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(response) {
+        console.log(response);
+    });
+}
+
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }  else {
+            submitForm(form);
+            event.preventDefault();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
