@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     
     // Login state
-    loginState();
+    loginState(userMenu);
     // DataTable
     var table = $('#example').DataTable();
     // DatePicker
@@ -17,62 +17,6 @@ $( document ).ready(function() {
         autoclose: true,
         todayBtn:true
     });
-
-    // modalApplication
-    var modalApplication = document.getElementById('modalApplication');
-    if(modalApplication) {
-        modalApplication.addEventListener('show.bs.modal', function (event) {
-            const form = $('#formApplication');
-            form.trigger("reset");
-            form.removeClass('was-validated');
-        });
-    }
-
-     // modalSender
-     var modalManageSender = document.getElementById('formManageSender');
-     if(modalManageSender) {
-         modalManageSender.addEventListener('show.bs.modal', function (event) {
-             const form = $('#formManageSender');
-             form.trigger("reset");
-             form.removeClass('was-validated');
-         });
-     }
-
-    var modalManageSenderEl = document.querySelector('#modalManageSender');
-    if(modalManageSenderEl) {
-        modalManageSenderEl.addEventListener('shown.bs.modal', function (event) {
-            $('#inputSenderAddress').focus();
-            // SenderState();
-        });
-        var modalManageSender = bootstrap.Modal.getOrCreateInstance(modalManageSenderEl);
-    }
-    
-    // modalLogin
-    var modalLoginEl = document.querySelector('#modalLogin');
-    if(modalLoginEl) {
-        modalLoginEl.addEventListener('shown.bs.modal', function (event) {
-            $('#input-username').focus();
-        });
-        var modalLogin = bootstrap.Modal.getOrCreateInstance(modalLoginEl);
-    }
-
-    // modalApplication
-    var modalApplicationEl = document.querySelector('#modalApplication');
-    if(modalApplicationEl) {
-        modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
-            // $('#input-username').focus();
-        });
-        var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
-    }
-
-    // modalManageApplicant
-    var modalManageApplicantEl = document.querySelector('#modalManageApplicant');
-    if(modalManageApplicantEl) {
-        modalManageApplicantEl.addEventListener('shown.bs.modal', function (event) {
-            // $('#input-username').focus();
-        });
-        var modalManageApplicant = bootstrap.Modal.getOrCreateInstance(modalManageApplicantEl);
-    }
 
     //modalResultAll
     var options = {
@@ -244,12 +188,11 @@ $( document ).ready(function() {
         }
     });
 
-    $('#linkLogin').on('click', (e) => {
-        let login = $('#linkLogin').attr('data-login');
-        if(login === "true") {
-            // show profile
-        }else {
-            modalLogin.show();
+    $('#fileActivityImage').on('change', function(e) {
+        const [file] = this.files
+        if (file) {
+            let src = URL.createObjectURL(file)
+            $('#previewActivityImage').html(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
         }
     });
 
@@ -264,116 +207,232 @@ $( document ).ready(function() {
         }
     });
 
-    function checkIDCard(input) {
-        $.ajax({
-            method: "GET",
-            url: "api.php",
-            data: { func: "checkIDCard", idcard: input.value },
-        }).done(function( res ) {
-            try {
-                let idcard = JSON.parse(res);
-                if(!idcard.status) {
-                    input.setCustomValidity('Error!');
-                    input.addClass('required');
-                }else{
-                    input.setCustomValidity('');
-                    input.removeClass('required');
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(res) {
-            console.log(res);
-        });
-    }
+    $('#liActivityLog > a').on('click', function(e) {
+        loginState(showModal);
+        e.preventDefault();
+    });
 
-    function loginState() {
-        $.ajax({
-            method: "GET",
-            url: "api.php",
-            data: { func: "loginState" },
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                userMenu(user);
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(res) {
-            console.log(res);
-        });
-    }
-
-    function logOut() {
-        $.ajax({
-            method: "POST",
-            url: "api.php",
-            data: { func: "logout" },
-            async: false
-        }).done(function( res ) {
-            try {
-                let data = JSON.parse(res);
-                if(!data.logged) {
-                    $('#linkLogin').html('เข้าสู่ระบบ');
-                    $('#liAdmin').hide();
-                    $('#liUser').hide();
-                    $('#linkLogout').hide();
-                    $('#liLogin').show();
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(response) {
-            console.log(response);
-        });
-    }    
-
-    function SenderState() {
-        $.ajax({
-            method: "GET",
-            url: "api.php",
-            data: { func: "sender" },
-        }).done(function( res ) {
-            try {
-                let user = JSON.parse(res);
-                $('#inputSenderAddress').val(user.sender_info)
-            } catch (error) {
-                console.log(error);
-            }
-        }).fail(function(res) {
-            console.log(res);
-        });
-    }    
-
-
-
-    function alert(message, type) {
-        let wrapper = document.createElement('div')
-        wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-        return wrapper;
-    }
-
-    function capitalize(word) {
-        const lower = word.toLowerCase();
-        return word.charAt(0).toUpperCase() + lower.slice(1);
-    }
+    $( window ).on('focus', function(e) {
+        loginState(userMenu);
+    });
 });
+
+// modalLogin
+var modalLoginEl = document.querySelector('#modalLogin');
+if(modalLoginEl) {
+    modalLoginEl.addEventListener('show.bs.modal', function (event) {
+        const form = $('#formLogin');
+         form.trigger("reset");
+         form.removeClass('was-validated');
+    });
+    modalLoginEl.addEventListener('shown.bs.modal', function (event) {
+        $('#input-username').focus();
+    });
+}
+
+// modalApplication
+var modalApplication = document.getElementById('modalApplication');
+if(modalApplication) {
+    modalApplication.addEventListener('show.bs.modal', function (event) {
+        const form = $('#formApplication');
+        form.trigger("reset");
+        form.removeClass('was-validated');
+    });
+}
+
+ // modalSender
+ var modalManageSender = document.getElementById('formManageSender');
+ if(modalManageSender) {
+     modalManageSender.addEventListener('show.bs.modal', function (event) {
+         const form = $('#formManageSender');
+         form.trigger("reset");
+         form.removeClass('was-validated');
+     });
+ }
+
+var modalManageSenderEl = document.querySelector('#modalManageSender');
+if(modalManageSenderEl) {
+    modalManageSenderEl.addEventListener('shown.bs.modal', function (event) {
+        $('#inputSenderAddress').focus();
+        // SenderState();
+    });
+    var modalManageSender = bootstrap.Modal.getOrCreateInstance(modalManageSenderEl);
+}
+
+// modalActivityLog
+var modalActivityLogEl = document.querySelector('#modalActivityLog');
+if(modalActivityLogEl) {
+    modalActivityLogEl.addEventListener('show.bs.modal', function (event) {
+        const form = $('#formActivityLog');
+         form.trigger("reset");
+         form.removeClass('was-validated');
+         $('#previewActivityImage').html('');
+    });
+}
+
+// modalApplication
+var modalApplicationEl = document.querySelector('#modalApplication');
+if(modalApplicationEl) {
+    modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
+        // $('#input-username').focus();
+    });
+    var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
+}
+
+// modalManageApplicant
+var modalManageApplicantEl = document.querySelector('#modalManageApplicant');
+if(modalManageApplicantEl) {
+    modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
+        getApplicant();
+    });
+    // var modalManageApplicant = bootstrap.Modal.getOrCreateInstance(modalManageApplicantEl);
+}
+
+function checkIDCard(input) {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "checkIDCard", idcard: input.value },
+    }).done(function( res ) {
+        try {
+            let idcard = JSON.parse(res);
+            if(!idcard.status) {
+                input.setCustomValidity('Error!');
+                // input.addClass('required');
+            }else{
+                input.setCustomValidity('');
+                // input.removeClass('required');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function logOut() {
+    $.ajax({
+        method: "POST",
+        url: "api.php",
+        data: { func: "logout" },
+        async: false
+    }).done(function( res ) {
+        try {
+            let data = JSON.parse(res);
+            if(!data.logged) {
+                $('#linkLogin').html('เข้าสู่ระบบ');
+                $('#liAdmin').hide();
+                $('#liUser').hide();
+                $('#linkLogout').hide();
+                $('#liLogin').show();
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(response) {
+        console.log(response);
+    });
+}
+
+function loginState(callback) {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "loginState" },
+        async: false,
+    }).done(function( res ) {
+        try {
+            let user = JSON.parse(res);
+            callback(user);
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function showModal(user) {
+    if(user.logged) {
+        const modalActivityLog = new bootstrap.Modal(modalActivityLogEl, {
+            keyboard: true
+        });
+        modalActivityLog.show();
+    }else {
+        const modalLogin = new bootstrap.Modal(modalLoginEl, {
+            keyboard: true
+        });
+        modalLogin.show();
+    }
+}
+
+function SenderState() {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "sender" },
+    }).done(function( res ) {
+        try {
+            let user = JSON.parse(res);
+            $('#inputSenderAddress').val(user.sender_info)
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function getApplicant() {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "applicant" },
+    }).done(function( res ) {
+        try {
+            let data = JSON.parse(res);
+            if(data.status) {
+                $('#tableApplicant > tbody').html('');
+                $.each(data.applicants, function(key, value) {
+                    $('#tableApplicant > tbody').append(`<tr><td>${value['first_name']}</td><td>${value['last_name']}</td><td>${value['tel']}</td><td>${value['shirt_size']}</td><td>${value['bib_number']}</td><td>${value['payment_slips']}</td></tr>`);    
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function alert(message, type) {
+    let wrapper = document.createElement('div')
+    wrapper.innerHTML = '<div class="alert alert-' + type + ' alert-dismissible" role="alert">' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+    return wrapper;
+}
+
+function capitalize(word) {
+    const lower = word.toLowerCase();
+    return word.charAt(0).toUpperCase() + lower.slice(1);
+}
 
 function userMenu(user) {
     if(user.logged) {
         // let username = capitalize(user.username);
-        $('#linkUser').html(`ชื่อผู้ใช้ ${user.username}`);
-        $('#linkUser').attr('data-login', true);
+        $('#liUser > a').html(`ชื่อผู้ใช้ ${user.username}`);
         if(user.profile === 'admin') {
-            $('#liAdmin').show();
-            $('#liManageActivity').show();
-            $('#liManageApplicant').show();
-            $('#liManageSender').show();   
+            // $('#liAdmin').show();
+            // $('#liManageActivity').show();
+            // $('#liManageApplicant').show();
+            // $('#liManageSender').show();
+            $('.adminMenu').show();
         }else{
-            $('#liAdmin').hide();
-            $('#liManageActivity').hide();
-            $('#liManageApplicant').hide();
-            $('#liManageBankTransfer').show();
+            $('.adminMenu').hide();
+            // $('#liAdmin').hide();
+            // $('#liManageActivity').hide();
+            // $('#liManageApplicant').hide();
+            // $('#liManageBankTransfer').show();
         }            
         $('#liRegister').hide();
         $('#liLogin').hide();

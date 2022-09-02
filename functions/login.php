@@ -9,7 +9,7 @@
         LEFT JOIN Administrator a ON u.id = a.user_id 
         WHERE user_name = ? AND password = MD5('$password');";
     $stmt = $mysqli -> prepare($sql);
-    $stmt -> bind_param('s', $user_name); // 's' specifies the variable type => 'string'    
+    $stmt -> bind_param('s', $user_name); // 's' specifies the variable type => 'string'
 
     $stmt -> execute();
     $query = $stmt -> get_result();

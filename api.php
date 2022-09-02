@@ -25,16 +25,19 @@
                 include 'functions/checkIDCard.php';
                 break;
             case 'register':
-                include 'functions/register.php';
+                include 'functions/applicant.php';
                 break;
             case 'login':
                 include 'functions/login.php';
                 break;
+            case 'applicant':
+                include 'functions/applicant.php';
+                break;
+            case 'activityLog':
+                include 'functions/activityLog.php';
+                break;
             case 'logout':
                 logout();
-                break;
-            case 'application':
-                include 'functions/application.php';
                 break;
             default:
                 if(login_state()) {
