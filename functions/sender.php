@@ -33,7 +33,7 @@
         $sender_info = $query -> fetch_array(MYSQLI_ASSOC);
 
         $mysqli->close();
-        echo json_encode(array('logged' => true, 'sender_info' => $sender_info['address']));
+        echo json_encode(array('logged' => true, 'sender_info' => $sender_info));
     }
 
     function doSender() {
@@ -49,16 +49,10 @@
        
         $stmt -> execute();
         $stmt -> close();
-        $user_query = $mysqli -> query('SELECT LAST_INSERT_ID() AS user_id;');
-        $user = $user_query -> fetch_array(MYSQLI_ASSOC);
 
         // Disconnect
         $mysqli->close();
-
-        if($user) {
-            logged($user['user_id'], $username);
-            exit(0);
-        }
+        
         echo json_encode(array("logged" => false,'sql' => $sql));
     }
 
@@ -70,21 +64,14 @@
         $stmt = $mysqli -> prepare($sql);
         $stmt -> bind_param('s',  $address); 
 
-        $username = htmlspecialchars($_REQUEST['username']);
         $address = htmlspecialchars($_REQUEST['address']);
        
         $stmt -> execute();
         $stmt -> close();
-        $user_query = $mysqli -> query('SELECT LAST_INSERT_ID() AS user_id;');
-        $user = $user_query -> fetch_array(MYSQLI_ASSOC);
 
         // Disconnect
         $mysqli->close();
 
-        if($user) {
-            logged($user['user_id'], $username);
-            exit(0);
-        }
         echo json_encode(array("logged" => false,'sql' => $sql));
     }
 

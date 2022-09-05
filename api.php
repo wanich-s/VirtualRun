@@ -41,6 +41,9 @@
             case 'uploadFile':
                 include 'functions/uploadFile.php';
                 break;
+            case 'sender':
+                include 'functions/sender.php';
+                break;
             case 'logout':
                 logout();
                 break;

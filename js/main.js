@@ -344,6 +344,14 @@ if(modalBankTransferEl) {
     });
 }
 
+// modalManageSender
+var modalManageSenderEl = document.querySelector('#modalManageSender');
+if(modalManageSenderEl) {
+    modalManageSenderEl.addEventListener('show.bs.modal', function (event) {
+        SenderState();
+    });
+}
+
 function checkIDCard(input) {
     $.ajax({
         method: "GET",
@@ -430,7 +438,11 @@ function SenderState() {
     }).done(function( res ) {
         try {
             let user = JSON.parse(res);
-            $('#inputSenderAddress').val(user.sender_info)
+            if(user) {
+                $('#inputSenderAddress').val(user.sender_info['address']);
+                $('#inputSenderAddress').data('senderid', user.sender_info['id']);
+                $('#formManageSender').attr('action', )
+            }
         } catch (error) {
             console.log(error);
         }
