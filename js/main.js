@@ -1,5 +1,6 @@
-$( document ).ready(function() {
-    
+var _modal = null; 
+
+$( document ).ready(function() {    
     // Login state
     loginState(userMenu);
     // DataTable
@@ -189,10 +190,44 @@ $( document ).ready(function() {
     });
 
     $('#fileActivityImage').on('change', function(e) {
-        const [file] = this.files
-        if (file) {
-            let src = URL.createObjectURL(file)
-            $('#previewActivityImage').html(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
+        const files = this.files
+        if(files.length > 3 || files.length <= 0) {
+            this.setCustomValidity('error');
+            return;
+        }else {
+            uploadImage(this);
+            this.setCustomValidity('');
+        }
+        if (files) {
+            $('#previewActivityImage').html('');
+            $.each(files, function(key, file) {
+                let src = URL.createObjectURL(file)
+                $('#previewActivityImage').append(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
+            });            
+        }
+    });
+
+    $('.hour, .minute, .second').on('change', function(e) {
+        const hour = $('.hour');
+        const minute = $('.minute');
+        const second = $('.second');
+        let h = hour.val() == "" ? 0 : hour.val();
+        let m = minute.val() == "" ? 0 : minute.val();
+        let s = second.val() == "" ? 0 : second.val();
+        if((h + m + s) <= 0) {
+            hour.get(0).setCustomValidity('error');
+            minute.get(0).setCustomValidity('error');
+            second.get(0).setCustomValidity('error');            
+            hour.prop('required',true);
+            minute.prop('required',true);
+            second.prop('required',true);
+        }else {
+            hour.prop('required',false);
+            minute.prop('required',false);
+            second.prop('required',false);
+            hour.get(0).setCustomValidity('');
+            minute.get(0).setCustomValidity('');
+            second.get(0).setCustomValidity('');
         }
     });
 
@@ -208,7 +243,20 @@ $( document ).ready(function() {
     });
 
     $('#liActivityLog > a').on('click', function(e) {
-        loginState(showModal);
+        const modalActivityLog = new bootstrap.Modal(modalActivityLogEl, {
+            keyboard: true
+        });
+        _modal = null;
+        loginState(showModal, modalActivityLog);
+        e.preventDefault();
+    });
+
+    $('#liManageBankTransfer > a').on('click', function(e) {
+        const modalBankTransfer = new bootstrap.Modal(modalBankTransferEl, {
+            keyboard: false
+        });
+        _modal = null;
+        loginState(showModal, modalBankTransfer);
         e.preventDefault();
     });
 
@@ -221,9 +269,10 @@ $( document ).ready(function() {
 var modalLoginEl = document.querySelector('#modalLogin');
 if(modalLoginEl) {
     modalLoginEl.addEventListener('show.bs.modal', function (event) {
+        _modal = null;
         const form = $('#formLogin');
-         form.trigger("reset");
-         form.removeClass('was-validated');
+        form.trigger("reset");
+        form.removeClass('was-validated');
     });
     modalLoginEl.addEventListener('shown.bs.modal', function (event) {
         $('#input-username').focus();
@@ -285,7 +334,14 @@ if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
         getApplicant();
     });
-    // var modalManageApplicant = bootstrap.Modal.getOrCreateInstance(modalManageApplicantEl);
+}
+
+// modalBankTransfer
+var modalBankTransferEl = document.querySelector('#modalBankTransfer');
+if(modalBankTransferEl) {
+    modalBankTransferEl.addEventListener('show.bs.modal', function (event) {
+        
+    });
 }
 
 function checkIDCard(input) {
@@ -335,7 +391,7 @@ function logOut() {
     });
 }
 
-function loginState(callback) {
+function loginState(callback, modal = null) {
     $.ajax({
         method: "GET",
         url: "api.php",
@@ -344,7 +400,7 @@ function loginState(callback) {
     }).done(function( res ) {
         try {
             let user = JSON.parse(res);
-            callback(user);
+            callback(user, modal);
         } catch (error) {
             console.log(error);
         }
@@ -353,17 +409,16 @@ function loginState(callback) {
     });
 }
 
-function showModal(user) {
+function showModal(user, modal) {
     if(user.logged) {
-        const modalActivityLog = new bootstrap.Modal(modalActivityLogEl, {
-            keyboard: true
-        });
-        modalActivityLog.show();
+        if(modal)
+            modal.show();
     }else {
         const modalLogin = new bootstrap.Modal(modalLoginEl, {
             keyboard: true
         });
         modalLogin.show();
+        _modal = modal;  // show this modal after success login
     }
 }
 
@@ -419,32 +474,54 @@ function capitalize(word) {
 
 function userMenu(user) {
     if(user.logged) {
-        // let username = capitalize(user.username);
-        $('#liUser > a').html(`ชื่อผู้ใช้ ${user.username}`);
-        if(user.profile === 'admin') {
-            // $('#liAdmin').show();
-            // $('#liManageActivity').show();
-            // $('#liManageApplicant').show();
-            // $('#liManageSender').show();
+        $( '#liUser > a' ).html(`ชื่อผู้ใช้ ${user.username}`);
+        if( user.profile === 'admin' ) {
             $('.adminMenu').show();
-        }else{
-            $('.adminMenu').hide();
-            // $('#liAdmin').hide();
-            // $('#liManageActivity').hide();
-            // $('#liManageApplicant').hide();
-            // $('#liManageBankTransfer').show();
-        }            
-        $('#liRegister').hide();
-        $('#liLogin').hide();
-        $('#liUser').show();
-        $('#liLogout').show();            
-    }else{
-        $('#linkUser').attr('data-login', false);
-        $('#liRegister').show();
-        $('#liAdmin').hide();
-        $('#liLogin').show();
-        $('#liResultAll').show();
+        } else {
+            $( '.adminMenu' ).hide();
+        }
+        $( '#liRegister' ).hide();
+        $( '.liLogged' ).show();
+        $( '#liLogin' ).hide();
+    } else {
+        $( '.liLogged' ).hide();
+        $( '#liRegister' ).show();
+        $( '#liLogin' ).show();
     }
+}
+
+// $('input[type="file"]').on('change', function (e) {
+//     [].forEach.call(this.files, function (file) {
+//         fd.append('filename[]', file);
+//     });
+// });
+
+function uploadImage(inputFile) {
+    let fd = new FormData();
+    fd.append('func', 'uploadFile');
+    [].forEach.call(inputFile.files, function (file) {
+        fd.append('filename[]', file);
+    });
+    fd.append('file', files[0]);
+    $.ajax({
+        method: "POST",
+        url: 'api.php',
+        data: fd,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        enctype: 'multipart/form-data',
+        timeout: 60000,
+    }).done(function(res) {
+        try {
+            let user = JSON.parse(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
 }
 
 function submitForm(form) {
@@ -452,7 +529,7 @@ function submitForm(form) {
         method: "POST",
         url: $(form).attr('action'),
         data: $(form).serialize(),
-    }).done(function( res ) {
+    }).done(function(res) {
         try {
             let user = JSON.parse(res);
             userMenu(user);
@@ -460,14 +537,17 @@ function submitForm(form) {
                 $(form).trigger("reset");
                 $(form).removeClass('was-validated');
                 $('.modal, .show').hide();
+                if(_modal) {
+                    _modal.show();
+                }
             }else{
                 $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
             }
         } catch (error) {
             console.log(error);
         }
-    }).fail(function(response) {
-        console.log(response);
+    }).fail(function(res) {
+        console.log(res);
     });
 }
 

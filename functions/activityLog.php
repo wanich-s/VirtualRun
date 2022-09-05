@@ -17,15 +17,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 
 function activityLog() {    
-    global $mysqli;        
+    global $mysqli;
 
     // Insert Users
-    $sql = "INSERT INTO ActivityLog (user_name, password, first_name, last_name, email, id_card, tel, address, shirt_size, school, career)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO ActivityLog (participant_id, activity_date, activity_time, result_time, distance, activity_image1, activity_image2, activity_image3)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $mysqli -> prepare($sql);
-    $stmt -> bind_param('sssssssssss', $username, $password, $firstname, $lastname, $email, $idcard, $tel, $address, $shirtsize, $school, $career);
+    $stmt -> bind_param('sssssbbb', $participant_id, $activity_date, $activity_time, $result_time, $distance, $activity_image1, $activity_image2, $activity_image3);
     
-    $username = htmlspecialchars($_REQUEST['username']);
+    $participant_id = htmlspecialchars($_REQUEST['participant']);
+    $activity_date = htmlspecialchars($_REQUEST['activitydate']);
+    $activity_time = htmlspecialchars($_REQUEST['activitytime']);
+    $result_time = htmlspecialchars($_REQUEST['resulttime']);
+    $distance = htmlspecialchars($_REQUEST['distance']);
+
+    // $stmt -> execute();
+    // $stmt -> close();
 }
 
 ?>

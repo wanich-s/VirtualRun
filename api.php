@@ -1,4 +1,6 @@
 <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 'on');
     session_start();
     // only ajax request
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {        
@@ -35,6 +37,9 @@
                 break;
             case 'activityLog':
                 include 'functions/activityLog.php';
+                break;
+            case 'uploadFile':
+                include 'functions/uploadFile.php';
                 break;
             case 'logout':
                 logout();

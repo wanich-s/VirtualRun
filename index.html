@@ -30,13 +30,13 @@
                         <li class="nav-item" id="liActivityLog">
                             <a class="nav-link" href="">กิจกรรมของฉัน / ส่งผล</a>
                         </li>
-                        <li class="nav-item" id="liManageBankTransfer" style="display: none;">
-                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalBankTransfer">ส่งหลักฐานการชำระเงิน</a>
+                        <li class="nav-item" id="liManageBankTransfer">
+                            <a class="nav-link" href="">ส่งหลักฐานการชำระเงิน</a>
                         </li>
                         <li class="nav-item" id="liLogin">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
                         </li>
-                        <li class="nav-item dropdown" id="liUser" style="display: none;">
+                        <li class="nav-item dropdown liLogged" id="liUser" style="display: none;">
                             <a class="nav-link dropdown-toggle" href="" id="userNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 ชื่อผู้ใช้
                             </a>
@@ -252,10 +252,10 @@
                     <h5 class="modal-title" id="modalActivityLogLabel">ส่งผลการทำกิจกรรม</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog" class="needs-validation" autocomplete="off" novalidate>
+                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog" enctype="multipart/form-data" class="needs-validation" autocomplete="off" novalidate>
                         <div class="modal-body">
                             <div class="row g-3">
-                                <div class="col-md-6 mb-2">
+                                <div class="col-md-6">
                                     <label for="exampleFormControlInput1" class="form-label">วันที่เริ่มทำกิจกรรม</label>
                                     <div class='input-group date' id='datepicker1'>
                                         <input type='text' class="form-control" name="activitydate" required />
@@ -264,7 +264,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mb-2">
                                     <label for="activitytime" class="form-label">เวลาที่เริ่มทำกิจกรรม</label>
                                     <div class='input-group-time'>
                                         <input type='time' class="form-control" name="activitytime" required />
@@ -275,7 +275,7 @@
                                 <div class="col-md-6">
                                     <label for="inputDistance" class="form-label">จำนวนที่ทำได้</label>
                                     <div class="input-group">
-                                        <input type="number" type="number" id="inputDistance" name="distance" min="0.00" step="0.01" class="form-control" placeholder="0" required>
+                                        <input type="number" id="inputDistance" name="distance" min="0.00" step="0.01" class="form-control" placeholder="0" required>
                                         <span class="input-group-text">กิโลเมตร</span>
                                     </div>
                                 </div>
@@ -283,26 +283,29 @@
                                     <div class="row row-cols-sm-auto">
                                         <div class="col-4 col-md-4">
                                             <label for="inputHour" class="form-label">ชั่วโมง</label>
-                                            <input type="text" type="number" id="inputHour" name="hour" class="form-control" placeholder="0" required/>
+                                            <input type="number" id="inputHour" name="hour" min="0" max="12" class="form-control hour" placeholder="0" required/>
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <label for="inputMinute" class="form-label">นาที</label>
-                                            <input type="text" type="number" id="inputMinute" name="minute" class="form-control" placeholder="0" required/>
+                                            <input type="number" id="inputMinute" name="minute" min="0" max="59" class="form-control minute" placeholder="0" required/>
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <label for="inputSecond" class="form-label">วินาที</label>
-                                            <input type="text" type="number" id="inputSecond" name="second" class="form-control" placeholder="0" required/>
+                                            <input type="number" id="inputSecond" name="second" min="0" max="59" class="form-control second" placeholder="0" required/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="previewActivityImage" class="col-md-6 align-self-start mt-2">
-
+                                <!-- preview image -->
                             </div>
-                            <div class="col-md-6 align-self-start">
+                            <div class="col-md-6 align-self-start" has-validation>
                                 <label for="fileActivityImage" class="form-label">ภาพผลการทำกิจกรรม</label>
-                                <input type="file" class="form-control" id="fileActivityImage" required>
-                            </div>                            
+                                <input type="file" class="form-control" id="fileActivityImage" name="activityImage" accept=".jpg, .jpeg, .png" multiple required>
+                                <div class="invalid-feedback">
+                                    อัพโหลดภาพไม่เกิน 3 ภาพ (*.jpg, *.jpeg, *.png)
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" >ส่งผล</button>

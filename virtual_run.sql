@@ -55,7 +55,9 @@ CREATE TABLE ActivityLog (
     activity_time TIME,
     result_time TIME NOT NULL,
     distance DECIMAL NOT NULL,
-    activity_image BLOB,
+    activity_image1 BLOB,
+    activity_image2 BLOB,
+    activity_image3 BLOB,
     FOREIGN KEY (participant_id) REFERENCES Participant(id) ON DELETE CASCADE,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
@@ -89,7 +91,7 @@ SELECT * FROM Users;
 
 UPDATE Users SET password = MD5('wanich') WHERE id = '1';
 
-SET FOREIGN_KEY_CHECKS = 0; DROP TABLE ActivityResults; SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 0; DROP TABLE ActivityLog; SET FOREIGN_KEY_CHECKS = 1;
 -- DELETE FROM Users WHERE id = '2';
 -- DELETE FROM Administrator;
 -- DELETE FROM Participant;
