@@ -9,7 +9,18 @@ $( document ).ready(function() {
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    $('#datepicker1').datepicker({
+    
+    $('#activitydate').datepicker({
+        format: "dd-mm-yyyy",
+        todayHighlight: true,
+        endDate: end,
+        minView: 0,
+        maxView: 4,
+        autoclose: true,
+        todayBtn:true
+    });
+
+    $('#paymentdate').datepicker({
         format: "dd-mm-yyyy",
         todayHighlight: true,
         endDate: end,
@@ -195,7 +206,7 @@ $( document ).ready(function() {
             this.setCustomValidity('error');
             return;
         }else {
-            uploadImage(this);
+            // uploadImage(this);
             this.setCustomValidity('');
         }
         if (files) {
@@ -251,12 +262,12 @@ $( document ).ready(function() {
         e.preventDefault();
     });
 
-    $('#liManageBankTransfer > a').on('click', function(e) {
-        const modalBankTransfer = new bootstrap.Modal(modalBankTransferEl, {
-            keyboard: false
+    $('#liPaymentDetails > a').on('click', function(e) {
+        const modalPaymentDetails = new bootstrap.Modal(modalPaymentDetailsEl, {
+            keyboard: true
         });
         _modal = null;
-        loginState(showModal, modalBankTransfer);
+        loginState(showModal, modalPaymentDetails);
         e.preventDefault();
     });
 
@@ -316,6 +327,9 @@ if(modalActivityLogEl) {
          form.trigger("reset");
          form.removeClass('was-validated');
          $('#previewActivityImage').html('');
+         getApplicant((data) => {
+            $('#participant').val(`${data.participant['participant_id']}`);
+        });
     });
 }
 
@@ -332,14 +346,16 @@ if(modalApplicationEl) {
 var modalManageApplicantEl = document.querySelector('#modalManageApplicant');
 if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
-        getApplicant();
+        getApplicant((data)=> {
+            console.log(data);
+        });
     });
 }
 
-// modalBankTransfer
-var modalBankTransferEl = document.querySelector('#modalBankTransfer');
-if(modalBankTransferEl) {
-    modalBankTransferEl.addEventListener('show.bs.modal', function (event) {
+// modalPaymentDetails
+var modalPaymentDetailsEl = document.querySelector('#modalPaymentDetails');
+if(modalPaymentDetailsEl) {
+    modalPaymentDetailsEl.addEventListener('show.bs.modal', function (event) {
         
     });
 }
@@ -352,9 +368,30 @@ if(modalManageSenderEl) {
     });
 }
 
-function checkIDCard(input) {
+function getActivity() {
     $.ajax({
         method: "GET",
+        url: "api.php",
+        data: { func: "activity" },
+    }).done(function( res ) {
+        try {
+            let activityInfo = JSON.parse(res);
+            // if(!idcard.status) {
+            //     input.setCustomValidity('Error!');
+            // } else {
+            //     input.setCustomValidity('');
+            // }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function checkIDCard(input) {
+    $.ajax({
+        method: "POST",
         url: "api.php",
         data: { func: "checkIDCard", idcard: input.value },
     }).done(function( res ) {
@@ -362,10 +399,8 @@ function checkIDCard(input) {
             let idcard = JSON.parse(res);
             if(!idcard.status) {
                 input.setCustomValidity('Error!');
-                // input.addClass('required');
-            }else{
+            } else {
                 input.setCustomValidity('');
-                // input.removeClass('required');
             }
         } catch (error) {
             console.log(error);
@@ -451,20 +486,23 @@ function SenderState() {
     });
 }
 
-function getApplicant() {
+function getApplicant(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
-        data: { func: "applicant" },
+        data: { func: "participant" },
     }).done(function( res ) {
         try {
             let data = JSON.parse(res);
             if(data.status) {
-                $('#tableApplicant > tbody').html('');
-                $.each(data.applicants, function(key, value) {
-                    $('#tableApplicant > tbody').append(`<tr><td>${value['first_name']}</td><td>${value['last_name']}</td><td>${value['tel']}</td><td>${value['shirt_size']}</td><td>${value['bib_number']}</td><td>${value['payment_slips']}</td></tr>`);    
-                });
+                callback(data);
             }
+            // if(data.status) {
+            //     $('#tableApplicant > tbody').html('');
+            //     $.each(data.applicants, function(key, value) {
+            //         $('#tableApplicant > tbody').append(`<tr><td>${value['first_name']}</td><td>${value['last_name']}</td><td>${value['tel']}</td><td>${value['shirt_size']}</td><td>${value['bib_number']}</td><td>${value['payment_slips']}</td></tr>`);    
+            //     });
+            // }
         } catch (error) {
             console.log(error);
         }
@@ -508,18 +546,96 @@ function userMenu(user) {
 //     });
 // });
 
-function uploadImage(inputFile) {
+// function uploadImage(inputFile) {
+//     let fd = new FormData();
+//     fd.append('func', 'uploadFile');
+//     [].forEach.call(inputFile.files, function (file) {
+//         fd.append('filename[]', file);
+//     });
+//     fd.append('file', files[0]);
+//     $.ajax({
+//         method: "POST",
+//         url: 'api.php',
+//         data: fd,
+//         async: false,
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         enctype: 'multipart/form-data',
+//         timeout: 60000,
+//     }).done(function(res) {
+//         try {
+//             let user = JSON.parse(res);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }).fail(function(res) {
+//         console.log(res);
+//     });
+// }
+
+function serializeFormData(form) {
     let fd = new FormData();
-    fd.append('func', 'uploadFile');
-    [].forEach.call(inputFile.files, function (file) {
-        fd.append('filename[]', file);
+    $.each($(form)[0], function(i, input) {
+        switch (input.type) {
+            case 'file':
+                [].forEach.call(input.files, function (file) {
+                    fd.append('files[]', file);
+                });
+                break;
+            default:
+                fd.append(input.name, input.value);
+                break;
+        }
     });
-    fd.append('file', files[0]);
+    return fd;
+}
+
+function afterSubmit(form, data) {    
+    switch (data.func) {
+        case 'login':
+            if(data.logged) {
+                userMenu(data);
+                $('.modal, .show').hide();
+                if(_modal) {
+                    _modal.show();
+                }
+            } else {
+                $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
+                setTimeout(() => {
+                    $('#loginAlert').fadeOut('fast');
+                }, 5000);
+            }
+            break;
+        case 'register':
+            
+            break;
+        case 'activityLog':
+            if(data.status) {
+                $('#activityLogAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                setTimeout(() => {
+                    $(form).trigger('reset');
+                    $(form).removeClass('was-validated');
+                    $('#activityLogAlert').fadeOut('fast');
+                    $('.modal, .show').hide();
+                }, 3000);
+            } else {
+                $('#activityLogAlert').html(alert('เกิดข้อผิดพลาด !!!', 'danger'));
+                setTimeout(() => {
+                    $('#activityLogAlert').fadeOut('fast');
+                }, 5000);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function submitForm(form, callback) {
     $.ajax({
-        method: "POST",
-        url: 'api.php',
-        data: fd,
-        async: false,
+        method: $(form).attr('method'),
+        url: $(form).attr('action'),
+        data: serializeFormData(form),
         cache: false,
         contentType: false,
         processData: false,
@@ -527,34 +643,8 @@ function uploadImage(inputFile) {
         timeout: 60000,
     }).done(function(res) {
         try {
-            let user = JSON.parse(res);
-        } catch (error) {
-            console.log(error);
-        }
-    }).fail(function(res) {
-        console.log(res);
-    });
-}
-
-function submitForm(form) {
-    $.ajax({
-        method: "POST",
-        url: $(form).attr('action'),
-        data: $(form).serialize(),
-    }).done(function(res) {
-        try {
-            let user = JSON.parse(res);
-            userMenu(user);
-            if(user.logged) {
-                $(form).trigger("reset");
-                $(form).removeClass('was-validated');
-                $('.modal, .show').hide();
-                if(_modal) {
-                    _modal.show();
-                }
-            }else{
-                $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
-            }
+            let data = JSON.parse(res);
+            callback(data);
         } catch (error) {
             console.log(error);
         }
@@ -575,7 +665,9 @@ function submitForm(form) {
             event.preventDefault();
             event.stopPropagation();
         }  else {
-            submitForm(form);
+            submitForm(form, function(data) {
+                afterSubmit(form, data);
+            });
             event.preventDefault();
         }
         form.classList.add('was-validated');

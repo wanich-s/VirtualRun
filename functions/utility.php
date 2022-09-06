@@ -1,11 +1,10 @@
 <?php
-    function logged($user_id, $user_name, $user_profile='') {
+    function logged($user_id, $user_name, $user_profile='') {        
         $_SESSION['UserID'] = $user_id;
         $_SESSION['UserName'] = $user_name;
         $_SESSION['UserProfile'] = $user_profile;
         $_SESSION['LOGGED_TIME'] = time();
-        session_write_close();
-        echo json_encode(array('logged' => true, 'username' => $user_name, 'profile' => $user_profile));
+        session_write_close();        
     }
 
     function login_state() {
@@ -23,7 +22,6 @@
     }
     function logout() {
         session_destroy();
-        echo json_encode(array('logged' => false));
     }
 
     function check_id_card($id_card) {

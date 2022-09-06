@@ -30,7 +30,7 @@
                         <li class="nav-item" id="liActivityLog">
                             <a class="nav-link" href="">กิจกรรมของฉัน / ส่งผล</a>
                         </li>
-                        <li class="nav-item" id="liManageBankTransfer">
+                        <li class="nav-item" id="liPaymentDetails">
                             <a class="nav-link" href="">ส่งหลักฐานการชำระเงิน</a>
                         </li>
                         <li class="nav-item" id="liLogin">
@@ -70,7 +70,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formApplication" name="formApplication" action="api.php?func=register&activity=1" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formApplication" name="formApplication" action="api.php?func=register&activity=1" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="applicationAlert">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="beAMemberWith" id="flexRadio1" checked required>
                                 <label class="form-check-label" for="flexRadio1">
@@ -252,12 +257,18 @@
                     <h5 class="modal-title" id="modalActivityLogLabel">ส่งผลการทำกิจกรรม</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog" enctype="multipart/form-data" class="needs-validation" autocomplete="off" novalidate>
+                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog" method="POST" class="needs-validation" autocomplete="off" novalidate>
                         <div class="modal-body">
                             <div class="row g-3">
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="activityLogAlert">
+                                        <!-- alert message -->
+                                    </div>
+                                </div>
+                                <input id="participant" type="hidden" name="participant">
                                 <div class="col-md-6">
                                     <label for="exampleFormControlInput1" class="form-label">วันที่เริ่มทำกิจกรรม</label>
-                                    <div class='input-group date' id='datepicker1'>
+                                    <div class='input-group date' id='activitydate'>
                                         <input type='text' class="form-control" name="activitydate" required />
                                         <span class="input-group-addon input-group-text">
                                             <span class="bi bi-calendar-date"></span>
@@ -283,15 +294,15 @@
                                     <div class="row row-cols-sm-auto">
                                         <div class="col-4 col-md-4">
                                             <label for="inputHour" class="form-label">ชั่วโมง</label>
-                                            <input type="number" id="inputHour" name="hour" min="0" max="12" class="form-control hour" placeholder="0" required/>
+                                            <input type="number" id="inputHour" name="hour" min="0" max="12" class="form-control hour" pattern="[0-12]" placeholder="0" required/>
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <label for="inputMinute" class="form-label">นาที</label>
-                                            <input type="number" id="inputMinute" name="minute" min="0" max="59" class="form-control minute" placeholder="0" required/>
+                                            <input type="number" id="inputMinute" name="minute" min="0" max="59" class="form-control minute" pattern="[0-59]" placeholder="0" required/>
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <label for="inputSecond" class="form-label">วินาที</label>
-                                            <input type="number" id="inputSecond" name="second" min="0" max="59" class="form-control second" placeholder="0" required/>
+                                            <input type="number" id="inputSecond" name="second" min="0" max="59" class="form-control second" pattern="[0-59]" placeholder="0" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -305,7 +316,7 @@
                                 <div class="invalid-feedback">
                                     อัพโหลดภาพไม่เกิน 3 ภาพ (*.jpg, *.jpeg, *.png)
                                 </div>
-                            </div>
+                            </div>                            
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" >ส่งผล</button>
@@ -315,8 +326,8 @@
             </div>
         </div>
 
-        <!-- Modal BankTransfer -->
-        <div class="modal fade" id="modalBankTransfer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalBankTransferLabel" aria-hidden="true">
+        <!-- Modal PaymentDetails -->
+        <div class="modal fade" id="modalPaymentDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalBankTransferLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -324,7 +335,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formBankTransfer" name="formBankTransfer" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formPaymentDetails" name="formPaymentDetails" action="api.php?func=payment" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="loginAlert">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
                             <div class="col-md-12">
                                 <label for="exampleFormControlInput1" class="form-label">ขั้นตอนการชำระเงินโดยการโอนเงินผ่านบัญชีธนาคาร</label>
                                 <div class='input-group date' id='datepicker1'>
@@ -349,19 +365,11 @@
                             </div>
                             <div class="col-md-6">
                                 <img src="qrcode.svg" width="150" height="150" class="rounded mx-auto d-block align-center" alt="">
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <label for="inputamount" class="form-label">จำนวนเงินที่โอน/ฝากเงิน</label>
-                                <div class="input-group">
-                                    <input type="number" type="number" id="inputamount" name="amount" min="0.00" step="0.10" class="form-control" placeholder="0" required>
-                                    <span class="input-group-text">บาท</span>
-                                </div>
-                            </div>
+                            </div>                            
                             <div class="col-md-6">
                                 <label for="exampleFormControlInput1" class="form-label">วันที่บนใบโอน/ฝากเงิน</label>
-                                <div class='input-group date' id='datepicker1'>
-                                    <input type='text' class="form-control" name="transferdate" required />
+                                <div class='input-group date' id='paymentdate'>
+                                    <input type='text' class="form-control" name="paymentdate" required />
                                     <span class="input-group-addon input-group-text">
                                         <span class="bi bi-calendar-date"></span>
                                     </span>
@@ -370,12 +378,22 @@
                             <div class="col-md-6">
                                 <label for="transfertime" class="form-label">เวลาบนใบโอน/ฝากเงิน</label>
                                 <div class='input-group-time'>
-                                    <input type='time' class="form-control" name="transfertime" required />
+                                    <input type='time' class="form-control" name="paymenttime" required />
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <label for="fileTransferImage" class="form-label">ภาพผลการทำกิจกรรม</label>
-                                <input type="file" class="form-control" id="fileTransferImage">
+                            <div class="col-md-6">
+                                <label for="inputamount" class="form-label">จำนวนเงินที่โอน/ฝากเงิน</label>
+                                <div class="input-group">
+                                    <input type="number" type="number" name="amount" min="0.00" step="0.10" class="form-control" placeholder="0.00" required>
+                                    <span class="input-group-text">บาท</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12" has-validation>
+                                <label for="fileTransferImage" class="form-label">หลักฐานการชำระเงิน (สลิปโอนเงิน/ฝากเงิน)</label>
+                                <input type="file" class="form-control" id="paymentslip" name="paymentslip" accept=".jpg, .jpeg, .png" required>
+                                <div class="invalid-feedback">
+                                    เลือกภาพสลิปโอน/ฝากเงิน (*.jpg, *.jpeg, *.png)
+                                </div>
                             </div>                            
                         </div>
                         <div class="modal-footer">
@@ -448,7 +466,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formLogin" name="formLogin" action="api.php?func=login" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formLogin" name="formLogin" action="api.php?func=login" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="loginAlert">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
                             <div class="col-md-8 offset-md-2" has-validation>
                                 <label class="form-label" for="input-username">ชื่อผู้ใช้</label>
                                 <input type="text" id="input-username" name="username" minlength="1" maxlength="64" class="form-control" required/>
@@ -462,10 +485,7 @@
                                 <div class="invalid-feedback">
                                     กรุณาระบุรหัสผ่าน
                                 </div>
-                            </div>
-                            <div class="col-md-8 offset-md-2">
-                                <div id="loginAlert"></div>
-                            </div>
+                            </div>                            
                             <div class="col-md-8 offset-md-2">
                                 <button type="submit" class="btn btn-primary w-100" >เข้าสู่ระบบ</button>
                             </div>
