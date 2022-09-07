@@ -1,6 +1,5 @@
 <?php
-    // error_reporting(E_ALL);
-    // ini_set('display_errors', 'on');
+
     session_start();
     // only ajax request
     if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {        
@@ -26,6 +25,9 @@
                 }
                 include 'functions/checkIDCard.php';
                 break;
+            case 'manageParticipant':
+                include 'functions/manageParticipant.php';
+                break;
             case 'register':
                 include 'functions/participant.php';
                 break;
@@ -44,7 +46,7 @@
             case 'sender':
                 include 'functions/sender.php';
                 break;
-            case 'payment':
+            case 'paymentDetails':
                 include 'functions/payment.php';
                 break;
             case 'logout':

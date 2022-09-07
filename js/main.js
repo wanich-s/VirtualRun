@@ -206,7 +206,6 @@ $( document ).ready(function() {
             this.setCustomValidity('error');
             return;
         }else {
-            // uploadImage(this);
             this.setCustomValidity('');
         }
         if (files) {
@@ -215,6 +214,23 @@ $( document ).ready(function() {
                 let src = URL.createObjectURL(file)
                 $('#previewActivityImage').append(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
             });            
+        }
+    });
+
+    $('#filePaymentslips').on('change', function(e) {
+        const files = this.files
+        // if(files.length > 3 || files.length <= 0) {
+        //     this.setCustomValidity('error');
+        //     return;
+        // }else {
+        //     this.setCustomValidity('');
+        // }
+        if (files) {
+            $('#previewPaymentSlips').html('');
+            $.each(files, function(key, file) {
+                let src = URL.createObjectURL(file)
+                $('#previewPaymentSlips').append(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
+            });
         }
     });
 
@@ -284,6 +300,7 @@ if(modalLoginEl) {
         const form = $('#formLogin');
         form.trigger("reset");
         form.removeClass('was-validated');
+        $(":submit").prop('disabled', false);
     });
     modalLoginEl.addEventListener('shown.bs.modal', function (event) {
         $('#input-username').focus();
@@ -297,6 +314,7 @@ if(modalApplication) {
         const form = $('#formApplication');
         form.trigger("reset");
         form.removeClass('was-validated');
+        $(":submit").prop('disabled', false);
     });
 }
 
@@ -307,6 +325,7 @@ if(modalApplication) {
          const form = $('#formManageSender');
          form.trigger("reset");
          form.removeClass('was-validated');
+         $(":submit").prop('disabled', false);
      });
  }
 
@@ -315,6 +334,7 @@ if(modalManageSenderEl) {
     modalManageSenderEl.addEventListener('shown.bs.modal', function (event) {
         $('#inputSenderAddress').focus();
         // SenderState();
+        $(":submit").prop('disabled', false);
     });
     var modalManageSender = bootstrap.Modal.getOrCreateInstance(modalManageSenderEl);
 }
@@ -327,17 +347,21 @@ if(modalActivityLogEl) {
          form.trigger("reset");
          form.removeClass('was-validated');
          $('#previewActivityImage').html('');
-         getApplicant((data) => {
+         getParticipant((data) => {
             $('#participant').val(`${data.participant['participant_id']}`);
         });
+        $(":submit").prop('disabled', false);
     });
 }
 
 // modalApplication
 var modalApplicationEl = document.querySelector('#modalApplication');
 if(modalApplicationEl) {
+    modalApplicationEl.addEventListener('show.bs.modal', function (event) {
+        $(":submit").prop('disabled', false);
+    });
     modalApplicationEl.addEventListener('shown.bs.modal', function (event) {
-        // $('#input-username').focus();
+        
     });
     var modalApplication = bootstrap.Modal.getOrCreateInstance(modalApplicationEl);
 }
@@ -346,9 +370,15 @@ if(modalApplicationEl) {
 var modalManageApplicantEl = document.querySelector('#modalManageApplicant');
 if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
-        getApplicant((data)=> {
-            console.log(data);
+        manageParticipants((data) => {
+            if(data.status) {
+                $('#tableParticipants > tbody').html('');
+                $.each(data.participates, function(key, value) {
+                    $('#tableParticipants > tbody').append(`<tr><td>${value['first_name']}</td><td>${value['last_name']}</td><td>${value['tel']}</td><td>${value['shirt_size']}</td><td>${value['bib_number']}</td><td>${value['payment_slips']}</td></tr>`);    
+                });
+            }
         });
+        $(":submit").prop('disabled', false);
     });
 }
 
@@ -356,7 +386,11 @@ if(modalManageApplicantEl) {
 var modalPaymentDetailsEl = document.querySelector('#modalPaymentDetails');
 if(modalPaymentDetailsEl) {
     modalPaymentDetailsEl.addEventListener('show.bs.modal', function (event) {
-        
+        $('#previewPaymentSlips').html('');
+        getParticipant((data) => {
+            $('#customer').val(`${data.participant['participant_id']}`);
+        });
+        $(":submit").prop('disabled', false);
     });
 }
 
@@ -368,12 +402,29 @@ if(modalManageSenderEl) {
     });
 }
 
+function manageParticipants(callback) {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "manageParticipant" },
+    }).done(function(res) {
+        try {
+            let participants = JSON.parse(res);
+            callback(participants);
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
 function getActivity() {
     $.ajax({
         method: "GET",
         url: "api.php",
         data: { func: "activity" },
-    }).done(function( res ) {
+    }).done(function(res) {
         try {
             let activityInfo = JSON.parse(res);
             // if(!idcard.status) {
@@ -397,10 +448,16 @@ function checkIDCard(input) {
     }).done(function( res ) {
         try {
             let idcard = JSON.parse(res);
-            if(!idcard.status) {
-                input.setCustomValidity('Error!');
-            } else {
+            if(idcard.status) {
                 input.setCustomValidity('');
+            } else {
+                if(idcard.message) {
+                    $('#idCardFeedback').html(idcard.message);
+                    input.setCustomValidity('Error!');
+                } else {
+                    $('#idCardFeedback').html('ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)');
+                    input.setCustomValidity('Error!');
+                }                
             }
         } catch (error) {
             console.log(error);
@@ -486,7 +543,7 @@ function SenderState() {
     });
 }
 
-function getApplicant(callback) {
+function getParticipant(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
@@ -496,13 +553,7 @@ function getApplicant(callback) {
             let data = JSON.parse(res);
             if(data.status) {
                 callback(data);
-            }
-            // if(data.status) {
-            //     $('#tableApplicant > tbody').html('');
-            //     $.each(data.applicants, function(key, value) {
-            //         $('#tableApplicant > tbody').append(`<tr><td>${value['first_name']}</td><td>${value['last_name']}</td><td>${value['tel']}</td><td>${value['shirt_size']}</td><td>${value['bib_number']}</td><td>${value['payment_slips']}</td></tr>`);    
-            //     });
-            // }
+            }            
         } catch (error) {
             console.log(error);
         }
@@ -591,7 +642,9 @@ function serializeFormData(form) {
     return fd;
 }
 
-function afterSubmit(form, data) {    
+function afterSubmit(form, data) {
+    const timeout = 5000;
+    $(form).removeClass('was-validated');
     switch (data.func) {
         case 'login':
             if(data.logged) {
@@ -603,12 +656,45 @@ function afterSubmit(form, data) {
             } else {
                 $('#loginAlert').html(alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง', 'danger'));
                 setTimeout(() => {
-                    $('#loginAlert').fadeOut('fast');
-                }, 5000);
-            }
+                    $('#loginAlert').html('');
+                }, timeout);
+            }            
+            $(":submit").prop('disabled', false);
             break;
         case 'register':
-            
+            if(data.status) {
+                userMenu(data);
+                $('#applicationAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                setTimeout(() => {
+                    $(form).trigger('reset');
+                    $(form).removeClass('was-validated');
+                    $('#applicationAlert').fadeOut('fast');
+                    $('.modal, .show').hide();
+                }, timeout);
+            } else {
+                $('#applicationAlert').html(alert('เกิดข้อผิดพลาด !!!', 'danger'));
+                setTimeout(() => {
+                    $('#applicationAlert').fadeOut('fast');
+                }, timeout);
+                $(":submit").prop('disabled', false);
+            }
+            break;
+        case 'paymentDetails':
+            if(data.status) {
+                $('#paymentDetailsAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                setTimeout(() => {
+                    $(form).trigger('reset');
+                    $(form).removeClass('was-validated');
+                    $('#paymentDetailsAlert').fadeOut('fast');
+                    $('.modal, .show').hide();
+                }, timeout);
+            } else {
+                $('#paymentDetailsAlert').html(alert('เกิดข้อผิดพลาด !!!', 'danger'));
+                setTimeout(() => {
+                    $('#paymentDetailsAlert').fadeOut('fast');
+                }, timeout);
+                $(":submit").prop('disabled', false);
+            }
             break;
         case 'activityLog':
             if(data.status) {
@@ -618,12 +704,13 @@ function afterSubmit(form, data) {
                     $(form).removeClass('was-validated');
                     $('#activityLogAlert').fadeOut('fast');
                     $('.modal, .show').hide();
-                }, 3000);
+                }, timeout);
             } else {
                 $('#activityLogAlert').html(alert('เกิดข้อผิดพลาด !!!', 'danger'));
                 setTimeout(() => {
                     $('#activityLogAlert').fadeOut('fast');
-                }, 5000);
+                }, timeout);
+                $(":submit").prop('disabled', false);
             }
             break;
         default:
@@ -665,6 +752,7 @@ function submitForm(form, callback) {
             event.preventDefault();
             event.stopPropagation();
         }  else {
+            $(":submit").prop('disabled', true);
             submitForm(form, function(data) {
                 afterSubmit(form, data);
             });

@@ -3,7 +3,7 @@ require 'config.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        getApplicant();
+        getParticipant();
         break;
     case 'POST':
         doRegister();
@@ -16,21 +16,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 }
 
-function getPersonalInfo() {
-    global $mysqli;
-    $activity_id = htmlspecialchars($_REQUEST['activity']);
-    $user_id = $_SESSION['UserID'];
-    $query_user = $mysqli -> query("SELECT first_name, last_name, id_card, email, tel, address, shirt_size FROM Users WHERE id = '$user_id';");
-    $user_info = $query_user -> fetch_array(MYSQLI_ASSOC);
-
-    $query = $mysqli -> query("SELECT * FROM Participant WHERE user_id = '$user_id' AND activity_id = '$activity_id';");
-    $participate_info = $query -> fetch_array(MYSQLI_ASSOC);
-
-    $mysqli->close();
-    echo json_encode(array('logged' => true, 'userinfo' => $user_info, 'participateinfo' => $participate_info));
-}
-
-function getApplicant() {
+function getParticipant() {
     global $mysqli;
 
     $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id, p.bib_number, p.payment_slips 
@@ -84,10 +70,10 @@ function doRegister() {
 
     if($user_id) {
         logged($user_id, $username);
-        echo json_encode(array('func' => $function, 'logged' => true, 'username' => $username));
+        echo json_encode(array('func' => $function, 'status' => true, 'logged' => true, 'username' => $username));
         exit(0);
     }
-    echo json_encode(array('func' => $function, 'logged' => false));
+    echo json_encode(array('func' => $function, 'status' => false, 'logged' => false));
 }
 
 ?>

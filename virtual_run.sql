@@ -53,7 +53,7 @@ CREATE TABLE PaymentDetails (
     payment_date DATE NOT NULL,
     payment_time TIME,
     payment_amount NUMERIC,
-    payment_slips BLOB,
+    payment_slips MEDIUMBLOB,
     FOREIGN KEY (customer_id) REFERENCES Participant(id) ON DELETE CASCADE,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
@@ -65,9 +65,9 @@ CREATE TABLE ActivityLog (
     activity_time TIME,
     result_time TIME NOT NULL,
     distance DECIMAL NOT NULL,
-    activity_image1 BLOB,
-    activity_image2 BLOB,
-    activity_image3 BLOB,
+    activity_image1 MEDIUMBLOB,
+    activity_image2 MEDIUMBLOB,
+    activity_image3 MEDIUMBLOB,
     FOREIGN KEY (participant_id) REFERENCES Participant(id) ON DELETE CASCADE,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
@@ -77,6 +77,17 @@ CREATE TABLE Sender (
     address VARCHAR(255),
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
+
+SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school FROM Users u 
+INNER JOIN Participant p ON u.id = p.user_id 
+INNER JOIN Activity a ON a.id = p.activity_id 
+LEFT JOIN PaymentDetails pd ON p.id = pd.customer_id 
+WHERE a.id = '1'
+
+ALTER TABLE PaymentDetails    
+MODIFY payment_slips MEDIUMBLOB;
+
+SELECT * FROM PaymentDetails;
 
 SELECT * from ActivityLog;
 
@@ -113,11 +124,11 @@ SELECT * FROM Users;
 
 UPDATE Users SET password = MD5('wanich') WHERE id = '1';
 
-SET FOREIGN_KEY_CHECKS = 0; DROP TABLE ActivityLog; SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 0; DROP TABLE PaymentDetails; SET FOREIGN_KEY_CHECKS = 1;
 -- DELETE FROM Users WHERE id = '2';
 -- DELETE FROM Administrator;
 -- DELETE FROM Participant;
 
-SET FOREIGN_KEY_CHECKS = 0; TRUNCATE TABLE Users; SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 0; TRUNCATE PaymentDetails; SET FOREIGN_KEY_CHECKS = 1;
 
-ALTER TABLE Participant ADD payment_slips BLOB;
+ALTER TABLE Participant ADD payment_slips MEDIUMBLOB;

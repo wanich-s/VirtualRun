@@ -37,9 +37,24 @@ function activityLog() {
     $activity_time = htmlspecialchars($_REQUEST['activitytime']);
     $result_time = "$hour:$minute:$second";
     $distance = htmlspecialchars($_REQUEST['distance']);
-    $activity_image1 = addslashes(file_get_contents($_FILES['files']['tmp_name'][0]));
-    $activity_image2 = addslashes(file_get_contents($_FILES['files']['tmp_name'][1]));
-    $activity_image3 = addslashes(file_get_contents($_FILES['files']['tmp_name'][2]));
+
+    $fp = fopen($_FILES['files']['tmp_name'][0], 'r');
+    while (!feof($fp)) {
+        $stmt->send_long_data(5, fread($fp, 8192));
+    }
+    fclose($fp);
+
+    $fp = fopen($_FILES['files']['tmp_name'][1], 'r');
+    while (!feof($fp)) {
+        $stmt->send_long_data(6, fread($fp, 8192));
+    }
+    fclose($fp);
+
+    $fp = fopen($_FILES['files']['tmp_name'][2], 'r');
+    while (!feof($fp)) {
+        $stmt->send_long_data(7, fread($fp, 8192));
+    }
+    fclose($fp);
 
     $stmt -> execute();
     if($stmt->insert_id) {
