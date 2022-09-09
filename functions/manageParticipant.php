@@ -30,15 +30,16 @@ function getParticipantAll() {
 
     if ($result = $mysqli -> query($sql)) {
         while ($row = $result -> fetch_assoc()) {
-            // $row['payment_slips'] = blobToImage($row['payment_slips']);
-            $participates[] = array('firstname' => $row['first_name'], 'lastname' => $row['last_name']);
+            $row['payment_slips'] = blobToImage($row['payment_slips']);
+            // $participates[] = array('firstname' => $row['first_name'], 'lastname' => $row['last_name']);
+            $participates[] = $row;
         }
         $result -> free_result();
     }
 
     $mysqli->close();
     if($participates) {
-        echo json_encode(array('status' => true, 'participates' => json_encode($participates)));
+        echo json_encode(array('status' => true, 'participates' => $participates));
         exit(0);
     } else {
         echo json_encode(array('status' => false));

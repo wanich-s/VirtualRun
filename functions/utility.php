@@ -41,6 +41,6 @@
     }
 
     function blobToImage($blob) {
-        return '<img src="data:image/jpeg;base64,'.base64_encode($blob).'" class="img-fluid" >';
+        return '<img src="data:image/jpeg;base64,'.base64_encode($blob).'" class="img-fluid payment-slips" >';
     }
 ?>

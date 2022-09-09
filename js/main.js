@@ -372,45 +372,45 @@ if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
         manageParticipants((data) => {
             if(data.status) {
+                $('#tableParticipants > tbody').html('');
+                // var data = [
+                //     {
+                //         "name":       "Tiger Nixon",
+                //         "position":   "System Architect",
+                //         "salary":     "$3,120",
+                //         "start_date": "2011/04/25",
+                //         "office":     "Edinburgh",
+                //         "extn":       "5421"
+                //     },
+                //     {
+                //         "name":       "Garrett Winters",
+                //         "position":   "Director",
+                //         "salary":     "$5,300",
+                //         "start_date": "2011/07/25",
+                //         "office":     "Edinburgh",
+                //         "extn":       "8422"
+                //     }
+                // ]
 
-                var data = [
-                    {
-                        "name":       "Tiger Nixon",
-                        "position":   "System Architect",
-                        "salary":     "$3,120",
-                        "start_date": "2011/04/25",
-                        "office":     "Edinburgh",
-                        "extn":       "5421"
-                    },
-                    {
-                        "name":       "Garrett Winters",
-                        "position":   "Director",
-                        "salary":     "$5,300",
-                        "start_date": "2011/07/25",
-                        "office":     "Edinburgh",
-                        "extn":       "8422"
-                    }
-                ]
-
-                $('#tableParticipants').DataTable( {
-                    data: data.participants,
-                    columns: [
-                        { data: 'name' },
-                        { data: 'position' }
-                    ]
-                } );
+                // $('#tableParticipants').DataTable( {
+                //     data: data.participants,
+                //     columns: [
+                //         { data: 'name' },
+                //         { data: 'position' }
+                //     ]
+                // } );
 
                 // $('#tableParticipants > tbody').html('');
-                // $.each(data.participates, function(key, value) {
-                //     $('#tableParticipants > tbody').append(`<tr>
-                //         <td>${value['first_name']}</td>
-                //         <td>${value['last_name']}</td>
-                //         <!-- <td>${value['tel']}</td> -->
-                //         <!-- <td>${value['shirt_size']}</td> -->
-                //         <td><img src="data:image/png;base64,${value['payment_slips']}" /></td>
-                //         <td>${value['bib_number']}</td>
-                //     </tr>`);    
-                // });
+                $.each(data.participates, function(key, value) {
+                    $('#tableParticipants > tbody').append(`<tr style="line-height: 25px;">
+                        <td>${value['first_name']}</td>
+                        <td>${value['last_name']}</td>
+                        <!-- <td>${value['tel']}</td> -->
+                        <!-- <td>${value['shirt_size']}</td> -->
+                        <td>${value['payment_slips']}</td>
+                        <!-- <td>${value['bib_number']}</td> -->
+                    </tr>`);    
+                });
             }
         });
         $(":submit").prop('disabled', false);
