@@ -627,6 +627,7 @@ function userMenu(user) {
         $( '.liLogged' ).hide();
         $( '#liRegister' ).show();
         $( '#liLogin' ).show();
+        $( '#liRule' ).show();
     }
 }
 
