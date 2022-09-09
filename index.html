@@ -33,6 +33,9 @@
                         <li class="nav-item" id="liPaymentDetails">
                             <a class="nav-link" href="">ส่งหลักฐานการชำระเงิน</a>
                         </li>
+                         <li class="nav-item" id="liRule">
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalRule">กติกา</a>
+                        </li>
                         <li class="nav-item" id="liLogin">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
                         </li>
@@ -321,6 +324,63 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" >ส่งผล</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Rule -->
+        <div class="modal fade" id="modalRule" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalRuleLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalRuleLabel">รายละเอียดกิจกรรมเดิน - วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formRule" name="formRule" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-12">
+                                <p class="lh-base">ขอเชิญชวนบุคลากร ผู้ปกครอง นักเรียน และบุคคลทั่วไป เข้าร่วม กิจกรรมเดิน-วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run เพื่อเป็นการหารายได้สบทบการจัดการแข่งขันกีฬาสาธิตสามัคคี ครั้งที่ 45 “พิบูลบำเพ็ญเกมส์” และส่งเสริมการออกกำลังกายเพื่อรักษาสุขภาพ และรับของรางวัลจากการเดิน/วิ่งสะสมระยะทางภายในวันที่กำหนด โดยสามารถเดิน/วิ่งสะสมระยะทางได้ทุกที่ทุกเวลา ผ่านแอพพลิเคชั่น Smartphone หรือ ลู่วิ่งไฟฟ้า</p>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item fw-bolder">เปิดรับสมัคร : </li>
+                                    <li class="list-inline-item">15 กันยายน – 15 ตุลาคม พ.ศ. 2565</li>
+                                </ul>  
+                                <ul class="list-inline">
+                                    <li class="list-inline-item fw-bolder">ช่วงเวลาในการเดิน/วิ่งสะสมระยะทาง : </li>
+                                    <li class="list-inline-item">เริ่ม  1 - 31 ตุลาคม พ.ศ. 2565 (23.59 น.)</li>
+                                </ul>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item fw-bolder">ประกาศผล : </li>
+                                    <li class="list-inline-item">วันที่ 9 พฤศจิกายน พ.ศ. 2565 และมอบโล่รางวัลในพิธีปิดกีฬาสาธิตสามัคคีฯ</li>
+                                    <li class="list-inline-item">(สถาบันที่ได้ระยะทางรวมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ)</li>
+                                </ul>
+                                
+                                <p class="lh-base fw-bolder">รางวัล : </p>
+                                <dl class="row lh-base ">
+                                    <dt class="col-sm-4 fw-normal">ประเภทบุคคล</dt>
+                                    <dd class="col-sm-8 fw-normal">เมื่อสมัครเข้าร่วมโครงการฯ ได้รับเสื้อที่ระลึก 1 ตัว</dd>
+                                    <dt class="col-sm-4"></dt>
+                                    <dd class="col-sm-8 fw-normal">เดิน/วิ่งสะสมระยะทางครบ 45 กิโลเมตร รับเหรียญรางวัล</dd>
+                                </dl>
+                                <dl class="row lh-base">
+                                    <dt class="col-sm-4 fw-normal">ประเภททีม </dt>
+                                    <dd class="col-sm-8 fw-normal">โล่รางวัลสำหรับสถาบันที่ได้ระยะทางเดิน/วิ่ง รวมสะสมสูงสุด 3 อันดับแรก</dd>
+                                    <dt class="col-sm-4 fw-normal">(ตามสังกัดโรงเรียนสาธิตฯ)</dt>
+                                    <dd class="col-sm-8"></dd>
+                                </dl>
+
+                                <p class="lh-base fw-bolder">กติกา : </p>
+                                <div class='input-group date'>
+                                    <ol class="list-inside list-decimal">
+                                        <li>เมื่อสมัครร่วมกิจกรรม(ค่าสมัคร 450 บาท) ได้รับเสื้อเป็นที่ระลึก โดยสมัคร เดิน/วิ่ง สะสมระยะทางและส่งผลการเดิน/วิ่งผ่านลิงค์ที่กำหนด ผู้เข้าร่วมแข่งขันสามารถส่งผล เดิน/วิ่ง ย้อนหลังได้ไม่เกิน 3 วัน</li>
+                                        <li>การส่งผล เดิน/วิ่ง ตามหมายเลข e-BIB ของแต่ละท่านสามารถวิ่งหรือเดิน ในทุกที่ ทุกเวลา ในสนาม ทางเดินธรรมชาติหรือบนลู่วิ่งจับระยะทางด้วยนาฬิกา หรือแอพมือถือ แล้วแคปเจอร์หน้าจอ หรือถ่ายภาพแสดงผลลู่วิ่งไฟฟ้า ที่แสดงผลการวิ่งที่ระบุวัน ช่วงเวลา และระยะทางการเดินหรือวิ่งอย่างครบถ้วน เพื่อส่งระยะการวิ่ง/เดิน ส่งผลออนไลน์เป็นวิดีโอและภาพถ่าย สำหรับการสะสมระยะทางท่านสามารถใช้แอพพลิเคชั่นที่เก็บสะสมระยะทาง ที่แสดงระยะทาง ตำแหน่ง วัน เวลา สถานที่ และระบุตัวตนของท่าน เช่น Endomondo, Strava, Nike Run Club, Adidas Running App, Runkeeper, Google Fit, Pedometer, Pacer, Run with Map My Run, PUMATRAC เป็นต้น </li>
+                                        <li>ผลการเดิน/วิ่ง ต้องเป็นผลที่เกิดขึ้นหลังจากวันที่เริ่มแข่งขันแล้วเท่านั้น ผลการวิ่ง/เดิน ไม่สามารถตกแต่ง ดัดแปลง (หากตรวจพบการทุจริตทางฝ่ายจัดขอตัดสิทธิ์การเข้าร่วมการแข่งขัน)</li>
+                                        <li>ผลการตัดสินประเภทบุคคล คำนวณจาก ระยะทางเดิน/วิ่ง สะสมของแต่ละบุคคล เมื่อครบระยะทางสะสม 45 กิโลเมตร ได้รับเหรียญรางวัลเป็นที่ระลึก</li>
+                                        <li>ผลการตัดสินประเภททีม(ตามสังกัดโรงเรียนสาธิตฯที่สมัคร) คำนวณจาก ระยะทางเดิน/วิ่ง สะสมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ (คำนวณจากผลรวมระยะทางสะสมของแต่ละบุคคลในทีมนั้นๆ)</li>
+                                        <li>จัดส่งของรางวัลในช่วงเดือน พฤศจิกายน – ธันวาคม พ.ศ. 2565 </li>
+                                    </ol>
+                                </div>
+                            </div>
                     </form>
                 </div>
             </div>
