@@ -19,7 +19,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 function getParticipant() {
     global $mysqli;
 
-    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id, p.bib_number, p.payment_slips 
+    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id 
     FROM Users u 
     INNER JOIN Participant p ON u.id = p.user_id
     WHERE u.id = '$_SESSION[UserID]';");

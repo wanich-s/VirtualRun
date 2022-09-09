@@ -39,4 +39,8 @@
         }
         return (11 - ($sum % 11)) % 10 == $lastDigit;
     }
+
+    function blobToImage($blob) {
+        return '<img src="data:image/jpeg;base64,'.base64_encode($blob).'" class="img-fluid" >';
+    }
 ?>

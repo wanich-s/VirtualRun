@@ -38,28 +38,43 @@ function activityLog() {
     $result_time = "$hour:$minute:$second";
     $distance = htmlspecialchars($_REQUEST['distance']);
 
-    $fp = fopen($_FILES['files']['tmp_name'][0], 'r');
-    while (!feof($fp)) {
-        $stmt->send_long_data(5, fread($fp, 8192));
+    $tmp_file = $_FILES['files']['tmp_name'][0];
+    if($tmp_file) {
+        $fp = fopen($tmp_file, 'r');
+        while (!feof($fp)) {
+            $stmt->send_long_data(5, fread($fp, 8192));
+        }
+        fclose($fp);
+    } else {
+        $activity_image1 = '';
     }
-    fclose($fp);
+    
+    $tmp_file = $_FILES['files']['tmp_name'][1];
+    if($tmp_file) {
+        $fp = fopen($tmp_file, 'r');
+        while (!feof($fp)) {
+            $stmt->send_long_data(6, fread($fp, 8192));
+        }
+        fclose($fp);
+    } else {
+        $activity_image2 = '';
+    }
 
-    $fp = fopen($_FILES['files']['tmp_name'][1], 'r');
-    while (!feof($fp)) {
-        $stmt->send_long_data(6, fread($fp, 8192));
+    $tmp_file = $_FILES['files']['tmp_name'][2];
+    if($tmp_file) {
+        $fp = fopen($tmp_file, 'r');
+        while (!feof($fp)) {
+            $stmt->send_long_data(7, fread($fp, 8192));
+        }
+        fclose($fp);
+    } else {
+        $activity_image3 = '';
     }
-    fclose($fp);
-
-    $fp = fopen($_FILES['files']['tmp_name'][2], 'r');
-    while (!feof($fp)) {
-        $stmt->send_long_data(7, fread($fp, 8192));
-    }
-    fclose($fp);
 
     $stmt -> execute();
     if($stmt->insert_id) {
         $stmt -> close();
-        echo json_encode(array('func' => $function, 'status' => true));        
+        echo json_encode(array('func' => $function, 'status' => true));
         exit(0);
     } else {
         echo json_encode(array('func' => $function, 'status' => false));

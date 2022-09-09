@@ -29,11 +29,16 @@ function paymentDetails() {
     $payment_time = htmlspecialchars($_REQUEST['paymenttime']);
     $payment_amount = htmlspecialchars($_REQUEST['paymentamount']);
 
-    $fp = fopen($_FILES['files']['tmp_name'][0], 'r');
-    while (!feof($fp)) {
-        $stmt->send_long_data(4, fread($fp, 8192));
+    $tmp_file = $_FILES['files']['tmp_name'][0];
+    if($tmp_file) {
+        $fp = fopen($tmp_file, 'r');
+        while (!feof($fp)) {
+            $stmt->send_long_data(4, fread($fp, 8192));
+        }
+        fclose($fp);
+    } else {
+        $payment_slips = '';
     }
-    fclose($fp);
 
     $stmt -> execute();
     if($stmt->insert_id) {

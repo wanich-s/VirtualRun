@@ -78,7 +78,9 @@ CREATE TABLE Sender (
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
 
-SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school FROM Users u 
+SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, 
+pd.payment_amount, pd.payment_slips
+FROM Users u 
 INNER JOIN Participant p ON u.id = p.user_id 
 INNER JOIN Activity a ON a.id = p.activity_id 
 LEFT JOIN PaymentDetails pd ON p.id = pd.customer_id 

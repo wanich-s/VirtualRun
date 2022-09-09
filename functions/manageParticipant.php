@@ -19,16 +19,30 @@ switch ($_SERVER['REQUEST_METHOD']) {
 function getParticipantAll() {
     global $mysqli, $function;
 
-    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school 
+    $sql = "SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, pd.payment_slips 
     FROM Users u 
     INNER JOIN Participant p ON u.id = p.user_id 
     INNER JOIN Activity a ON a.id = p.activity_id 
     LEFT JOIN PaymentDetails pd ON p.id = pd.customer_id 
-    WHERE a.id = '1';");
-    $participates = $query -> fetch_all(MYSQLI_ASSOC);
-    $mysqli->close();
+    WHERE a.id = '1';";
+    
+    $participates;
 
-    echo json_encode(array('status' => true, 'participates' => $participates));
+    if ($result = $mysqli -> query($sql)) {
+        while ($row = $result -> fetch_assoc()) {
+            // $row['payment_slips'] = blobToImage($row['payment_slips']);
+            $participates[] = array('firstname' => $row['first_name'], 'lastname' => $row['last_name']);
+        }
+        $result -> free_result();
+    }
+
+    $mysqli->close();
+    if($participates) {
+        echo json_encode(array('status' => true, 'participates' => json_encode($participates)));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
+    }
 }
 
 function getPersonalInfo() {
