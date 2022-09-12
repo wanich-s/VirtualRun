@@ -24,6 +24,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="">หน้าแรก</a>
                         </li>
+                        <li class="nav-item" id="liRule">
+                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalRule">กติกา</a>
+                        </li>
                         <li class="nav-item" id="liRegister">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalApplication">สมัคร</a>
                         </li>
@@ -32,10 +35,7 @@
                         </li>
                         <li class="nav-item" id="liPaymentDetails">
                             <a class="nav-link" href="">ส่งหลักฐานการชำระเงิน</a>
-                        </li>
-                         <li class="nav-item" id="liRule">
-                            <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalRule">กติกา</a>
-                        </li>
+                        </li>                        
                         <li class="nav-item" id="liLogin">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
                         </li>
@@ -44,7 +44,7 @@
                                 ชื่อผู้ใช้
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="userNavbarDropdown">
-                                <li><a class="dropdown-item" href="">ข้อมูลส่วนตัว</a></li>
+                                <li><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#modalMyInfo">ข้อมูลส่วนตัว</a></li>
                                 <li><hr class="dropdown-divider adminMenu"></li>
                                 <li class="adminMenu"><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#modalManageActivity">จัดการกิจกรรม</a></li>
                                 <li class="adminMenu"><a class="dropdown-item" href="" data-bs-toggle="modal" data-bs-target="#modalManageApplicant">จัดการข้อมูลผู้สมัคร</a></li>
@@ -61,17 +61,24 @@
             <img src ="assets/background/info.jpg" class="img-fluid" alt="...">      
         </div> -->
        
-        <div class="container">
+        <!-- <div class="container">
             <div class="row">
               <div class="col-md-6 offset-md-2">
                 <img src ="assets/background/info.jpg" class="img-fluid" alt="..."> 
               </div>
             </div>
+        </div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <img src ="assets/background/info.jpg" class="img-fluid" alt=""> 
+                </div>
+            </div>
         </div>
 
-        <div class="text-center">
+        <!-- <div class="text-center">
             <a class="btn btn-primary" id="liResultAll" href="" data-bs-toggle="modal" data-bs-target="#modalResultAll"><i class="bi bi-bar-chart-fill"></i> กระดานผลรวมทุกคน</a>
-        </div>
+        </div> -->
 
         <!-- Modal Application -->
         <div class="modal fade" id="modalApplication" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalApplicationLabel" aria-hidden="true">
@@ -343,54 +350,52 @@
             <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modalRuleLabel">รายละเอียดกิจกรรมเดิน - วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title" id="modalRuleLabel">รายละเอียดกิจกรรมเดิน - วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formRule" name="formRule" class="row g-3 needs-validation" autocomplete="off" novalidate>
-                            <div class="col-md-12">
-                                <p class="lh-base">ขอเชิญชวนบุคลากร ผู้ปกครอง นักเรียน และบุคคลทั่วไป เข้าร่วม กิจกรรมเดิน-วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run เพื่อเป็นการหารายได้สบทบการจัดการแข่งขันกีฬาสาธิตสามัคคี ครั้งที่ 45 “พิบูลบำเพ็ญเกมส์” และส่งเสริมการออกกำลังกายเพื่อรักษาสุขภาพ และรับของรางวัลจากการเดิน/วิ่งสะสมระยะทางภายในวันที่กำหนด โดยสามารถเดิน/วิ่งสะสมระยะทางได้ทุกที่ทุกเวลา ผ่านแอพพลิเคชั่น Smartphone หรือ ลู่วิ่งไฟฟ้า</p>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item fw-bolder">เปิดรับสมัคร : </li>
-                                    <li class="list-inline-item">15 กันยายน – 15 ตุลาคม พ.ศ. 2565</li>
-                                </ul>  
-                                <ul class="list-inline">
-                                    <li class="list-inline-item fw-bolder">ช่วงเวลาในการเดิน/วิ่งสะสมระยะทาง : </li>
-                                    <li class="list-inline-item">เริ่ม  1 - 31 ตุลาคม พ.ศ. 2565 (23.59 น.)</li>
-                                </ul>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item fw-bolder">ประกาศผล : </li>
-                                    <li class="list-inline-item">วันที่ 9 พฤศจิกายน พ.ศ. 2565 และมอบโล่รางวัลในพิธีปิดกีฬาสาธิตสามัคคีฯ</li>
-                                    <li class="list-inline-item">(สถาบันที่ได้ระยะทางรวมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ)</li>
-                                </ul>
-                                
-                                <p class="lh-base fw-bolder">รางวัล : </p>
-                                <dl class="row lh-base ">
-                                    <dt class="col-sm-4 fw-normal">ประเภทบุคคล</dt>
-                                    <dd class="col-sm-8 fw-normal">เมื่อสมัครเข้าร่วมโครงการฯ ได้รับเสื้อที่ระลึก 1 ตัว</dd>
-                                    <dt class="col-sm-4"></dt>
-                                    <dd class="col-sm-8 fw-normal">เดิน/วิ่งสะสมระยะทางครบ 45 กิโลเมตร รับเหรียญรางวัล</dd>
-                                </dl>
-                                <dl class="row lh-base">
-                                    <dt class="col-sm-4 fw-normal">ประเภททีม </dt>
-                                    <dd class="col-sm-8 fw-normal">โล่รางวัลสำหรับสถาบันที่ได้ระยะทางเดิน/วิ่ง รวมสะสมสูงสุด 3 อันดับแรก</dd>
-                                    <dt class="col-sm-4 fw-normal">(ตามสังกัดโรงเรียนสาธิตฯ)</dt>
-                                    <dd class="col-sm-8"></dd>
-                                </dl>
+                        <div class="col-md-12">
+                            <p class="lh-base">ขอเชิญชวนบุคลากร ผู้ปกครอง นักเรียน และบุคคลทั่วไป เข้าร่วม กิจกรรมเดิน-วิ่งสะสมระยะทาง “พิบูลบำเพ็ญเกมส์” Virtual Run เพื่อเป็นการหารายได้สบทบการจัดการแข่งขันกีฬาสาธิตสามัคคี ครั้งที่ 45 “พิบูลบำเพ็ญเกมส์” และส่งเสริมการออกกำลังกายเพื่อรักษาสุขภาพ และรับของรางวัลจากการเดิน/วิ่งสะสมระยะทางภายในวันที่กำหนด โดยสามารถเดิน/วิ่งสะสมระยะทางได้ทุกที่ทุกเวลา ผ่านแอพพลิเคชั่น Smartphone หรือ ลู่วิ่งไฟฟ้า</p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item fw-bolder">เปิดรับสมัคร : </li>
+                                <li class="list-inline-item">15 กันยายน – 15 ตุลาคม พ.ศ. 2565</li>
+                            </ul>  
+                            <ul class="list-inline">
+                                <li class="list-inline-item fw-bolder">ช่วงเวลาในการเดิน/วิ่งสะสมระยะทาง : </li>
+                                <li class="list-inline-item">เริ่ม  1 - 31 ตุลาคม พ.ศ. 2565 (23.59 น.)</li>
+                            </ul>
+                            <ul class="list-inline">
+                                <li class="list-inline-item fw-bolder">ประกาศผล : </li>
+                                <li class="list-inline-item">วันที่ 9 พฤศจิกายน พ.ศ. 2565 และมอบโล่รางวัลในพิธีปิดกีฬาสาธิตสามัคคีฯ</li>
+                                <li class="list-inline-item">(สถาบันที่ได้ระยะทางรวมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ)</li>
+                            </ul>
+                            
+                            <p class="lh-base fw-bolder">รางวัล : </p>
+                            <dl class="row lh-base ">
+                                <dt class="col-sm-4 fw-normal">ประเภทบุคคล</dt>
+                                <dd class="col-sm-8 fw-normal">เมื่อสมัครเข้าร่วมโครงการฯ ได้รับเสื้อที่ระลึก 1 ตัว</dd>
+                                <dt class="col-sm-4"></dt>
+                                <dd class="col-sm-8 fw-normal">เดิน/วิ่งสะสมระยะทางครบ 45 กิโลเมตร รับเหรียญรางวัล</dd>
+                            </dl>
+                            <dl class="row lh-base">
+                                <dt class="col-sm-4 fw-normal">ประเภททีม </dt>
+                                <dd class="col-sm-8 fw-normal">โล่รางวัลสำหรับสถาบันที่ได้ระยะทางเดิน/วิ่ง รวมสะสมสูงสุด 3 อันดับแรก</dd>
+                                <dt class="col-sm-4 fw-normal">(ตามสังกัดโรงเรียนสาธิตฯ)</dt>
+                                <dd class="col-sm-8"></dd>
+                            </dl>
 
-                                <p class="lh-base fw-bolder">กติกา : </p>
-                                <div class='input-group date'>
-                                    <ol class="list-inside list-decimal">
-                                        <li>เมื่อสมัครร่วมกิจกรรม(ค่าสมัคร 450 บาท) ได้รับเสื้อเป็นที่ระลึก โดยสมัคร เดิน/วิ่ง สะสมระยะทางและส่งผลการเดิน/วิ่งผ่านลิงค์ที่กำหนด ผู้เข้าร่วมแข่งขันสามารถส่งผล เดิน/วิ่ง ย้อนหลังได้ไม่เกิน 3 วัน</li>
-                                        <li>การส่งผล เดิน/วิ่ง ตามหมายเลข e-BIB ของแต่ละท่านสามารถวิ่งหรือเดิน ในทุกที่ ทุกเวลา ในสนาม ทางเดินธรรมชาติหรือบนลู่วิ่งจับระยะทางด้วยนาฬิกา หรือแอพมือถือ แล้วแคปเจอร์หน้าจอ หรือถ่ายภาพแสดงผลลู่วิ่งไฟฟ้า ที่แสดงผลการวิ่งที่ระบุวัน ช่วงเวลา และระยะทางการเดินหรือวิ่งอย่างครบถ้วน เพื่อส่งระยะการวิ่ง/เดิน ส่งผลออนไลน์เป็นวิดีโอและภาพถ่าย สำหรับการสะสมระยะทางท่านสามารถใช้แอพพลิเคชั่นที่เก็บสะสมระยะทาง ที่แสดงระยะทาง ตำแหน่ง วัน เวลา สถานที่ และระบุตัวตนของท่าน เช่น Endomondo, Strava, Nike Run Club, Adidas Running App, Runkeeper, Google Fit, Pedometer, Pacer, Run with Map My Run, PUMATRAC เป็นต้น </li>
-                                        <li>ผลการเดิน/วิ่ง ต้องเป็นผลที่เกิดขึ้นหลังจากวันที่เริ่มแข่งขันแล้วเท่านั้น ผลการวิ่ง/เดิน ไม่สามารถตกแต่ง ดัดแปลง (หากตรวจพบการทุจริตทางฝ่ายจัดขอตัดสิทธิ์การเข้าร่วมการแข่งขัน)</li>
-                                        <li>ผลการตัดสินประเภทบุคคล คำนวณจาก ระยะทางเดิน/วิ่ง สะสมของแต่ละบุคคล เมื่อครบระยะทางสะสม 45 กิโลเมตร ได้รับเหรียญรางวัลเป็นที่ระลึก</li>
-                                        <li>ผลการตัดสินประเภททีม(ตามสังกัดโรงเรียนสาธิตฯที่สมัคร) คำนวณจาก ระยะทางเดิน/วิ่ง สะสมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ (คำนวณจากผลรวมระยะทางสะสมของแต่ละบุคคลในทีมนั้นๆ)</li>
-                                        <li>จัดส่งของรางวัลในช่วงเดือน พฤศจิกายน – ธันวาคม พ.ศ. 2565 </li>
-                                    </ol>
-                                </div>
+                            <p class="lh-base fw-bolder">กติกา : </p>
+                            <div class='input-group date'>
+                                <ol class="list-inside list-decimal">
+                                    <li>เมื่อสมัครร่วมกิจกรรม(ค่าสมัคร 450 บาท) ได้รับเสื้อเป็นที่ระลึก โดยสมัคร เดิน/วิ่ง สะสมระยะทางและส่งผลการเดิน/วิ่งผ่านลิงค์ที่กำหนด ผู้เข้าร่วมแข่งขันสามารถส่งผล เดิน/วิ่ง ย้อนหลังได้ไม่เกิน 3 วัน</li>
+                                    <li>การส่งผล เดิน/วิ่ง ตามหมายเลข e-BIB ของแต่ละท่านสามารถวิ่งหรือเดิน ในทุกที่ ทุกเวลา ในสนาม ทางเดินธรรมชาติหรือบนลู่วิ่งจับระยะทางด้วยนาฬิกา หรือแอพมือถือ แล้วแคปเจอร์หน้าจอ หรือถ่ายภาพแสดงผลลู่วิ่งไฟฟ้า ที่แสดงผลการวิ่งที่ระบุวัน ช่วงเวลา และระยะทางการเดินหรือวิ่งอย่างครบถ้วน เพื่อส่งระยะการวิ่ง/เดิน ส่งผลออนไลน์เป็นวิดีโอและภาพถ่าย สำหรับการสะสมระยะทางท่านสามารถใช้แอพพลิเคชั่นที่เก็บสะสมระยะทาง ที่แสดงระยะทาง ตำแหน่ง วัน เวลา สถานที่ และระบุตัวตนของท่าน เช่น Endomondo, Strava, Nike Run Club, Adidas Running App, Runkeeper, Google Fit, Pedometer, Pacer, Run with Map My Run, PUMATRAC เป็นต้น </li>
+                                    <li>ผลการเดิน/วิ่ง ต้องเป็นผลที่เกิดขึ้นหลังจากวันที่เริ่มแข่งขันแล้วเท่านั้น ผลการวิ่ง/เดิน ไม่สามารถตกแต่ง ดัดแปลง (หากตรวจพบการทุจริตทางฝ่ายจัดขอตัดสิทธิ์การเข้าร่วมการแข่งขัน)</li>
+                                    <li>ผลการตัดสินประเภทบุคคล คำนวณจาก ระยะทางเดิน/วิ่ง สะสมของแต่ละบุคคล เมื่อครบระยะทางสะสม 45 กิโลเมตร ได้รับเหรียญรางวัลเป็นที่ระลึก</li>
+                                    <li>ผลการตัดสินประเภททีม(ตามสังกัดโรงเรียนสาธิตฯที่สมัคร) คำนวณจาก ระยะทางเดิน/วิ่ง สะสมสูงสุด 3 อันดับแรก ยกเว้นเจ้าภาพ (คำนวณจากผลรวมระยะทางสะสมของแต่ละบุคคลในทีมนั้นๆ)</li>
+                                    <li>จัดส่งของรางวัลในช่วงเดือน พฤศจิกายน – ธันวาคม พ.ศ. 2565 </li>
+                                </ol>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -488,7 +493,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive-md">
-                            <table id="tableParticipants" class="table table-striped">
+                            <table id="tableParticipants" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>ชื่อ</th>
@@ -531,6 +536,82 @@
             </div>
         </div>
 
+        <!-- My Information -->
+        <div class="modal fade" id="modalMyInfo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalMyInfoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalMyInfoLabel">ข้อมูลส่วนตัว</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formMyInfo" name="formMyInfo" action="api.php?func=myinfo" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="myInfoAlert">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputAppEmail" class="form-label">อีเมล์</label>
+                                <input type="email" class="form-control" id="inputAppEmail" name="email" placeholder="ระบุอีเมล์" required>
+                            </div>
+                            <div class="col-md-6">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6" has-validation>
+                                <label for="inputAppFirstname" class="form-label">ชื่อ</label>
+                                <input type="text" class="form-control" id="inputAppFirstname" name="firstname" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <div class="invalid-feedback">
+                                    ชื่อ (a-z, A-Z, ก-ฮ)
+                                </div>
+                            </div>
+                            <div class="col-md-6" has-validation>
+                                <label for="inputAppLastname" class="form-label">นามสกุล</label>
+                                <input type="text" class="form-control" id="inputAppLastname" name="lastname" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <div class="invalid-feedback">
+                                    นามสกุล (a-z, A-Z, ก-ฮ)
+                                </div>
+                            </div>
+                            <div class="col-md-6" has-validation>
+                                <label for="inputAppIDCard" class="form-label">หมายเลขบัตรประชาชน</label>
+                                <input type="text" class="form-control" id="inputAppIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชนหรือหมายเลขพาสปอร์ต" pattern="[a-zA-Z0-9]{7,13}" required>
+                                <div id="idCardFeedback" class="invalid-feedback">
+                                    ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)
+                                </div>
+                            </div>
+                            <div class="col-md-6" has-validation>
+                                <label for="inputAppTel" class="form-label">เบอร์ติดต่อ</label>
+                                <input type="text" class="form-control" id="inputAppTel" name="tel" placeholder="ระบุเบอร์ติดต่อ" pattern="[0-9]{10,13}" required>
+                                <div class="invalid-feedback">
+                                    หมายเลขโทรศัพท์ไม่ถูกต้อง (10-13หลัก)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputAppAddress" class="form-label">ที่อยู่สำหรับจัดส่ง</label>
+                                <textarea class="form-control" id="inputAppAddress" name="address" rows="2" placeholder="ระบุที่อยู่สำหรับจัดส่ง" required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputShirtSize" class="form-label">ขนาดเสื้อ</label>
+                                <select id="inputShirtSize" name="shirtsize" class="form-select" aria-label="select ShirtSize" required>
+                                    <option></option>
+                                    <option value="2S">2S (รอบอก 34" ความยาว 25")</option>
+                                    <option value="S">S (รอบอก 36" ความยาว 26")</option>
+                                    <option value="M">M (รอบอก 38" ความยาว 27")</option>
+                                    <option value="L">L (รอบอก 40" ความยาว 28")</option>
+                                    <option value="XL">XL (รอบอก 42" ความยาว 29")</option>
+                                    <option value="2XL">2XL (รอบอก 44" ความยาว 30")</option>
+                                    <option value="3XL">3XL (รอบอก 46" ความยาว 31") </option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" >บันทึก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal Login -->
         <div class="modal fade" id="modalLogin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-lg-down modal-md">
@@ -568,6 +649,14 @@
                 </div>
             </div>
         </div>
+
+        <nav class="navbar fixed-bottom navbar-light bg-light">
+            <div class="container-fluid">
+                <div class="row">
+                    &nbsp;
+                </div>
+            </div>
+        </nav>
         
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script> -->
