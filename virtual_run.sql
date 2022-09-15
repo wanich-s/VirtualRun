@@ -78,6 +78,11 @@ CREATE TABLE Sender (
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
 
+CREATE TABLE Bib_Number_seq (
+    id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
 SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, 
 pd.payment_amount, pd.payment_slips
 FROM Users u 
@@ -85,6 +90,17 @@ INNER JOIN Participant p ON u.id = p.user_id
 INNER JOIN Activity a ON a.id = p.activity_id 
 LEFT JOIN PaymentDetails pd ON p.id = pd.customer_id 
 WHERE a.id = '1'
+
+DELIMITER $$
+
+CREATE TRIGGER trigger_name
+    AFTER INSERT
+    ON table_name FOR EACH ROW
+BEGIN
+    -- statements
+END$$
+
+DELIMITER ;
 
 ALTER TABLE PaymentDetails    
 MODIFY payment_slips MEDIUMBLOB;

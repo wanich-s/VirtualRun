@@ -37,10 +37,10 @@ function doRegister() {
     global $mysqli, $function;
 
     // Insert Users
-    $sql = "INSERT INTO Users (user_name, password, first_name, last_name, email, id_card, tel, address, shirt_size, school, career)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO Users (user_name, password, first_name, last_name, email, id_card, tel, address, shirt_size, school, career, pick_up_place)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $mysqli -> prepare($sql);
-    $stmt -> bind_param('sssssssssss', $username, $password, $firstname, $lastname, $email, $idcard, $tel, $address, $shirtsize, $school, $career);
+    $stmt -> bind_param('ssssssssssss', $username, $password, $firstname, $lastname, $email, $idcard, $tel, $address, $shirtsize, $school, $career, $pick_up_place);
     
     $username = htmlspecialchars($_REQUEST['username']);
     $password = md5(htmlspecialchars($_REQUEST['password']));
@@ -53,6 +53,7 @@ function doRegister() {
     $shirtsize = htmlspecialchars($_REQUEST['shirtsize']);
     $career = empty($_REQUEST['career']) ? '0' : htmlspecialchars($_REQUEST['career']);
     $school = empty($_REQUEST['school']) ? '0' : htmlspecialchars($_REQUEST['school']);
+    $pick_up_place = htmlspecialchars($_REQUEST['pickUpPlace']);
     $activity_id = htmlspecialchars($_REQUEST['activity']);
 
     $stmt -> execute();    

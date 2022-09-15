@@ -191,7 +191,7 @@ $( document ).ready(function() {
             $('#collapseCareer').show();
             $( "input[name*='career']" ).attr("required", "true");
             $( "#selectSchool" ).attr("required", "true");
-        }else{
+        } else {
             $('#collapseCareer').hide();
             $( "input[name*='career']" ).removeAttr("required");
             $( "#selectSchool" ).removeAttr("required");
@@ -200,15 +200,25 @@ $( document ).ready(function() {
         }
     });
 
+    $( "#selectSchool" ).on('change', function(e) {
+        if($(this).val() == '9') {
+            $('#pick-up-place').show();
+            $( "input[name*='pickUpPlace']" ).attr("required", "true");
+        } else {
+            $('#pick-up-place').hide();
+            $( "input[name*='pickUpPlace']" ).removeAttr("required");
+        }
+    });
+
     $('#fileActivityImage').on('change', function(e) {
         const files = this.files
         if(files.length > 3 || files.length <= 0) {
             this.setCustomValidity('error');
             return;
-        }else {
+        } else {
             this.setCustomValidity('');
         }
-        if (files) {
+        if(files) {
             $('#previewActivityImage').html('');
             $.each(files, function(key, file) {
                 let src = URL.createObjectURL(file)
@@ -225,7 +235,7 @@ $( document ).ready(function() {
         // }else {
         //     this.setCustomValidity('');
         // }
-        if (files) {
+        if(files) {
             $('#previewPaymentSlips').html('');
             $.each(files, function(key, file) {
                 let src = URL.createObjectURL(file)
@@ -248,7 +258,7 @@ $( document ).ready(function() {
             hour.prop('required',true);
             minute.prop('required',true);
             second.prop('required',true);
-        }else {
+        } else {
             hour.prop('required',false);
             minute.prop('required',false);
             second.prop('required',false);
@@ -314,6 +324,8 @@ if(modalApplication) {
         const form = $('#formApplication');
         form.trigger("reset");
         form.removeClass('was-validated');
+        $('#pick-up-place').hide();
+        $( "input[name*='pickUpPlace']" ).attr("required", "true");
         $(":submit").prop('disabled', false);
     });
 }
@@ -372,6 +384,7 @@ if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
         manageParticipants((data) => {
             if(data.status) {
+                $('#tableParticipants').DataTable();
                 $('#tableParticipants > tbody').html('');
                 // var data = [
                 //     {
@@ -408,8 +421,9 @@ if(modalManageApplicantEl) {
                         <!-- <td>${value['tel']}</td> -->
                         <!-- <td>${value['shirt_size']}</td> -->
                         <td>${value['payment_slips']}</td>
-                        <!-- <td>${value['bib_number']}</td> -->
-                    </tr>`);    
+                        <td>${value['status']}</td>
+                        <td>${value['bib_number']}</td>
+                    </tr>`);
                 });
             }
         });
