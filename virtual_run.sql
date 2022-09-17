@@ -39,7 +39,7 @@ CREATE TABLE Participant (
     id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     certificate_no VARCHAR(20),
     bib_number VARCHAR(20),
-    application_date DATE,    
+    application_date DATE,
     activity_id INT(8) UNSIGNED NOT NULL,
     user_id INT(8) UNSIGNED NOT NULL,
     FOREIGN KEY (activity_id) REFERENCES Activity(id) ON DELETE CASCADE,

@@ -3,8 +3,6 @@ var _modal = null;
 $( document ).ready(function() {    
     // Login state
     loginState(userMenu);
-    // DataTable
-    var table = $('#example').DataTable();
     // DatePicker
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -109,12 +107,12 @@ $( document ).ready(function() {
                 ],
         }]
     };
-    var modalResultAll = document.getElementById('myChart');
-    var myChart = new Chart(modalResultAll, {
-        type : 'bar',
-        data : data1,
-        options: options
-    });
+    // var modalResultAll = document.getElementById('myChart');
+    // var myChart = new Chart(modalResultAll, {
+    //     type : 'bar',
+    //     data : data1,
+    //     options: options
+    // });
     /* ******** Ex Chart doughnut ************ */
     // var data2 = {
     //     labels : ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"],
@@ -384,7 +382,7 @@ if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
         manageParticipants((data) => {
             if(data.status) {
-                $('#tableParticipants').DataTable();
+                // $('#tableParticipants').DataTable();
                 $('#tableParticipants > tbody').html('');
                 // var data = [
                 //     {
@@ -415,14 +413,19 @@ if(modalManageApplicantEl) {
 
                 // $('#tableParticipants > tbody').html('');
                 $.each(data.participates, function(key, value) {
-                    $('#tableParticipants > tbody').append(`<tr style="line-height: 25px;">
-                        <td>${value['first_name']}</td>
-                        <td>${value['last_name']}</td>
-                        <!-- <td>${value['tel']}</td> -->
-                        <!-- <td>${value['shirt_size']}</td> -->
-                        <td>${value['payment_slips']}</td>
-                        <td>${value['status']}</td>
-                        <td>${value['bib_number']}</td>
+                    $('#tableParticipants > tbody').append(`<tr data-participant="${value['participant_id']}" style="line-height: 25px;">
+                        <td class="text-center">${value['row_number']}</td>
+                        <td>${value['first_name']}&nbsp;&nbsp;${value['last_name']}</td>
+                        <td class="text-center">${value['tel']}</td>
+                        <td class="text-center">${value['shirt_size']}</td>
+                        <td class="text-center">${value['payment_id']}</td>
+                        <td class="text-center">${(value['bib_number']) ? value['bib_number'] : ''}</td>
+                        <td><select class="form-select" aria-label="" style="min-width: 135px;">
+                            <option selected></option>
+                            <option value="1">ชำระเงินแล้ว</option>
+                        </select></td>
+                        <td>${(value['pick_up_place']) ? value['pick_up_place'] : ''}</td>
+                        <td><div style="text-align: center;"><i class="fa-2x fa-solid fa-print"></i></div></td>
                     </tr>`);
                 });
             }
@@ -455,7 +458,7 @@ function manageParticipants(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
-        data: { func: "manageParticipant" },
+        data: { func: "manageParticipant", activity: "1" },
         async: false,
         cache: false,
         contentType: false,

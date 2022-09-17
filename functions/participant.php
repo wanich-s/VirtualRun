@@ -52,7 +52,7 @@ function doRegister() {
     $address = htmlspecialchars($_REQUEST['address']);
     $shirtsize = htmlspecialchars($_REQUEST['shirtsize']);
     $career = empty($_REQUEST['career']) ? '0' : htmlspecialchars($_REQUEST['career']);
-    $school = empty($_REQUEST['school']) ? '0' : htmlspecialchars($_REQUEST['school']);
+    $school = empty($_REQUEST['school']) ? '99' : htmlspecialchars($_REQUEST['school']);
     $pick_up_place = htmlspecialchars($_REQUEST['pickUpPlace']);
     $activity_id = htmlspecialchars($_REQUEST['activity']);
 

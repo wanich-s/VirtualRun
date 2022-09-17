@@ -19,19 +19,27 @@ switch ($_SERVER['REQUEST_METHOD']) {
 function getParticipantAll() {
     global $mysqli, $function;
 
-    $sql = "SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, pd.payment_slips 
+    $activity_id = htmlspecialchars($_REQUEST['activity']);
+
+    $sql = "SELECT p.id AS participant_id, u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, u.pick_up_place, p.bib_number, p.status, GROUP_CONCAT(pd.id SEPARATOR ',') as payment_id
     FROM Users u 
     INNER JOIN Participant p ON u.id = p.user_id 
     INNER JOIN Activity a ON a.id = p.activity_id 
     LEFT JOIN PaymentDetails pd ON p.id = pd.customer_id 
-    WHERE a.id = '1';";
+    WHERE a.id = '$activity_id' 
+    GROUP BY p.id 
+    ORDER BY p.bib_number IS NULL, p.bib_number ASC, p.id;";
     
-    $participates;
-
+    $participates = array(); 
+    $row_number = 1;
     if ($result = $mysqli -> query($sql)) {
         while ($row = $result -> fetch_assoc()) {
-            $row['payment_slips'] = blobToImage($row['payment_slips']);
-            // $participates[] = array('firstname' => $row['first_name'], 'lastname' => $row['last_name']);
+            // $row['payment_slips'] = blobToImage($row['payment_slips']);
+            // $payment_slips = array();
+            // $payment_slips = explode("[]", $row['slips']);
+            // $row['slips'] = blobToImage($payment_slips);
+            // $row['payment_slips'] = array_map('blobToImage', $payment_slips);
+            $row['row_number'] = $row_number++;
             $participates[] = $row;
         }
         $result -> free_result();
