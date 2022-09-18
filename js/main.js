@@ -270,11 +270,21 @@ $( document ).ready(function() {
         logOut();
     });
 
-    $('#inputAppIDCard').on('keyup', function(e) {
-        const IDCard = this.value;
-        if(IDCard.length >= 7 && IDCard.length <= 13) {
-            checkIDCard(this);
-        }
+    $("input[name*='id_card']").on('keyup', function(e) {
+        const input = this;
+        checkIDCard(input, function(data) {
+            if(data.status) {
+                input.setCustomValidity('');
+            } else {
+                if(data.message) {
+                    $('.check-idcard-feedback').html(data.message);
+                    input.setCustomValidity('Error!');
+                } else {
+                    $('.check-idcard-feedback').html('ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)');
+                    input.setCustomValidity('Error!');
+                }
+            }
+        });
     });
 
     $('#liActivityLog > a').on('click', function(e) {
@@ -347,6 +357,20 @@ if(modalManageSenderEl) {
         $(":submit").prop('disabled', false);
     });
     var modalManageSender = bootstrap.Modal.getOrCreateInstance(modalManageSenderEl);
+}
+
+// modalMyInfo
+var modalMyInfoEl = document.querySelector('#modalMyInfo');
+if(modalMyInfoEl) {
+    modalMyInfoEl.addEventListener('show.bs.modal', function (event) {
+        const form = $('#formMyInfo');
+         form.trigger("reset");
+         form.removeClass('was-validated');
+        ajaxAPI('GET', { func: 'myinfo', _method: 'get' }, function(data) {
+            const form = document.getElementById('formMyInfo');
+            mapFormElements(form, data.myinfo);
+        });
+    });
 }
 
 // modalActivityLog
@@ -496,31 +520,26 @@ function getActivity() {
     });
 }
 
-function checkIDCard(input) {
-    $.ajax({
-        method: "POST",
-        url: "api.php",
-        data: { func: "checkIDCard", idcard: input.value },
-    }).done(function( res ) {
-        try {
-            let idcard = JSON.parse(res);
-            if(idcard.status) {
-                input.setCustomValidity('');
-            } else {
-                if(idcard.message) {
-                    $('#idCardFeedback').html(idcard.message);
-                    input.setCustomValidity('Error!');
-                } else {
-                    $('#idCardFeedback').html('ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)');
-                    input.setCustomValidity('Error!');
-                }                
+function checkIDCard(input, callback) {
+    const value = input.value;
+    if(value.length >= 7 && value.length <= 13) {
+        $.ajax({
+            method: "POST",
+            url: "api.php",
+            data: { func: "checkIDCard", _method: 'post', id_card: value },
+        }).done(function( res ) {
+            try {
+                let data = JSON.parse(res);
+                callback(data);
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
-        }
-    }).fail(function(res) {
-        console.log(res);
-    });
+        }).fail(function(res) {
+            console.log(res);
+        });
+    } else {
+        callback({ status: false });
+    }
 }
 
 function logOut() {
@@ -597,6 +616,40 @@ function SenderState() {
     }).fail(function(res) {
         console.log(res);
     });
+}
+
+function ajaxAPI(method, data, callback) {
+    $.ajax({
+        method: method,
+        url: "api.php",
+        data: data,
+        async: false,
+        cache: false,
+        contentType: false,
+        timeout: 60000,
+    }).done(function( res ) {
+        try {
+            let data = JSON.parse(res);
+            if(data.status) {
+                callback(data);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function mapFormElements(form, data) {
+    try {
+        const inputs = Array.from(form.elements);
+        inputs.map((el) => {
+            el.value = data[el.name];
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function getParticipant(callback) {
@@ -716,6 +769,20 @@ function afterSubmit(form, data) {
                     $('#loginAlert').html('');
                 }, timeout);
             }            
+            $(":submit").prop('disabled', false);
+            break;
+        case 'myinfo':
+            if(data.status) {
+                $('#myInfoAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                setTimeout(() => {
+                    $('#myInfoAlert').html('');
+                }, timeout);
+            } else {
+                $('#myInfoAlert').html(alert('เกิดข้อผิดพลาด', 'danger'));
+                setTimeout(() => {
+                    $('#myInfoAlert').html('');
+                }, timeout);
+            }
             $(":submit").prop('disabled', false);
             break;
         case 'register':

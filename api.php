@@ -15,7 +15,7 @@
 
         switch ($function) {
             case 'checkIDCard':
-                $id_card = htmlspecialchars($_REQUEST['idcard']);
+                $id_card = htmlspecialchars($_REQUEST['id_card']);
                 if((strlen($id_card) < 7 || strlen($id_card) > 9) && strlen($id_card) != 13) {
                     echo json_encode(array('func' => $function, 'status' => false, 'msg' => 'เลขบัตรประชาชนไม่ถูกต้อง'));
                     break;
@@ -31,6 +31,9 @@
             case 'register':
                 include 'functions/participant.php';
                 break;
+            case 'myinfo':
+                include 'functions/user.php';
+                break;    
             case 'login':
                 include 'functions/user.php';
                 break;
@@ -39,9 +42,6 @@
                 break;
             case 'activityLog':
                 include 'functions/activityLog.php';
-                break;
-            case 'uploadFile':
-                include 'functions/uploadFile.php';
                 break;
             case 'sender':
                 include 'functions/sender.php';

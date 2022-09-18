@@ -40,20 +40,20 @@ function doRegister() {
     $sql = "INSERT INTO Users (user_name, password, first_name, last_name, email, id_card, tel, address, shirt_size, school, career, pick_up_place)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $mysqli -> prepare($sql);
-    $stmt -> bind_param('ssssssssssss', $username, $password, $firstname, $lastname, $email, $idcard, $tel, $address, $shirtsize, $school, $career, $pick_up_place);
+    $stmt -> bind_param('ssssssssssss', $user_name, $password, $first_name, $last_name, $email, $id_card, $tel, $address, $shirt_size, $school, $career, $pick_up_place);
     
-    $username = htmlspecialchars($_REQUEST['username']);
+    $user_name = htmlspecialchars($_REQUEST['user_name']);
     $password = md5(htmlspecialchars($_REQUEST['password']));
     $email = htmlspecialchars($_REQUEST['email']);
-    $firstname = htmlspecialchars($_REQUEST['firstname']);
-    $lastname = htmlspecialchars($_REQUEST['lastname']);
-    $idcard = htmlspecialchars($_REQUEST['idcard']);
+    $first_name = htmlspecialchars($_REQUEST['first_name']);
+    $last_name = htmlspecialchars($_REQUEST['last_name']);
+    $id_card = htmlspecialchars($_REQUEST['id_card']);
     $tel = htmlspecialchars($_REQUEST['tel']);
     $address = htmlspecialchars($_REQUEST['address']);
-    $shirtsize = htmlspecialchars($_REQUEST['shirtsize']);
+    $shirt_size = htmlspecialchars($_REQUEST['shirt_size']);
     $career = empty($_REQUEST['career']) ? '0' : htmlspecialchars($_REQUEST['career']);
     $school = empty($_REQUEST['school']) ? '99' : htmlspecialchars($_REQUEST['school']);
-    $pick_up_place = htmlspecialchars($_REQUEST['pickUpPlace']);
+    $pick_up_place = htmlspecialchars($_REQUEST['pick_up_place']);
     $activity_id = htmlspecialchars($_REQUEST['activity']);
 
     $stmt -> execute();    
@@ -71,7 +71,7 @@ function doRegister() {
 
     if($user_id) {
         logged($user_id, $username);
-        echo json_encode(array('func' => $function, 'status' => true, 'logged' => true, 'username' => $username));
+        echo json_encode(array('func' => $function, 'status' => true, 'logged' => true, 'username' => $user_name));
         exit(0);
     }
     echo json_encode(array('func' => $function, 'status' => false, 'logged' => false));

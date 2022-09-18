@@ -90,7 +90,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formApplication" name="formApplication" action="api.php?func=register&activity=1" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formApplication" name="formApplication" action="api.php?func=register&_method=post&activity=1" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="col-md-8 offset-md-2">
                                 <div id="applicationAlert">
                                     <!-- alert message -->
@@ -150,7 +150,7 @@
                                     </div>
                                     <div id="pick-up-place" class="mb-2 mt-2" style="display: none;">
                                         <label class="form-label">กรุณาเลือกช่องทางรับเสื้อ</label>
-                                        <select name="pickUpPlace" class="form-select" aria-label="" required>
+                                        <select name="pick_up_place" class="form-select" aria-label="" required>
                                             <option></option>
                                             <option value="รับที่โรงเรียน">รับที่ โรงเรียนสาธิต “พิบูลบําเพ็ญ” มหาวิทยาลัยบูรพา</option>
                                             <option value="จัดส่งทางไปรษณีย์">จัดส่งทางไปรษณีย์</option>
@@ -166,7 +166,7 @@
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppUsername" class="form-label">ชื่อผู้ใช้</label>
-                                <input type="text" class="form-control" id="inputAppUsername" name="username" pattern="[a-zA-Z0-9]{6,64}" placeholder="ระบุชื่อผู้ใช้" maxlength="64" required>
+                                <input type="text" class="form-control" id="inputAppUsername" name="user_name" pattern="[a-zA-Z0-9]{6,64}" placeholder="ระบุชื่อผู้ใช้" maxlength="64" required>
                                 <div class="invalid-feedback">
                                     ชื่อผู้ใช้ a-z, A-Z, 0-9 อย่างน้อย 6 ตัวอักษร
                                 </div>
@@ -184,22 +184,22 @@
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppFirstname" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control" id="inputAppFirstname" name="firstname" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <input type="text" class="form-control" id="inputAppFirstname" name="first_name" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
                                 <div class="invalid-feedback">
                                     ชื่อ (a-z, A-Z, ก-ฮ)
                                 </div>
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppLastname" class="form-label">นามสกุล</label>
-                                <input type="text" class="form-control" id="inputAppLastname" name="lastname" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <input type="text" class="form-control" id="inputAppLastname" name="last_name" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
                                 <div class="invalid-feedback">
                                     นามสกุล (a-z, A-Z, ก-ฮ)
                                 </div>
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppIDCard" class="form-label">หมายเลขบัตรประชาชน</label>
-                                <input type="text" class="form-control" id="inputAppIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชนหรือหมายเลขพาสปอร์ต" pattern="[a-zA-Z0-9]{7,13}" required>
-                                <div id="idCardFeedback" class="invalid-feedback">
+                                <input type="text" class="form-control" id="inputAppIDCard" name="id_card" placeholder="ระบุหมายเลขบัตรประชาชนหรือหมายเลขพาสปอร์ต" pattern="[a-zA-Z0-9]{7,13}" required>
+                                <div id="idCardFeedback" class="invalid-feedback check-idcard-feedback">
                                     ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)
                                 </div>
                             </div>
@@ -216,7 +216,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="inputShirtSize" class="form-label">ขนาดเสื้อ</label>
-                                <select id="inputShirtSize" name="shirtsize" class="form-select" aria-label="select ShirtSize" required>
+                                <select id="inputShirtSize" name="shirt_size" class="form-select" aria-label="select ShirtSize" required>
                                     <option></option>
                                     <option disabled>---เสื้อเด็ก---</option>
                                     <option value="เด็กS">เสื้อเด็ก S (รอบอก 24" ความยาว 16")</option>
@@ -253,7 +253,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formManageSender" name="formSender" action="api.php?func=sender" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formManageSender" name="formSender" action="api.php?func=sender&_method=post" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="col-md-12">
                                 <label for="inputSenderAddress" class="form-label">ที่อยู่สำหรับผู้จัดส่ง</label>
                                 <textarea class="form-control" id="inputSenderAddress" data-senderid="" name="address" rows="2" placeholder="ระบุที่อยู่สำหรับผู้จัดส่ง" required></textarea>
@@ -293,7 +293,7 @@
                     <h5 class="modal-title" id="modalActivityLogLabel">ส่งผลการทำกิจกรรม</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog" method="POST" class="needs-validation" autocomplete="off" novalidate>
+                    <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog&_method=post" method="POST" class="needs-validation" autocomplete="off" novalidate>
                         <div class="modal-body">
                             <div class="row g-3">
                                 <div class="col-md-8 offset-md-2">
@@ -427,7 +427,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formPaymentDetails" name="formPaymentDetails" action="api.php?func=paymentDetails" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formPaymentDetails" name="formPaymentDetails" action="api.php?func=paymentDetails&_method=post" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="col-md-8 offset-md-2">
                                 <div id="paymentDetailsAlert">
                                     <!-- alert message -->
@@ -564,7 +564,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formMyInfo" name="formMyInfo" action="api.php?func=myinfo" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formMyInfo" name="formMyInfo" action="api.php?func=myinfo&_method=put" method="post" class="row g-3 needs-validation" autocomplete="on" novalidate>
                             <div class="col-md-8 offset-md-2">
                                 <div id="myInfoAlert">
                                     <!-- alert message -->
@@ -579,22 +579,22 @@
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputMyInfoFirstname" class="form-label">ชื่อ</label>
-                                <input type="text" class="form-control" id="inputMyInfoFirstname" name="firstname" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <input type="text" class="form-control" id="inputMyInfoFirstname" name="first_name" placeholder="ระบุชื่อ" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
                                 <div class="invalid-feedback">
                                     ชื่อ (a-z, A-Z, ก-ฮ)
                                 </div>
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputMyInfoLastname" class="form-label">นามสกุล</label>
-                                <input type="text" class="form-control" id="inputMyInfoLastname" name="lastname" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
+                                <input type="text" class="form-control" id="inputMyInfoLastname" name="last_name" placeholder="ระบุนามสกุล" pattern="[a-zA-Zก-๙]+$" maxlength="60" required>
                                 <div class="invalid-feedback">
                                     นามสกุล (a-z, A-Z, ก-ฮ)
                                 </div>
                             </div>
                             <div class="col-md-6" has-validation>
                                 <label for="inputMyInfoIDCard" class="form-label">หมายเลขบัตรประชาชน</label>
-                                <input type="text" class="form-control" id="inputMyInfoIDCard" name="idcard" placeholder="ระบุหมายเลขบัตรประชาชนหรือหมายเลขพาสปอร์ต" pattern="[a-zA-Z0-9]{7,13}" required>
-                                <div id="idCardFeedback" class="invalid-feedback">
+                                <input type="text" class="form-control" id="inputMyInfoIDCard" name="id_card" placeholder="ระบุหมายเลขบัตรประชาชนหรือหมายเลขพาสปอร์ต" pattern="[a-zA-Z0-9]{7,13}" required>
+                                <div id="idCardFeedback" class="invalid-feedback check-idcard-feedback">
                                     ระบุเลขบัตรประชาชน (13หลัก) หรือเลขพาสปอร์ต (7-9หลัก)
                                 </div>
                             </div>
@@ -611,7 +611,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="inputMyInfoShirtSize" class="form-label">ขนาดเสื้อ</label>
-                                <select id="inputMyInfoShirtSize" name="shirtsize" class="form-select" aria-label="select ShirtSize" required>
+                                <select id="inputMyInfoShirtSize" name="shirt_size" class="form-select" aria-label="select ShirtSize" disabled required>
                                     <option disabled>---เสื้อเด็ก---</option>
                                     <option value="เด็กS">เสื้อเด็ก S (รอบอก 24" ความยาว 16")</option>
                                     <option value="เด็กM">เสื้อเด็ก M (รอบอก 28" ความยาว 18")</option>
@@ -647,7 +647,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formLogin" name="formLogin" action="api.php?func=login" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                        <form id="formLogin" name="formLogin" action="api.php?func=login&_method=post" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
                             <div class="col-md-8 offset-md-2">
                                 <div id="loginAlert">
                                     <!-- alert message -->
