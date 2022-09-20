@@ -26,7 +26,7 @@ $( document ).ready(function() {
         maxView: 4,
         autoclose: true,
         todayBtn:true
-    });
+    });    
 
     //modalResultAll
     var options = {
@@ -206,7 +206,7 @@ $( document ).ready(function() {
             $('#pick-up-place').hide();
             $( "input[name*='pickUpPlace']" ).removeAttr("required");
         }
-    });
+    });    
 
     $('#fileActivityImage').on('change', function(e) {
         const files = this.files
@@ -219,24 +219,18 @@ $( document ).ready(function() {
         if(files) {
             $('#previewActivityImage').html('');
             $.each(files, function(key, file) {
-                let src = URL.createObjectURL(file)
+                let src = URL.createObjectURL(file);
                 $('#previewActivityImage').append(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
             });            
         }
     });
 
     $('#filePaymentslips').on('change', function(e) {
-        const files = this.files
-        // if(files.length > 3 || files.length <= 0) {
-        //     this.setCustomValidity('error');
-        //     return;
-        // }else {
-        //     this.setCustomValidity('');
-        // }
+        const files = this.files;
         if(files) {
             $('#previewPaymentSlips').html('');
             $.each(files, function(key, file) {
-                let src = URL.createObjectURL(file)
+                let src = URL.createObjectURL(file);
                 $('#previewPaymentSlips').append(`<img src="${src}" class="img-thumbnail" alt="" style="max-height: 150px;">`);
             });
         }
@@ -441,13 +435,13 @@ if(modalManageApplicantEl) {
                         <td class="text-center">${value['row_number']}</td>
                         <td>${value['first_name']}&nbsp;&nbsp;${value['last_name']}</td>
                         <td class="text-center">${value['tel']}</td>
+                        <td class="text-center">${ (value['payment_id']) ? value['payment_id'] : '' }</td>
+                        <td class="text-center bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
+                        <td> ${ (value['payment_id']) ? ('<select class="form-select participant-status" aria-label="" style="min-width: 135px;">' +
+                         ((value['status'] == '1') ? '<option selected value="1">ชำระเงินแล้ว</option>' : '<option selected></option><option value="1">ชำระเงินแล้ว</option>') +
+                        '</select>') : '' }
+                        </td>
                         <td class="text-center">${value['shirt_size']}</td>
-                        <td class="text-center">${value['payment_id']}</td>
-                        <td class="text-center">${(value['bib_number']) ? value['bib_number'] : ''}</td>
-                        <td><select class="form-select" aria-label="" style="min-width: 135px;">
-                            <option selected></option>
-                            <option value="1">ชำระเงินแล้ว</option>
-                        </select></td>
                         <td>${(value['pick_up_place']) ? value['pick_up_place'] : ''}</td>
                         <td><div style="text-align: center;"><i class="fa-2x fa-solid fa-print"></i></div></td>
                     </tr>`);
@@ -482,7 +476,7 @@ function manageParticipants(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
-        data: { func: "manageParticipant", activity: "1" },
+        data: { func: "manageParticipant", _method: 'get', activity: "1" },
         async: false,
         cache: false,
         contentType: false,
@@ -625,7 +619,6 @@ function ajaxAPI(method, data, callback) {
         data: data,
         async: false,
         cache: false,
-        contentType: false,
         timeout: 60000,
     }).done(function( res ) {
         try {
@@ -866,25 +859,38 @@ function submitForm(form, callback) {
 }
 
 (function() {
-  'use strict';
-  window.addEventListener('load', function() {
+    'use strict';
+    window.addEventListener('load', function() {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     var forms = document.getElementsByClassName('needs-validation');
     // Loop over them and prevent submission
     var validation = Array.prototype.filter.call(forms, function(form) {
-      form.addEventListener('submit', function(event) {
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }  else {
-            $(":submit").prop('disabled', true);
-            submitForm(form, function(data) {
-                afterSubmit(form, data);
-            });
-            event.preventDefault();
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }  else {
+                    $(":submit").prop('disabled', true);
+                    submitForm(form, function(data) {
+                        afterSubmit(form, data);
+                    });
+                    event.preventDefault();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+
+    document.addEventListener('change', (event) => {
+        if (event.target.classList.contains('participant-status')) {
+            const value = $(event.target).val();
+            const participant_id = $(event.target.closest('tr')).data('participant');
+            const reqData = { func: 'getBibNumber', _method: 'post', activity: '1', participant: participant_id, status: value };
+            if(value) {
+                ajaxAPI('post', reqData, function(data) {
+                    $(event.target.closest('tr')).closest('tr').find('td.bib-number').html(data.bib_number);
+                });
+            }
         }
-        form.classList.add('was-validated');
-      }, false);
-    });
-  }, false);
+    }, false);
 })();

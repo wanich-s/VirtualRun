@@ -80,8 +80,12 @@ CREATE TABLE Sender (
 
 CREATE TABLE Bib_Number_seq (
     id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    activity_id INT(8) UNSIGNED NOT NULL,
+    FOREIGN KEY (activity_id) REFERENCES Activity(id) ON DELETE CASCADE,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )
+
+ALTER TABLE Bib_Number_seq AUTO_INCREMENT = 1;
 
 SELECT u.first_name, u.last_name, u.id_card, u.email, u.tel, u.address, u.shirt_size, u.career, u.school, 
 pd.payment_amount, pd.payment_slips

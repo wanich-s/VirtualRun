@@ -28,6 +28,9 @@
             case 'manageParticipant':
                 include 'functions/manageParticipant.php';
                 break;
+            case 'getBibNumber':
+                include 'functions/manageParticipant.php';
+                break;
             case 'register':
                 include 'functions/participant.php';
                 break;
