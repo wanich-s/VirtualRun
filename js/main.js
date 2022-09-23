@@ -1,4 +1,5 @@
 var _modal = null; 
+var _participant = null;
 
 $( document ).ready(function() {    
     // Login state
@@ -6,8 +7,8 @@ $( document ).ready(function() {
     // DatePicker
     var date = new Date();
     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    
+    var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());    
+
     $('#activitydate').datepicker({
         format: "dd-mm-yyyy",
         todayHighlight: true,
@@ -154,35 +155,8 @@ $( document ).ready(function() {
     //     data : data2,
     // });
 
-    // $('#btnParticipate').on('click', (e) => {
-    //     $.ajax({
-    //         method: "GET",
-    //         url: "api.php",
-    //         data: { activity: "1", func: "participate" },
-    //     }).done(function( res ) {
-    //         try {
-    //             let user = JSON.parse(res);
-    //             if(user.logged) {
-    //                 showApplication(user);
-    //                 modalApplication.show();
-    //             }else{
-    //                 modalLogin.show();
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }).fail(function( res ) {
-    //         console.log(res);
-    //     });
-    // });
-
-    // function showApplication(user) {
-    //     $('#inputAppEmail').val(user.userinfo['email']);
-    //     $('#inputAppFirstname').val(user.userinfo['first_name']);
-    //     $('#inputAppLastname').val(user.userinfo['last_name']);
-    //     $('#inputAppIDCard').val(user.userinfo['id_card']);
-    //     $('#inputAppTel').val(user.userinfo['tel']);
-    // }
+    // Enable tooltips everywhere
+    $('[data-toggle="tooltip"]').tooltip();
 
     $( "input[name*='beAMemberWith']" ).on('change', (e) => {
         if($('#flexRadio1').is(":checked")) {
@@ -297,7 +271,7 @@ $( document ).ready(function() {
         _modal = null;
         loginState(showModal, modalPaymentDetails);
         e.preventDefault();
-    });
+    });    
 
     $( window ).on('focus', function(e) {
         loginState(userMenu);
@@ -400,55 +374,41 @@ if(modalManageApplicantEl) {
     modalManageApplicantEl.addEventListener('show.bs.modal', function (event) {
         manageParticipants((data) => {
             if(data.status) {
-                // $('#tableParticipants').DataTable();
                 $('#tableParticipants > tbody').html('');
-                // var data = [
-                //     {
-                //         "name":       "Tiger Nixon",
-                //         "position":   "System Architect",
-                //         "salary":     "$3,120",
-                //         "start_date": "2011/04/25",
-                //         "office":     "Edinburgh",
-                //         "extn":       "5421"
-                //     },
-                //     {
-                //         "name":       "Garrett Winters",
-                //         "position":   "Director",
-                //         "salary":     "$5,300",
-                //         "start_date": "2011/07/25",
-                //         "office":     "Edinburgh",
-                //         "extn":       "8422"
-                //     }
-                // ]
-
-                // $('#tableParticipants').DataTable( {
-                //     data: data.participants,
-                //     columns: [
-                //         { data: 'name' },
-                //         { data: 'position' }
-                //     ]
-                // } );
-
-                // $('#tableParticipants > tbody').html('');
                 $.each(data.participates, function(key, value) {
-                    $('#tableParticipants > tbody').append(`<tr data-participant="${value['participant_id']}" style="line-height: 25px;">
-                        <td class="text-center">${value['row_number']}</td>
-                        <td>${value['first_name']}&nbsp;&nbsp;${value['last_name']}</td>
-                        <td class="text-center">${value['tel']}</td>
-                        <td class="text-center">${ (value['payment_id']) ? value['payment_id'] : '' }</td>
-                        <td class="text-center bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
+                    $('#tableParticipants > tbody').append(`<tr data-participant="${ value['participant_id'] }" style="line-height: 25px;">
+                        <td class="text-center align-middle">${ value['row_number'] }</td>
+                        <td class="align-middle">${ value['first_name'] }&nbsp;&nbsp;${ value['last_name'] }</td>
+                        <td class="text-center align-middle">${ value['tel'] }</td>
+                        <td class="text-center">${ (value['payment_id']) ? '<a tabindex="0" class="btn" role="button" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-title="หลักฐานการชำระเงิน" data-bs-content="..."><i class="view-slips fa-sharp fa-solid fa-file-invoice fa-2x"></i></a>' : '' }</td>
+                        <td class="text-center align-middle bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
                         <td> ${ (value['payment_id']) ? ('<select class="form-select participant-status" aria-label="" style="min-width: 135px;">' +
                          ((value['status'] == '1') ? '<option selected value="1">ชำระเงินแล้ว</option>' : '<option selected></option><option value="1">ชำระเงินแล้ว</option>') +
                         '</select>') : '' }
                         </td>
-                        <td class="text-center">${value['shirt_size']}</td>
-                        <td>${(value['pick_up_place']) ? value['pick_up_place'] : ''}</td>
+                        <td class="text-center align-middle">${ value['shirt_size'] }</td>
+                        <td class="align-middle">${ (value['pick_up_place']) ? value['pick_up_place'] : '' }</td>
                         <td><div style="text-align: center;"><i class="fa-2x fa-solid fa-print"></i></div></td>
                     </tr>`);
                 });
             }
         });
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
         $(":submit").prop('disabled', false);
+    });
+}
+
+// modalPreviewSlips
+var modalPreviewSlipsEl = document.querySelector('#modalPreviewSlips');
+if(modalPreviewSlipsEl) {
+    modalPreviewSlipsEl.addEventListener('show.bs.modal', function (event) {
+        console.log(_participant);
+        // $('#previewPaymentSlips').html('');
+        // getParticipant((data) => {
+        //     $('#customer').val(`${data.participant['participant_id']}`);
+        // });
+        // $(":submit").prop('disabled', false);
     });
 }
 
@@ -883,14 +843,37 @@ function submitForm(form, callback) {
 
     document.addEventListener('change', (event) => {
         if (event.target.classList.contains('participant-status')) {
-            const value = $(event.target).val();
-            const participant_id = $(event.target.closest('tr')).data('participant');
-            const reqData = { func: 'getBibNumber', _method: 'post', activity: '1', participant: participant_id, status: value };
+            const value = $(event.target).val();            
             if(value) {
+                const participant_id = $(event.target.closest('tr')).data('participant');
+                const reqData = { func: 'getBibNumber', _method: 'patch', activity: '1', participant: participant_id, status: value };
                 ajaxAPI('post', reqData, function(data) {
                     $(event.target.closest('tr')).closest('tr').find('td.bib-number').html(data.bib_number);
                 });
             }
         }
     }, false);
+
+    document.addEventListener('click', (event) => {
+        if (event.target.classList.contains('view-slips')) {
+            // const participant_id = $(event.target.closest('tr')).data('participant');            
+            // if(participant_id) {
+            //     const popover = $(event.target.closest('tr')).closest('tr').find('[data-bs-toggle="popover"]');
+            //     const reqData = { func: 'getPaymentSlips', _method: 'post', participant: participant_id };
+            //     if($(popover).data('bs-content') === '...') {
+            //         ajaxAPI('post', reqData, function(data) {
+            //             // $(event.target.closest('tr')).closest('tr').find('[data-bs-toggle="popover"]').data('bs-content', data.payment_slips[0].payment_slips);
+            //             $(event.target.parentElement).data('bs-content', data.payment_slips[0].payment_slips);
+            //             // $('.popover-body').html(data.payment_slips[0].payment_slips);
+            //         });
+            //     } else {
+            //         $('.popover-body').html('xxx');
+            //     }
+            // }
+        }
+    }, false);
+
 })();
+
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));

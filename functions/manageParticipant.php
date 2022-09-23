@@ -6,6 +6,9 @@ switch (strtoupper($_REQUEST['_method'])) {
         getParticipantAll();
         break;
     case 'POST':
+        getPaymentSlips();
+        break;
+    case 'PATCH':
         getBibNumer();
         break;
     case 'PUT':
@@ -60,7 +63,7 @@ function getBibNumer() {
     global $mysqli, $function;
 
     $activity_id = htmlspecialchars($_REQUEST['activity']);
-    $participant_id = htmlspecialchars($_REQUEST['participant']);    
+    $participant_id = htmlspecialchars($_REQUEST['participant']);
 
     $query = $mysqli -> query("SELECT p.id, p.bib_number, p.user_id, u.school FROM Participant p 
     INNER JOIN Users u ON p.user_id = u.id 
@@ -113,6 +116,29 @@ function updateBibNumber($participant_id, $bib_number) {
     $stmt -> execute();
     $affected_rows = $stmt->affected_rows;
     $stmt -> close();
+}
+
+function getPaymentSlips() {
+    global $mysqli;
+
+    $participant_id = htmlspecialchars($_REQUEST['participant']);
+
+    $sql = "SELECT * FROM PaymentDetails WHERE customer_id = '$participant_id';";
+    if ($result = $mysqli -> query($sql)) {
+        while ($row = $result -> fetch_assoc()) {
+            $row['payment_slips'] = blobToImage($row['payment_slips']);
+            $payment_slips[] = $row;
+        }
+        $result -> free_result();
+    }
+
+    $mysqli->close();
+    if($payment_slips) {
+        echo json_encode(array('status' => true, 'payment_slips' => $payment_slips));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
+    }
 }
 
 function getPersonalInfo() {
