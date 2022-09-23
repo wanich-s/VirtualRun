@@ -7,7 +7,7 @@
         $function = $_REQUEST['func'];
         $logged = login_state();
         // check login status
-        $allow_functions = array('loginState', 'login', 'register', 'checkIDCard');
+        $allow_functions = array('loginState', 'login', 'register', 'checkIDCard','activityLog');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array('func' => $function, 'logged' => false));
             exit(0);
