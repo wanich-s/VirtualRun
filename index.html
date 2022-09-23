@@ -75,8 +75,51 @@
                 <div class="col-lg-7">
                     <img src ="assets/background/info.jpg" class="img-fluid" alt=""> 
                 </div>
+                <div class="col-lg-5" id="modalResultAll" aria-labelledby="modalResultAllLabel">
+                    <div class="table-responsive-md">
+                        <table id="tableResultAll" class="table table-bordered table-striped" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">สถาบัน</th>
+                                <th class="text-center">ระยะทางรวม</th>                                        
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Modal ShowLogPerson -->
+        <div class="modal fade" id="modalShowLogPerson" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalShowLogPersonLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalShowLogPersonLabel">อันดับการทำกิจกรรม</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive-md">
+                            <table id="tableResultSchool" class="table table-bordered table-striped" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">ชื่อ</th>
+                                    <th class="text-center">ระยะทาง</th>                                        
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- <div class="text-center">
             <a class="btn btn-primary" id="liResultAll" href="" data-bs-toggle="modal" data-bs-target="#modalResultAll"><i class="bi bi-bar-chart-fill"></i> กระดานผลรวมทุกคน</a>
