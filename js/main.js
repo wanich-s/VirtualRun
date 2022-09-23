@@ -3,7 +3,7 @@ var _participant = null;
 
 $( document ).ready(function() { 
     ResultAll(function(data){
-        //console.log(data.activity_log[0].id);
+        console.log(data.activity_log[0].id);
         if(data.status) {
             $('#tableResultAll > tbody').html('');
             $.each(data.activity_log, function(key, value) {
@@ -17,11 +17,11 @@ $( document ).ready(function() {
     });   
 
     ResultRankingSchool(function(data){
-        console.log(data.activity_log_person[0].id);
+        console.log(data.activity_log[0].id);
         if(data.status) {
             $('#tableResultSchool > tbody').html('');
-            $.each(data.activity_log_person, function(key, value) {
-                $('#tableResultSchool > tbody').append(`<tr data-activity_log_person="${ value['id'] }" style="line-height: 25px;">
+            $.each(data.activity_log, function(key, value) {
+                $('#tableResultSchool > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
                     <td class="text-center align-middle">${ value['row_number'] }</td>
                     <td class="align-middle">${ value['first_name'] }&nbsp;&nbsp;${ value['last_name'] }</td>
                     <td class="text-center align-middle bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
