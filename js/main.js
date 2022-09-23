@@ -1,7 +1,36 @@
 var _modal = null; 
 var _participant = null;
 
-$( document ).ready(function() {    
+$( document ).ready(function() { 
+    ResultAll(function(data){
+        //console.log(data.activity_log[0].id);
+        if(data.status) {
+            $('#tableResultAll > tbody').html('');
+            $.each(data.activity_log, function(key, value) {
+                $('#tableResultAll > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
+                    <td class="text-center align-middle">${ value['row_number'] }</td>
+                    <td class="align-middle"><a class='modalShowLogPerson'>${ value['school_name'] }</a></td>
+                    <td class="text-center align-middle">${ value['sum_distance'] }</td>
+                </tr>`);
+            });
+        }
+    });   
+
+    ResultRankingSchool(function(data){
+        console.log(data.activity_log_person[0].id);
+        if(data.status) {
+            $('#tableResultSchool > tbody').html('');
+            $.each(data.activity_log_person, function(key, value) {
+                $('#tableResultSchool > tbody').append(`<tr data-activity_log_person="${ value['id'] }" style="line-height: 25px;">
+                    <td class="text-center align-middle">${ value['row_number'] }</td>
+                    <td class="align-middle">${ value['first_name'] }&nbsp;&nbsp;${ value['last_name'] }</td>
+                    <td class="text-center align-middle bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
+                    <td class="text-center align-middle">${ value['sum_distance'] }</td>
+                </tr>`);
+            });
+        }
+    }); 
+
     // Login state
     loginState(userMenu);
     // DatePicker
@@ -264,6 +293,17 @@ $( document ).ready(function() {
         e.preventDefault();
     });
 
+     $('.modalShowLogPerson').on('click', function(e) {
+        const modalPreviewLog = new bootstrap.Modal(modalPreviewLogEl, {
+            keyboard: true
+        });
+        // _modal = null;
+        // loginState(showModal, modalActivityLog);
+        modalPreviewLog.show();
+        e.preventDefault();
+    });
+
+    
     $('#liPaymentDetails > a').on('click', function(e) {
         const modalPaymentDetails = new bootstrap.Modal(modalPaymentDetailsEl, {
             keyboard: true
@@ -424,6 +464,18 @@ if(modalPaymentDetailsEl) {
     });
 }
 
+// modalPreviewLog
+var modalPreviewLogEl = document.querySelector('#modalShowLogPerson');
+if(modalPreviewLogEl) {
+    modalPreviewLogEl.addEventListener('show.bs.modal', function (event) {
+        console.log(_participant);
+        ajaxAPI('GET', { func: 'activityLog', _method: 'get' }, function(data) {
+            // const form = document.getElementById('formMyInfo');
+            // mapFormElements(form, data.myinfo);
+        });
+    });
+}
+
 // modalManageSender
 var modalManageSenderEl = document.querySelector('#modalManageSender');
 if(modalManageSenderEl) {
@@ -437,6 +489,48 @@ function manageParticipants(callback) {
         method: "GET",
         url: "api.php",
         data: { func: "manageParticipant", _method: 'get', activity: "1" },
+        async: false,
+        cache: false,
+        contentType: false,
+        timeout: 60000,
+    }).done(function(res) {
+        try {
+            let data = JSON.parse(res);
+            callback(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function ResultAll(callback) {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "activityLog", _method: 'get', activity: "1" },
+        async: false,
+        cache: false,
+        contentType: false,
+        timeout: 60000,
+    }).done(function(res) {
+        try {
+            let data = JSON.parse(res);
+            callback(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }).fail(function(res) {
+        console.log(res);
+    });
+}
+
+function ResultRankingSchool(callback) {
+    $.ajax({
+        method: "GET",
+        url: "api.php",
+        data: { func: "activityLog", _method: 'get', activity: "1" },
         async: false,
         cache: false,
         contentType: false,
