@@ -3,7 +3,7 @@ require 'config.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        # code...
+        getactivityLogAll();
         break;
     case 'POST':
         activityLog();
@@ -14,6 +14,77 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         # code...
         break;
+}
+
+function getactivityLogAll() {
+    global $mysqli, $function;
+
+    $activity_id = htmlspecialchars($_REQUEST['activity']);
+
+    if(!$_REQUEST['id']){
+        $sql = "SELECT s.id,s.school_name ,COALESCE(sum(al.DISTANCE),0) as sum_distance ,p.STATUS
+        FROM Schools s 
+            LEFT JOIN Users u ON u.SCHOOL = s.ID 
+            LEFT JOIN Participant p ON p.USER_ID = u.ID
+            LEFT JOIN ActivityLog al ON al.PARTICIPANT_ID = p.ID 
+        GROUP BY s.SCHOOL_NAME,s.ID,p.STATUS
+        ORDER BY sum(al.distance) desc,s.ID ;";
+
+        $activity_log = array();
+            $row_number = 1;
+            if ($result = $mysqli -> query($sql)) {
+                while ($row = $result -> fetch_assoc()) {
+                    // $row['payment_slips'] = blobToImage($row['payment_slips']);
+                    // $payment_slips = array();
+                    // $payment_slips = explode("[]", $row['slips']);
+                    // $row['slips'] = blobToImage($payment_slips);
+                    // $row['payment_slips'] = array_map('blobToImage', $payment_slips);
+                    $row['row_number'] = $row_number++;
+                    $activity_log[] = $row;
+                }
+                $result -> free_result();
+            }
+
+            $mysqli->close();
+            if($activity_log) {
+                echo json_encode(array('status' => true, 'activity_log' => $activity_log));
+                exit(0);
+            } else {
+                echo json_encode(array('status' => false));
+            }
+
+    }else{
+        $sql = "  SELECT s.school_name,sum(al.distance) as sum_distance ,s.ID,p.STATUS,u.FIRST_NAME ,u.last_name,p.bib_number
+                 FROM ActivityLog al 
+                 inner join Participant p on al.participant_id = p.id 
+                 inner join Users u on u.id = p.user_id 
+                 inner join Schools s on s.id = u.school 
+                 WHERE s.id = ".$_REQUEST['id'] ."
+                 GROUP BY s.SCHOOL_NAME,s.ID,p.STATUS,u.FIRST_NAME ,u.last_name,p.bib_number 
+                 ORDER BY sum(al.distance) desc,s.ID  ";
+        $activity_log_person = array();
+        $row_number = 1;
+        if ($result = $mysqli -> query($sql)) {
+            while ($row = $result -> fetch_assoc()) {
+                         // $row['payment_slips'] = blobToImage($row['payment_slips']);
+                         // $payment_slips = array();
+                         // $payment_slips = explode("[]", $row['slips']);
+                         // $row['slips'] = blobToImage($payment_slips);
+                         // $row['payment_slips'] = array_map('blobToImage', $payment_slips);
+                         $row['row_number'] = $row_number++;
+                         $$activity_log_person[] = $row;
+                     }
+                     $result -> free_result();
+            }
+             
+            $mysqli->close();
+            if($$activity_log_person) {
+                echo json_encode(array('status' => true, 'activity_log_person' => $$activity_log_person));
+                exit(0);
+            } else {
+                echo json_encode(array('status' => false));
+            }
+    }
 }
 
 function activityLog() {
