@@ -85,7 +85,7 @@
 <body>
 
 <?php
-    require 'config.php';
+    require 'functions/config.php';
     global $mysqli;
     $query = $mysqli -> query("SELECT * FROM Sender;");
     $sender_info = $query -> fetch_array(MYSQLI_ASSOC);    

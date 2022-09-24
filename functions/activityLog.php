@@ -1,9 +1,10 @@
 <?php
 require 'config.php';
 
-switch ($_SERVER['REQUEST_METHOD']) {
+switch (strtoupper($_REQUEST['_method'])) {
     case 'GET':
-        getactivityLogAll();
+        // getactivityLogAll();
+        getResultBySchool();
         break;
     case 'POST':
         activityLog();
@@ -16,13 +17,47 @@ switch ($_SERVER['REQUEST_METHOD']) {
         break;
 }
 
+function getResultBySchool() {
+    global $mysqli;
+
+    $activity_id = htmlspecialchars($_REQUEST['activity']);
+
+    $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, null AS name, u.first_name, u.last_name, SUM(al.distance) AS distance
+    FROM ActivityLog al
+    INNER JOIN Participant p ON p.id = al.participant_id
+    INNER JOIN Users u ON u.id = p.user_id
+    LEFT JOIN Schools s ON u.school = s.id
+    WHERE p.activity_id = '$activity_id' AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
+    GROUP BY al.participant_id
+    ORDER BY distance DESC, s.id IS NULL ASC;";
+
+    $result_by_school = array();
+    $row_number = 1;
+    if ($result = $mysqli -> query($sql)) {
+        while ($row = $result -> fetch_assoc()) {
+            $row['row_number'] = $row_number++;
+            $row['name'] = $row['first_name'] . '  ' . $row['last_name'];
+            $result_by_school[] = $row;
+        }
+        $result -> free_result();
+    }
+
+    $mysqli->close();
+    if($result_by_school) {
+        echo json_encode(array('status' => true, 'resultBySchool' => $result_by_school));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
+    }
+}
+
 function getactivityLogAll() {
     global $mysqli, $function;
 
     $activity_id = htmlspecialchars($_REQUEST['activity']);
 
     if(!$_REQUEST['id']){
-        $sql = "SELECT s.id,s.school_name ,COALESCE(sum(al.DISTANCE),0) as sum_distance ,p.STATUS
+        $sql = "SELECT s.id,s.school_name, COALESCE(sum(al.DISTANCE),0) as sum_distance ,p.STATUS
         FROM Schools s 
             LEFT JOIN Users u ON u.SCHOOL = s.ID 
             LEFT JOIN Participant p ON p.USER_ID = u.ID
@@ -76,7 +111,7 @@ function getactivityLogAll() {
                      }
                      $result -> free_result();
             }
-             
+            
             $mysqli->close();
             if($$activity_log_person) {
                 echo json_encode(array('status' => true, 'activity_log_person' => $$activity_log_person));

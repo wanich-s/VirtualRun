@@ -1,23 +1,30 @@
 var _modal = null; 
 var _participant = null;
 
-$( document ).ready(function() { 
-    ResultAll(function(data){
-        console.log(data.activity_log[0].id);
-        if(data.status) {
+$( document ).ready(function() {
+    (function() {        
+        const reqData = { func: "activityLog", _method: 'get', activity: '1' };
+        ajaxAPI('post', false, reqData, function(data) {
             $('#tableResultAll > tbody').html('');
-            $.each(data.activity_log, function(key, value) {
-                $('#tableResultAll > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
+            // $.each(data.activity_log, function(key, value) {
+            //     $('#tableResultAll > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
+            //         <td class="text-center align-middle">${ value['row_number'] }</td>
+            //         <td class="align-middle"><a class='modalShowLogPerson'>${ value['school_name'] }</a></td>
+            //         <td class="text-center align-middle">${ value['sum_distance'] }</td>
+            //     </tr>`);
+            // });
+            $.each(data.resultBySchool, function(key, value) {
+                $('#tableResultAll > tbody').append(`<tr data-school="${ value['school_id'] }" style="line-height: 25px;">
                     <td class="text-center align-middle">${ value['row_number'] }</td>
                     <td class="align-middle"><a class='modalShowLogPerson'>${ value['school_name'] }</a></td>
-                    <td class="text-center align-middle">${ value['sum_distance'] }</td>
+                    <td class="text-center align-middle">${ value['name'] }</td>
+                    <td class="text-center align-middle">${ value['distance'] }</td>
                 </tr>`);
             });
-        }
-    });   
+        });
+    })();
 
     ResultRankingSchool(function(data){
-        console.log(data.activity_log[0].id);
         if(data.status) {
             $('#tableResultSchool > tbody').html('');
             $.each(data.activity_log, function(key, value) {
@@ -428,7 +435,7 @@ if(modalManageApplicantEl) {
                         </td>
                         <td class="text-center align-middle">${ value['shirt_size'] }</td>
                         <td class="align-middle">${ (value['pick_up_place']) ? value['pick_up_place'] : '' }</td>
-                        <td><div style="text-align: center;"><i class="fa-2x fa-solid fa-print"></i></div></td>
+                        <td><div style="text-align: center;"><a href="printAddress.php?participant=${ value['participant_id'] }" target="_blank"><i class="fa-2x fa-solid fa-print"></i></a></div></td>
                     </tr>`);
                 });
             }
@@ -436,7 +443,8 @@ if(modalManageApplicantEl) {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
             let content = '';
-            const reqData = { func: 'getPaymentSlips', _method: 'post', participant: '5' };
+            $participant = $(popoverTriggerEl).closest('tr').data('participant');
+            const reqData = { func: 'getPaymentSlips', _method: 'post', participant: $participant };
             ajaxAPI('post', false, reqData, function(data) {
                 if(data.status) {
                     let slips = '';
@@ -492,7 +500,7 @@ if(modalPaymentDetailsEl) {
 var modalPreviewLogEl = document.querySelector('#modalShowLogPerson');
 if(modalPreviewLogEl) {
     modalPreviewLogEl.addEventListener('show.bs.modal', function (event) {
-        console.log(_participant);
+        // console.log(_participant);
         ajaxAPI('GET', false, { func: 'activityLog', _method: 'get' }, function(data) {
             // const form = document.getElementById('formMyInfo');
             // mapFormElements(form, data.myinfo);
@@ -513,27 +521,6 @@ function manageParticipants(callback) {
         method: "GET",
         url: "api.php",
         data: { func: "manageParticipant", _method: 'get', activity: "1" },
-        async: false,
-        cache: false,
-        contentType: false,
-        timeout: 60000,
-    }).done(function(res) {
-        try {
-            let data = JSON.parse(res);
-            callback(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }).fail(function(res) {
-        console.log(res);
-    });
-}
-
-function ResultAll(callback) {
-    $.ajax({
-        method: "GET",
-        url: "api.php",
-        data: { func: "activityLog", _method: 'get', activity: "1" },
         async: false,
         cache: false,
         contentType: false,
