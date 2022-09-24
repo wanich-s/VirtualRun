@@ -374,7 +374,7 @@ if(modalMyInfoEl) {
         const form = $('#formMyInfo');
          form.trigger("reset");
          form.removeClass('was-validated');
-        ajaxAPI('GET', { func: 'myinfo', _method: 'get' }, function(data) {
+        ajaxAPI('GET', false, { func: 'myinfo', _method: 'get' }, function(data) {
             const form = document.getElementById('formMyInfo');
             mapFormElements(form, data.myinfo);
         });
@@ -434,7 +434,31 @@ if(modalManageApplicantEl) {
             }
         });
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
+            let content = '';
+            const reqData = { func: 'getPaymentSlips', _method: 'post', participant: '5' };
+            ajaxAPI('post', false, reqData, function(data) {
+                if(data.status) {
+                    let slips = '';
+                    $.each(data.payment_slips, function(i, item) {
+                        slips = slips.concat(item.payment_slips);
+                    });
+                    content = $(slips);
+                }
+            });
+            new bootstrap.Popover(popoverTriggerEl, {
+                html: true,
+                content: content,
+            });
+        });
+        // const popoverListTrigger = [...popoverTriggerList].map(popoverTriggerEl => {
+        //     popoverTriggerEl.addEventListener('show.bs.popover', (event) => {
+        //         // do something...
+        //         // console.log('Add Event');                
+        //         $(event.target).data('bs-content', 'xxx');
+        //         // console.log($(event.target).data('bs-content'));
+        //       });
+        // });
         $(":submit").prop('disabled', false);
     });
 }
@@ -469,7 +493,7 @@ var modalPreviewLogEl = document.querySelector('#modalShowLogPerson');
 if(modalPreviewLogEl) {
     modalPreviewLogEl.addEventListener('show.bs.modal', function (event) {
         console.log(_participant);
-        ajaxAPI('GET', { func: 'activityLog', _method: 'get' }, function(data) {
+        ajaxAPI('GET', false, { func: 'activityLog', _method: 'get' }, function(data) {
             // const form = document.getElementById('formMyInfo');
             // mapFormElements(form, data.myinfo);
         });
@@ -666,12 +690,12 @@ function SenderState() {
     });
 }
 
-function ajaxAPI(method, data, callback) {
+function ajaxAPI(method, async, data, callback) {
     $.ajax({
         method: method,
         url: "api.php",
         data: data,
-        async: false,
+        async: async,
         cache: false,
         timeout: 60000,
     }).done(function( res ) {
@@ -941,7 +965,7 @@ function submitForm(form, callback) {
             if(value) {
                 const participant_id = $(event.target.closest('tr')).data('participant');
                 const reqData = { func: 'getBibNumber', _method: 'patch', activity: '1', participant: participant_id, status: value };
-                ajaxAPI('post', reqData, function(data) {
+                ajaxAPI('post', false, reqData, function(data) {
                     $(event.target.closest('tr')).closest('tr').find('td.bib-number').html(data.bib_number);
                 });
             }
@@ -971,3 +995,9 @@ function submitForm(form, callback) {
 
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+// const popoverListTrigger = [...popoverTriggerList].map(popoverTriggerEl => {
+//     popoverTriggerEl.addEventListener('show.bs.popover', () => {
+//         // do something...
+//         console.log('Add Event');
+//       });
+// });
