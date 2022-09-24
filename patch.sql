@@ -12,7 +12,7 @@ CREATE TABLE Bib_Number_seq (
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-
+-- 2022-09-23
 CREATE TABLE Schools (
     id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     school_name varchar(255)
@@ -39,5 +39,3 @@ insert into Schools (id,school_name) values ('19','โรงเรียนส�
 insert into Schools (id,school_name) values ('20','โรงเรียนสาธิตมหาวิทยาลัยสงขลานครินทร์ ฝ่ายมัธยมศึกษา');
 insert into Schools (id,school_name) values ('21','โรงเรียนสาธิตมหาวิทยาลัยสงขลานครินทร์ ฝ่ายประถมศึกษา');
 insert into Schools (id,school_name) values ('22','โรงเรียนสาธิตมหาวิทยาลัยขอนแก่น วิทยาเขตหนองคาย');
-
-
