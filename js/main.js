@@ -295,6 +295,19 @@ $( document ).ready(function() {
         });
     });
 
+    $("input[name*='user_name']").on('keyup', function(e) {
+        const input = this;
+        ajaxAPI('post', false, { func: 'checkUsername', _method: 'check', user_name: input.value }, function(data) {
+            if(data.message) {
+                $('.username-feedback').html(data.message);
+                input.setCustomValidity('Error!');
+            } else {
+                $('.username-feedback').html('ชื่อผู้ใช้ a-z, A-Z, 0-9 อย่างน้อย 6 ตัวอักษร');
+                input.setCustomValidity('');
+            }
+        });
+    });
+
     $('#liActivityLog > a').on('click', function(e) {
         const modalActivityLog = new bootstrap.Modal(modalActivityLogEl, {
             keyboard: true
@@ -707,7 +720,7 @@ function getParticipant(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
-        data: { func: "participant" },
+        data: { func: 'participant', _method: 'get' },
     }).done(function( res ) {
         try {
             let data = JSON.parse(res);

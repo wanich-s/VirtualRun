@@ -7,13 +7,13 @@
         $function = $_REQUEST['func'];
         $logged = login_state();
         // check login status
-        $allow_functions = array('loginState', 'login', 'register', 'checkIDCard','activityLog');
+        $allow_functions = array('loginState', 'login', 'register', 'checkUsername', 'checkIDCard', 'activityLog');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array('func' => $function, 'logged' => false));
             exit(0);
         }
 
-        switch ($function) {
+        switch ($function) {            
             case 'checkIDCard':
                 $id_card = htmlspecialchars($_REQUEST['id_card']);
                 if((strlen($id_card) < 7 || strlen($id_card) > 9) && strlen($id_card) != 13) {
@@ -26,25 +26,18 @@
                 include 'functions/checkIDCard.php';
                 break;
             case 'manageParticipant':
-                include 'functions/manageParticipant.php';
-                break;
             case 'getPaymentSlips':
-                include 'functions/manageParticipant.php';
-                break;
             case 'getBibNumber':
                 include 'functions/manageParticipant.php';
                 break;
+            case 'checkUsername':
             case 'register':
+            case 'participant':
                 include 'functions/participant.php';
                 break;
             case 'myinfo':
-                include 'functions/user.php';
-                break;    
             case 'login':
                 include 'functions/user.php';
-                break;
-            case 'participant':
-                include 'functions/participant.php';
                 break;
             case 'activityLog':
                 include 'functions/activityLog.php';

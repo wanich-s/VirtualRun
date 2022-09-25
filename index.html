@@ -36,7 +36,7 @@
                         </li>
                         <li class="nav-item" id="liActivityLog">
                             <a class="nav-link" href="">กิจกรรมของฉัน / ส่งผล</a>
-                        </li>                        
+                        </li>
                         <li class="nav-item" id="liLogin">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
                         </li>
@@ -213,7 +213,7 @@
                             <div class="col-md-6" has-validation>
                                 <label for="inputAppUsername" class="form-label">ชื่อผู้ใช้</label>
                                 <input type="text" class="form-control" id="inputAppUsername" name="user_name" pattern="[a-zA-Z0-9]{6,64}" placeholder="ระบุชื่อผู้ใช้" maxlength="64" required>
-                                <div class="invalid-feedback">
+                                <div id="username-feedback" class="invalid-feedback username-feedback">
                                     ชื่อผู้ใช้ a-z, A-Z, 0-9 อย่างน้อย 6 ตัวอักษร
                                 </div>
                             </div>
@@ -342,6 +342,11 @@
                     <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog&_method=post" method="POST" class="needs-validation" autocomplete="off" novalidate>
                         <div class="modal-body">
                             <div class="row g-3">
+                                <div class="col-md-8 offset-md-2">
+                                    <div id="activityLogAlert">
+                                        <!-- alert message -->
+                                    </div>
+                                </div>
                                 <div class="col-md-6 mb-2">
                                     <label for="input-bib-number" class="form-label">หมายเลขบิบ</label>
                                     <div class='input-group'>
@@ -355,12 +360,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-3">
-                                <div class="col-md-8 offset-md-2">
-                                    <div id="activityLogAlert">
-                                        <!-- alert message -->
-                                    </div>
-                                </div>
+                            <div class="row g-3">                                
                                 <input id="participant" type="hidden" name="participant">
                                 <div class="col-md-6">
                                     <label for="activitydate" class="form-label">วันที่เริ่มทำกิจกรรม</label>

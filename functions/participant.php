@@ -1,15 +1,15 @@
 <?php
 require 'config.php';    
 
-switch ($_SERVER['REQUEST_METHOD']) {
+switch (strtoupper($_REQUEST['_method'])) {
     case 'GET':
         getParticipant();
         break;
     case 'POST':
         doRegister();
         break;
-    case 'PUT':
-        # code...
+    case 'CHECK':
+        checkUsername();
         break;
     default:
         # code...
@@ -33,6 +33,21 @@ function getParticipant() {
     }
 }
 
+function checkUsername() {
+    global $mysqli;
+    
+    $user_name = htmlspecialchars($_REQUEST['user_name']);
+
+    $query = $mysqli -> query("SELECT id FROM Users WHERE user_name = '$user_name';");
+    $user = $query -> fetch_array(MYSQLI_ASSOC);
+    $mysqli->close();
+    if(!$user) {
+        echo json_encode(array('status' => true));
+        exit(0);
+    }
+    echo json_encode(array('status' => true, 'message' => 'ชื่อผู้ใช้นี้ถูกใช้แล้ว'));
+}
+
 function doRegister() {
     global $mysqli, $function;
 
@@ -53,12 +68,10 @@ function doRegister() {
     $shirt_size = htmlspecialchars($_REQUEST['shirt_size']);
     $career = empty($_REQUEST['career']) ? '0' : htmlspecialchars($_REQUEST['career']);
     $school = empty($_REQUEST['school']) ? '99' : htmlspecialchars($_REQUEST['school']);
-    $pick_up_place = htmlspecialchars($_REQUEST['pick_up_place']);
+    $pick_up_place = empty($_REQUEST['pick_up_place']) ? 'จัดส่งทางไปรษณีย์' : htmlspecialchars($_REQUEST['pick_up_place']);
     $activity_id = htmlspecialchars($_REQUEST['activity']);
 
-    $stmt -> execute();    
-    // $user_query = $mysqli -> query('SELECT LAST_INSERT_ID() AS user_id;');
-    // $user = $user_query -> fetch_array(MYSQLI_ASSOC);
+    $stmt -> execute();
     $user_id = $stmt->insert_id;
     $stmt -> close();
 
