@@ -27,7 +27,9 @@ function getResultBySchool() {
     INNER JOIN Participant p ON p.id = al.participant_id
     INNER JOIN Users u ON u.id = p.user_id
     LEFT JOIN Schools s ON u.school = s.id
-    WHERE p.activity_id = '$activity_id' AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
+    WHERE p.activity_id = '$activity_id' 
+    AND p.status IS NOT NULL
+    AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
     GROUP BY al.participant_id
     ORDER BY distance DESC, s.id IS NULL ASC;";
 
@@ -69,11 +71,6 @@ function getactivityLogAll() {
             $row_number = 1;
             if ($result = $mysqli -> query($sql)) {
                 while ($row = $result -> fetch_assoc()) {
-                    // $row['payment_slips'] = blobToImage($row['payment_slips']);
-                    // $payment_slips = array();
-                    // $payment_slips = explode("[]", $row['slips']);
-                    // $row['slips'] = blobToImage($payment_slips);
-                    // $row['payment_slips'] = array_map('blobToImage', $payment_slips);
                     $row['row_number'] = $row_number++;
                     $activity_log[] = $row;
                 }
@@ -101,11 +98,6 @@ function getactivityLogAll() {
         $row_number = 1;
         if ($result = $mysqli -> query($sql)) {
             while ($row = $result -> fetch_assoc()) {
-                         // $row['payment_slips'] = blobToImage($row['payment_slips']);
-                         // $payment_slips = array();
-                         // $payment_slips = explode("[]", $row['slips']);
-                         // $row['slips'] = blobToImage($payment_slips);
-                         // $row['payment_slips'] = array_map('blobToImage', $payment_slips);
                          $row['row_number'] = $row_number++;
                          $$activity_log_person[] = $row;
                      }
