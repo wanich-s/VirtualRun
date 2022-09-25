@@ -397,11 +397,13 @@ var modalActivityLogEl = document.querySelector('#modalActivityLog');
 if(modalActivityLogEl) {
     modalActivityLogEl.addEventListener('show.bs.modal', function (event) {
         const form = $('#formActivityLog');
-         form.trigger("reset");
-         form.removeClass('was-validated');
-         $('#previewActivityImage').html('');
-         getParticipant((data) => {
-            $('#participant').val(`${data.participant['participant_id']}`);
+        form.trigger("reset");
+        form.removeClass('was-validated');
+        $('#previewActivityImage').html('');
+        getParticipant((data) => {
+            $('#participant').val(`${ data.participant['participant_id'] }`);
+            $('#input-bib-number').val(`${ (data.participant['bib_number']) ? data.participant['bib_number'] : '' }`);
+            $('#input-status').val(`${ data.participant['status'] }`);
         });
         $(":submit").prop('disabled', false);
     });
@@ -472,19 +474,6 @@ if(modalManageApplicantEl) {
         //       });
         // });
         $(":submit").prop('disabled', false);
-    });
-}
-
-// modalPreviewSlips
-var modalPreviewSlipsEl = document.querySelector('#modalPreviewSlips');
-if(modalPreviewSlipsEl) {
-    modalPreviewSlipsEl.addEventListener('show.bs.modal', function (event) {
-        console.log(_participant);
-        // $('#previewPaymentSlips').html('');
-        // getParticipant((data) => {
-        //     $('#customer').val(`${data.participant['participant_id']}`);
-        // });
-        // $(":submit").prop('disabled', false);
     });
 }
 
@@ -867,7 +856,7 @@ function afterSubmit(form, data) {
             break;
         case 'paymentDetails':
             if(data.status) {
-                $('#paymentDetailsAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                $('#paymentDetailsAlert').html(alert('บันทึกข้อมูลเรียบร้อย กรุณารอผู้ดูแลระบบยืนยันสถานะการชำระเงิน', 'success'));
                 setTimeout(() => {
                     $(form).trigger('reset');
                     $(form).removeClass('was-validated');

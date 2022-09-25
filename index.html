@@ -31,11 +31,11 @@
                         <li class="nav-item" id="liRegister">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalApplication">สมัคร</a>
                         </li>
-                        <li class="nav-item" id="liActivityLog">
-                            <a class="nav-link" href="">กิจกรรมของฉัน / ส่งผล</a>
-                        </li>
                         <li class="nav-item" id="liPaymentDetails">
                             <a class="nav-link" href="">ส่งหลักฐานการชำระเงิน</a>
+                        </li>
+                        <li class="nav-item" id="liActivityLog">
+                            <a class="nav-link" href="">กิจกรรมของฉัน / ส่งผล</a>
                         </li>                        
                         <li class="nav-item" id="liLogin">
                             <a class="nav-link" href="" data-bs-toggle="modal" data-bs-target="#modalLogin">เข้าสู่ระบบ</a>
@@ -341,6 +341,20 @@
                     </div>
                     <form id="formActivityLog" name="formActivityLog" action="api.php?func=activityLog&_method=post" method="POST" class="needs-validation" autocomplete="off" novalidate>
                         <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-6 mb-2">
+                                    <label for="input-bib-number" class="form-label">หมายเลขบิบ</label>
+                                    <div class='input-group'>
+                                        <input type='text' id="input-bib-number" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-2">
+                                    <label for="input-status" class="form-label">สถานะ</label>
+                                    <div class='input-group'>
+                                        <input type='text' id="input-status" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row g-3">
                                 <div class="col-md-8 offset-md-2">
                                     <div id="activityLogAlert">

@@ -19,7 +19,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 function getParticipant() {
     global $mysqli;
 
-    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id 
+    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id, p.bib_number, CASE WHEN p.status = 1 THEN 'ชำระเงินแล้ว' ELSE 'ยังไม่ชำระเงิน' END AS status
     FROM Users u 
     INNER JOIN Participant p ON u.id = p.user_id
     WHERE u.id = '$_SESSION[UserID]';");
