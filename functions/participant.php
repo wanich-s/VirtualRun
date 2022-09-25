@@ -70,7 +70,7 @@ function doRegister() {
     $mysqli->close();
 
     if($user_id) {
-        logged($user_id, $username);
+        logged($user_id, $user_name);
         echo json_encode(array('func' => $function, 'status' => true, 'logged' => true, 'username' => $user_name));
         exit(0);
     }

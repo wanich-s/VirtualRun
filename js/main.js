@@ -201,20 +201,24 @@ $( document ).ready(function() {
             $( "#selectSchool" ).attr("required", "true");
         } else {
             $('#collapseCareer').hide();
+            $( "input[name*='career']" ).val('');
             $( "input[name*='career']" ).removeAttr("required");
             $( "#selectSchool" ).removeAttr("required");
             $( "#selectSchool" ).val('');
             $( "input[name*='career']" ).prop('checked', false);
+            $( "#select-pick-up-place" ).val('');
+            $( "#select-pick-up-place" ).removeAttr("required");
         }
     });
 
     $( "#selectSchool" ).on('change', function(e) {
         if($(this).val() == '9') {
-            $('#pick-up-place').show();
-            $( "input[name*='pickUpPlace']" ).attr("required", "true");
+            $('#pick-up-place').show();    
+            $( "#select-pick-up-place" ).attr("required", "true");
         } else {
             $('#pick-up-place').hide();
-            $( "input[name*='pickUpPlace']" ).removeAttr("required");
+            $( "#select-pick-up-place" ).removeAttr("required");
+            $( "#select-pick-up-place" ).val('');
         }
     });    
 
