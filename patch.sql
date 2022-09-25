@@ -41,5 +41,5 @@ insert into Schools (id,school_name) values ('21','โรงเรียนส�
 insert into Schools (id,school_name) values ('22','โรงเรียนสาธิตมหาวิทยาลัยขอนแก่น วิทยาเขตหนองคาย');
 
 -- 2022-09-25
-ALTER TABLE Users    
+ALTER TABLE Users
 MODIFY shirt_size VARCHAR(25);
