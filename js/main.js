@@ -16,27 +16,26 @@ $( document ).ready(function() {
             $.each(data.resultBySchool, function(key, value) {
                 $('#tableResultAll > tbody').append(`<tr data-school="${ value['school_id'] }" style="line-height: 25px;">
                     <td class="text-center align-middle">${ value['row_number'] }</td>
-                    <td class="align-middle"><a class='modalShowLogPerson'>${ value['school_name'] }</a></td>
-                    <td class="text-center align-middle">${ value['name'] }</td>
+                    <td class="align-middle"><a href="resultBySchool.php?school_id=${ value['school_id'] }" target="_blank"><div style="overflow: scroll;">${ value['school_name'] }</div></a></td>
                     <td class="text-center align-middle">${ value['distance'] }</td>
                 </tr>`);
             });
         });
     })();
 
-    ResultRankingSchool(function(data){
-        if(data.status) {
-            $('#tableResultSchool > tbody').html('');
-            $.each(data.activity_log, function(key, value) {
-                $('#tableResultSchool > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
-                    <td class="text-center align-middle">${ value['row_number'] }</td>
-                    <td class="align-middle">${ value['first_name'] }&nbsp;&nbsp;${ value['last_name'] }</td>
-                    <td class="text-center align-middle bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
-                    <td class="text-center align-middle">${ value['sum_distance'] }</td>
-                </tr>`);
-            });
-        }
-    }); 
+    // ResultRankingSchool(function(data){
+    //     if(data.status) {
+    //         $('#tableResultSchool > tbody').html('');
+    //         $.each(data.activity_log, function(key, value) {
+    //             $('#tableResultSchool > tbody').append(`<tr data-activity_log="${ value['id'] }" style="line-height: 25px;">
+    //                 <td class="text-center align-middle">${ value['row_number'] }</td>
+    //                 <td class="align-middle">${ value['first_name'] }&nbsp;&nbsp;${ value['last_name'] }</td>
+    //                 <td class="text-center align-middle bib-number">${ (value['bib_number']) ? value['bib_number'] : '' }</td>
+    //                 <td class="text-center align-middle">${ value['sum_distance'] }</td>
+    //             </tr>`);
+    //         });
+    //     }
+    // }); 
 
     // Login state
     loginState(userMenu);
@@ -549,26 +548,26 @@ function manageParticipants(callback) {
     });
 }
 
-function ResultRankingSchool(callback) {
-    $.ajax({
-        method: "GET",
-        url: "api.php",
-        data: { func: "activityLog", _method: 'get', activity: "1" },
-        async: false,
-        cache: false,
-        contentType: false,
-        timeout: 60000,
-    }).done(function(res) {
-        try {
-            let data = JSON.parse(res);
-            callback(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }).fail(function(res) {
-        console.log(res);
-    });
-}
+// function ResultRankingSchool(callback) {
+//     $.ajax({
+//         method: "GET",
+//         url: "api.php",
+//         data: { func: "activityLog", _method: 'get', activity: "1" },
+//         async: false,
+//         cache: false,
+//         contentType: false,
+//         timeout: 60000,
+//     }).done(function(res) {
+//         try {
+//             let data = JSON.parse(res);
+//             callback(data);
+//         } catch (error) {
+//             console.log(error);
+//         }
+//     }).fail(function(res) {
+//         console.log(res);
+//     });
+// }
 
 function getActivity() {
     $.ajax({
@@ -680,28 +679,6 @@ function SenderState() {
                 $('#inputSenderAddress').val(user.sender_info['address']);
                 $('#inputSenderAddress').data('senderid', user.sender_info['id']);
                 $('#formManageSender').attr('action', )
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }).fail(function(res) {
-        console.log(res);
-    });
-}
-
-function ajaxAPI(method, async, data, callback) {
-    $.ajax({
-        method: method,
-        url: "api.php",
-        data: data,
-        async: async,
-        cache: false,
-        timeout: 60000,
-    }).done(function( res ) {
-        try {
-            let data = JSON.parse(res);
-            if(data.status) {
-                callback(data);
             }
         } catch (error) {
             console.log(error);

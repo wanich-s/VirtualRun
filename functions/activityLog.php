@@ -3,8 +3,11 @@ require 'config.php';
 
 switch (strtoupper($_REQUEST['_method'])) {
     case 'GET':
-        // getactivityLogAll();
-        getResultBySchool();
+        if (isset($_REQUEST['participant'])) {
+            getPersonalResult();
+        } else {
+            getResultBySchool();
+        }
         break;
     case 'POST':
         activityLog();
@@ -21,18 +24,32 @@ function getResultBySchool() {
     global $mysqli;
 
     $activity_id = htmlspecialchars($_REQUEST['activity']);
-
-    $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, null AS name, u.first_name, u.last_name, SUM(al.distance) AS distance
-    FROM ActivityLog al
-    INNER JOIN Participant p ON p.id = al.participant_id
-    INNER JOIN Users u ON u.id = p.user_id
-    LEFT JOIN Schools s ON u.school = s.id
-    WHERE p.activity_id = '$activity_id' 
-    AND p.status IS NOT NULL
-    AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
-    -- GROUP BY al.participant_id
-    GROUP BY u.school
-    ORDER BY distance DESC, s.id IS NULL ASC;";
+    $school_id = htmlspecialchars($_REQUEST['school']);
+    
+    if($school_id) {
+        $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, p.id AS participant_id, null AS name, u.first_name, u.last_name, SUM(al.distance) AS distance, p.bib_number
+        FROM ActivityLog al
+        INNER JOIN Participant p ON p.id = al.participant_id 
+        INNER JOIN Users u ON u.id = p.user_id 
+        LEFT JOIN Schools s ON u.school = s.id 
+        WHERE p.activity_id = '$activity_id' 
+        AND u.school = '$school_id'
+        AND p.status IS NOT NULL
+        AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
+        GROUP BY al.participant_id
+        ORDER BY distance DESC;";
+    } else {
+        $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, SUM(al.distance) AS distance
+        FROM ActivityLog al
+        INNER JOIN Participant p ON p.id = al.participant_id
+        INNER JOIN Users u ON u.id = p.user_id
+        LEFT JOIN Schools s ON u.school = s.id
+        WHERE p.activity_id = '$activity_id' 
+        AND p.status IS NOT NULL
+        AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
+        GROUP BY u.school
+        ORDER BY distance DESC, s.id IS NULL ASC;";
+    }
 
     $result_by_school = array();
     $row_number = 1;
@@ -48,6 +65,35 @@ function getResultBySchool() {
     $mysqli->close();
     if($result_by_school) {
         echo json_encode(array('status' => true, 'resultBySchool' => $result_by_school));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
+    }
+}
+
+function getPersonalResult() {
+    global $mysqli;
+
+    $participant_id = htmlspecialchars($_REQUEST['participant']);
+
+    $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, SUM(al.distance) AS distance
+        FROM ActivityLog al
+        INNER JOIN Participant p ON p.id = al.participant_id
+        WHERE p.activity_id = '$activity_id'";
+
+    $personal_result = array();
+    $row_number = 1;
+    if ($result = $mysqli -> query($sql)) {
+        while ($row = $result -> fetch_assoc()) {
+            $row['row_number'] = $row_number++;
+            $personal_result[] = $row;
+        }
+        $result -> free_result();
+    }
+
+    $mysqli->close();
+    if($result_by_school) {
+        echo json_encode(array('status' => true, 'personalResult' => $personal_result));
         exit(0);
     } else {
         echo json_encode(array('status' => false));
