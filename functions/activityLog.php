@@ -30,7 +30,8 @@ function getResultBySchool() {
     WHERE p.activity_id = '$activity_id' 
     AND p.status IS NOT NULL
     AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin') 
-    GROUP BY al.participant_id
+    -- GROUP BY al.participant_id
+    GROUP BY u.school
     ORDER BY distance DESC, s.id IS NULL ASC;";
 
     $result_by_school = array();

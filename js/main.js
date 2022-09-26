@@ -417,8 +417,14 @@ if(modalActivityLogEl) {
             $('#participant').val(`${ data.participant['participant_id'] }`);
             $('#input-bib-number').val(`${ (data.participant['bib_number']) ? data.participant['bib_number'] : '' }`);
             $('#input-status').val(`${ data.participant['status'] }`);
-        });
-        $(":submit").prop('disabled', false);
+            if(!(data.participant['bib_number'])) {
+                $('#activityLogAlert').html(alert('กรุณารอผู้ดูแลระบบยืนยันสถานะการชำระเงิน เมื่อขึ้นสถานะการชำระเงินเรียบร้อย ถึงจะสามารถส่งผลวิ่งได้', 'danger'));
+                $(":submit").prop('disabled', true);
+            } else {
+                $('#activityLogAlert').html('');
+                $(":submit").prop('disabled', false);
+            }
+        });        
     });
 }
 
