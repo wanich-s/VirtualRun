@@ -451,12 +451,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formPaymentDetails" name="formPaymentDetails" action="api.php?func=paymentDetails&_method=post" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
-                            <div class="col-md-8 offset-md-2">
-                                <div id="paymentDetailsAlert">
-                                    <!-- alert message -->
-                                </div>
-                            </div>
+                        <form id="formPaymentDetails" name="formPaymentDetails" action="api.php?func=paymentDetails&_method=post" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>                            
                             <input id="customer" type="hidden" name="customer">
                             <div class="col-md-12">
                                 <label for="exampleFormControlInput1" class="form-label">ขั้นตอนการชำระเงินโดยการโอนเงินผ่านบัญชีธนาคาร</label>
@@ -514,7 +509,12 @@
                                 <div class="invalid-feedback">
                                     เลือกภาพสลิปโอน/ฝากเงิน (*.jpg, *.jpeg, *.png)
                                 </div>
-                            </div>                            
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="paymentDetailsAlert">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" >บันทึก</button>

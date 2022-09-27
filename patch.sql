@@ -43,3 +43,10 @@ insert into Schools (id,school_name) values ('22','โรงเรียนส�
 -- 2022-09-25
 ALTER TABLE Users
 MODIFY shirt_size VARCHAR(25);
+
+-- 2022-09-27
+ALTER TABLE PaymentDetails ADD payment_no VARCHAR(30);
+CREATE TABLE Payment_no_seq (
+    id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

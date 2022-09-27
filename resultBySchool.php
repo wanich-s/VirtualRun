@@ -33,7 +33,7 @@
                         </tbody>
                         </table>
                     </div>
-                </div>
+                </div>                
             </div>
         </div>
 
@@ -65,6 +65,33 @@
                             </tbody>
                             </table>
                         </div> -->
+                        <!-- <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                            <canvas id="chart"></canvas>
+                        </div> -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <img class="mt-3" src="https://e7.pngegg.com/pngimages/348/800/png-clipart-man-wearing-blue-shirt-illustration-computer-icons-avatar-user-login-avatar-blue-child.png" class="img-thumbnail" alt="..." style="height: 200px;">
+                                <h3 class="text-center">วานิช  ศรีสังข์</h3>
+                                <h5 class="text-center">990001</h5>
+                            </div>
+                            <div class="col-md-4 offset-1 mb-4">
+                                <canvas id="chart"></canvas>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-6">
+                            <figure class="figure">
+                                <img src="https://img.freepik.com/free-vector/cute-cat-with-love-sign-hand-cartoon-illustration-animal-nature-concept-isolated-flat-cartoon-style_138676-3419.jpg?w=2000" class="figure-img img-fluid" alt="...">
+                                <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                                </figure>
+                            </div>
+                            <div class="col-md-6">
+                            <figure class="figure">
+                                <img src="https://img.freepik.com/free-vector/cute-cat-with-love-sign-hand-cartoon-illustration-animal-nature-concept-isolated-flat-cartoon-style_138676-3419.jpg?w=2000" class="figure-img img-fluid" alt="...">
+                                <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                                </figure>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -75,6 +102,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js" integrity="sha512-WHnaxy6FscGMvbIB5EgmjW71v5BCQyz5kQTcZ5iMxann3HczLlBHH5PQk7030XmmK5siar66qzY+EJxKHZTPEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="js/utility.js?v1"></script>
         <script src="js/result.js?v1"></script>
 	</body>

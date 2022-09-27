@@ -459,7 +459,7 @@ if(modalManageApplicantEl) {
                         </td>
                         <td class="text-center align-middle">${ value['shirt_size'] }</td>
                         <td class="align-middle">${ (value['pick_up_place']) ? value['pick_up_place'] : '' }</td>
-                        <td><div style="text-align: center;"><a href="printAddress.php?participant=${ value['participant_id'] }" target="_blank"><i class="fa-2x fa-solid fa-print"></i></a></div></td>
+                        <td><div style="text-align: center;"><a href="printAddress.php?participant=${ value['participant_id'] }&activity=1" target="_blank"><i class="fa-2x fa-solid fa-print"></i></a></div></td>
                     </tr>`);
                 });
             }
