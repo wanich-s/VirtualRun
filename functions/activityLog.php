@@ -27,11 +27,12 @@ function getResultBySchool() {
     $school_id = htmlspecialchars($_REQUEST['school']);
     
     if($school_id) {
-        $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, p.id AS participant_id, null AS name, u.first_name, u.last_name, SUM(al.distance) AS distance, p.bib_number
+        $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, COALESCE(c.career_title, '-') AS career_title, p.id AS participant_id, null AS name, u.first_name, u.last_name, SUM(al.distance) AS distance, p.bib_number
         FROM ActivityLog al
         INNER JOIN Participant p ON p.id = al.participant_id 
         INNER JOIN Users u ON u.id = p.user_id 
         LEFT JOIN Schools s ON u.school = s.id 
+        LEFT JOIN Career c ON u.career = c.id
         WHERE p.activity_id = '$activity_id' 
         AND u.school = '$school_id'
         AND p.status IS NOT NULL

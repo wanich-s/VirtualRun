@@ -25,7 +25,7 @@ const config = {
     type: 'doughnut',
     data: data,
     options: {
-        cutout: 45,
+        cutout: 70,
         responsive: true,
         plugins: {
             legend: {
@@ -33,7 +33,7 @@ const config = {
             },
             title: {
             display: true,
-            text: '95.06 กิโลเมตร'
+            text: '99 กิโลเมตร'
             }
         }
     },
@@ -59,6 +59,7 @@ $(document).ready(function () {
                 $('#table-result-by-school > tbody').append(`<tr data-participant-id="${ value['participant_id'] }" style="line-height: 25px;">
                     <td class="text-center align-middle">${ value['row_number'] }</td>
                     <td class="align-middle"><a href="" class="link-personal-result">${ value['name'] }</a></td>
+                    <td class="text-center align-middle">${ value['career_title'] }</td>
                     <td class="text-center align-middle">${ value['bib_number'] }</td>
                     <td class="text-center align-middle">${ value['distance'] }</td>
                 </tr>`);

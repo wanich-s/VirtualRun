@@ -50,3 +50,15 @@ CREATE TABLE Payment_no_seq (
     id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+-- 2022-09-28
+CREATE TABLE Career (
+    id INT(8) UNSIGNED PRIMARY KEY,
+    career_title VARCHAR(255),
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+insert into Career (id, career_title) values ('1','นักเรียน');
+insert into Career (id, career_title) values ('2','ครู');
+insert into Career (id, career_title) values ('3','บุคลากร/เจ้าหน้าที่');
+insert into Career (id, career_title) values ('4','ผู้ปกครอง');
+insert into Career (id, career_title) values ('5','ศิษย์เก่า');

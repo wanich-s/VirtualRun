@@ -15,15 +15,16 @@
         <link rel="stylesheet" href="css/style.css?v1" />
 	</head>
 	<body>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-6 offset-3" aria-labelledby="modalResultBySchoolLabel">
+                <div class="col-12 col-lg-6 offset-lg-3" aria-labelledby="modalResultBySchoolLabel">
                     <div class="table-responsive-md overflow-scroll" style="max-height:90vh;">
                         <table id="table-result-by-school" data-school-id="<?php echo $_REQUEST['school_id']; ?>" class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">ชื่อ-นามสกุล</th>
+                                <th class="text-center">ตำแหน่ง</th>
                                 <th class="text-center">หมายเลขบิบ</th>
                                 <th class="text-center">ระยะทางรวม</th>
                             </tr>
@@ -39,59 +40,28 @@
 
         <!-- ModalPersonalResult -->
         <div class="modal fade" id="modalPersonalResult" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalPersonalResultLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+            <div class="modal-dialog modal-fullscreen-md-down modal-md">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalPersonalResultLabel">ผลวิ่งทั้งหมด</h5>
+                        <h5 class="modal-title" id="modalPersonalResultLabel">&nbsp;</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- <div class="col-md-6">
-                            <label class="form-label">ชื่อ-นามสกุล</label>
-                            <input type="text" class="form-control" name="name" disabled >
+                        <div class="row justify-content-center">
+                            <div class="col-4">
+                                <img src="assets/no-profile.png" class="img-fluid" alt="">
+                            </div>
+                            <div class="col-7">
+                                <label class="form-label">ชื่อ-นามสกุล</label>
+                                <input type="text" name="user_name" class="form-control" disabled value="">
+                                <label class="form-label mt-2">หมายเลขบิบ</label>
+                                <input type="text" name="bib_number" class="form-control" disabled value="">
+                            </div>
                         </div>
-                        <div class="table-responsive-md">
-                            <table id="table-personal-result" class="table table-bordered table-striped" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">วันที่</th>
-                                    <th class="text-center">ระยะทาง</th>
-                                    <th class="text-center">เวลา</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                            </table>
-                        </div> -->
-                        <!-- <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                        <div class="col-8 offset-2 mt-4">
                             <canvas id="chart"></canvas>
-                        </div> -->
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <img class="mt-3" src="https://e7.pngegg.com/pngimages/348/800/png-clipart-man-wearing-blue-shirt-illustration-computer-icons-avatar-user-login-avatar-blue-child.png" class="img-thumbnail" alt="..." style="height: 200px;">
-                                <h3 class="text-center">วานิช  ศรีสังข์</h3>
-                                <h5 class="text-center">990001</h5>
-                            </div>
-                            <div class="col-md-4 offset-1 mb-4">
-                                <canvas id="chart"></canvas>
-                            </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-md-6">
-                            <figure class="figure">
-                                <img src="https://img.freepik.com/free-vector/cute-cat-with-love-sign-hand-cartoon-illustration-animal-nature-concept-isolated-flat-cartoon-style_138676-3419.jpg?w=2000" class="figure-img img-fluid" alt="...">
-                                <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                                </figure>
-                            </div>
-                            <div class="col-md-6">
-                            <figure class="figure">
-                                <img src="https://img.freepik.com/free-vector/cute-cat-with-love-sign-hand-cartoon-illustration-animal-nature-concept-isolated-flat-cartoon-style_138676-3419.jpg?w=2000" class="figure-img img-fluid" alt="...">
-                                <figcaption class="figure-caption">A caption for the above image.</figcaption>
-                                </figure>
-                            </div>
-                        </div> -->
+                        <!-- Image Log -->
                     </div>
                 </div>
             </div>
