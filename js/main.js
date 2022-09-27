@@ -459,7 +459,7 @@ if(modalManageApplicantEl) {
                         </td>
                         <td class="text-center align-middle">${ value['shirt_size'] }</td>
                         <td class="align-middle">${ (value['pick_up_place']) ? value['pick_up_place'] : '' }</td>
-                        <td><div style="text-align: center;"><a href="printAddress.php?participant=${ value['participant_id'] }&activity=1" target="_blank"><i class="fa-2x fa-solid fa-print"></i></a></div></td>
+                        <td><div style="text-align: center;"><a class="btn-print ${ (value['status'] == '1') ? '' : 'd-none' }" href="printAddress.php?participant=${ value['participant_id'] }&activity=1" target="_blank"><i class="fa-2x fa-solid fa-print"></i></a></div></td>
                     </tr>`);
                 });
             }
@@ -937,12 +937,13 @@ function submitForm(form, callback) {
 
     document.addEventListener('change', (event) => {
         if (event.target.classList.contains('participant-status')) {
-            const value = $(event.target).val();            
+            const value = $(event.target).val();
             if(value) {
                 const participant_id = $(event.target.closest('tr')).data('participant');
                 const reqData = { func: 'getBibNumber', _method: 'patch', activity: '1', participant: participant_id, status: value };
                 ajaxAPI('post', false, reqData, function(data) {
                     $(event.target.closest('tr')).closest('tr').find('td.bib-number').html(data.bib_number);
+                    $($(event.target.closest('tr')).closest('tr').find('a.btn-print')).removeClass('d-none');
                 });
             }
         }
