@@ -22,6 +22,7 @@ function get_receive_info($activity_id, $participant_id) {
 }
 
 function get_sender_address($activity_id, $participant_id) {
+    global $mysqli;  
     $query = $mysqli -> query("SELECT * FROM Sender;");
     $sender_info = $query -> fetch_array(MYSQLI_ASSOC);
     return $sender_info;
