@@ -5,6 +5,7 @@ include 'functions/utility.php';
 $activity_id = htmlspecialchars($_REQUEST['activity']);
 $participant_id = htmlspecialchars($_REQUEST['participant']);
 
+$sender_info = get_sender_address($activity_id, $participant_id);
 $receive_info = get_receive_info($activity_id, $participant_id);
 $payment_detail = get_payment_detail($activity_id, $participant_id);
 
