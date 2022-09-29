@@ -146,7 +146,10 @@ function genPaymentNo($seq, $prefix) {
 <div class="page">
     <div class="sender">
     <p style="font-weight: bold;">ผู้ส่ง</p>
-    <p><?php echo $sender_info['address'];?></p>
+    <!-- <p><?php echo $sender_info['address'];?></p> -->
+    <p>สมาคมผู้ปกครองและครู</p>
+    <p>โรงเรียนสาธิต "พิบูลบำเพ็ญ"​ มหาวิทยาลัยบูรพา </p>
+    <p>73 ถ.บางแสนล่าง ต.แสนสุข อ.เมือง จ.ชลบุรี 20131</p>
     </div> 
 
     <div class="receive">
