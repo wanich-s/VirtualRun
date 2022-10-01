@@ -62,3 +62,7 @@ insert into Career (id, career_title) values ('2','ครู');
 insert into Career (id, career_title) values ('3','บุคลากร/เจ้าหน้าที่');
 insert into Career (id, career_title) values ('4','ผู้ปกครอง');
 insert into Career (id, career_title) values ('5','ศิษย์เก่า');
+
+-- 2022-09-28
+ALTER TABLE Users
+MODIFY address TEXT;
