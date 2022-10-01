@@ -16,10 +16,13 @@
 	</head>
 	<body>
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-12 col-lg-6 offset-lg-3" aria-labelledby="modalResultBySchoolLabel">
                     <div class="table-responsive-md overflow-scroll" style="max-height:90vh;">
-                        <table id="table-result-by-school" data-school-id="<?php echo $_REQUEST['school_id']; ?>" class="table table-bordered table-striped">
+                        <table id="table-result-by-school" data-school-id="<?php echo $_REQUEST['school_id']; ?>" class="table table-bordered table-striped caption-top">
+                        <caption id="caption-school-name">
+                            <!-- สังกัด -->
+                        </caption>
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
@@ -58,10 +61,12 @@
                                 <input type="text" name="bib_number" class="form-control" disabled value="">
                             </div>
                         </div>
-                        <div class="col-8 offset-2 mt-4">
-                            <canvas id="chart"></canvas>
+                        <div class="col-12 mt-4">
+                            <canvas id="chart" style="margin: auto;"></canvas>
                         </div>
-                        <!-- Image Log -->
+                        <div id="img-activity-log" class="row mt-3">
+                            <!-- Image Activity Logs -->
+                        </div>
                     </div>
                 </div>
             </div>

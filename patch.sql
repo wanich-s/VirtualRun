@@ -66,3 +66,7 @@ insert into Career (id, career_title) values ('5','ศิษย์เก่า')
 -- 2022-09-28
 ALTER TABLE Users
 MODIFY address TEXT;
+
+-- 2022-10-01
+ALTER TABLE ActivityLog
+MODIFY distance DECIMAL(10,2);

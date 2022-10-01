@@ -12,8 +12,8 @@ switch (strtoupper($_REQUEST['_method'])) {
     case 'POST':
         activityLog();
         break;
-    case 'PUT':
-        # code...
+    case 'PATCH':
+        getPersonalActivityLog();
         break;
     default:
         # code...
@@ -76,24 +76,33 @@ function getPersonalResult() {
     global $mysqli;
 
     $participant_id = htmlspecialchars($_REQUEST['participant']);
-
-    $sql = "SELECT u.school AS school_id, COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name, SUM(al.distance) AS distance
-        FROM ActivityLog al
-        INNER JOIN Participant p ON p.id = al.participant_id
-        WHERE p.activity_id = '$activity_id'";
+    $activity_id = htmlspecialchars($_REQUEST['activity']);
+    
+    $sql = "SELECT NULL AS name, u.first_name, u.last_name
+        , p.bib_number
+        , COALESCE(SUM(al.distance), 0) AS distance
+        , COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name
+        , max(al.activity_date) AS last_update
+        FROM Users u
+        LEFT JOIN Schools s ON u.school = s.id
+        INNER JOIN Participant p ON u.id = p.user_id
+        LEFT JOIN ActivityLog al ON p.id = al.participant_id
+        WHERE p.activity_id = '$activity_id'
+        AND p.id = '$participant_id';";
 
     $personal_result = array();
     $row_number = 1;
     if ($result = $mysqli -> query($sql)) {
         while ($row = $result -> fetch_assoc()) {
             $row['row_number'] = $row_number++;
+            $row['name'] = $row['first_name'] . '  ' . $row['last_name'];
             $personal_result[] = $row;
         }
         $result -> free_result();
     }
 
     $mysqli->close();
-    if($result_by_school) {
+    if($personal_result) {
         echo json_encode(array('status' => true, 'personalResult' => $personal_result));
         exit(0);
     } else {
@@ -101,64 +110,35 @@ function getPersonalResult() {
     }
 }
 
-function getactivityLogAll() {
-    global $mysqli, $function;
+function getPersonalActivityLog() {
+    global $mysqli;
 
-    $activity_id = htmlspecialchars($_REQUEST['activity']);
+    $participant_id = htmlspecialchars($_REQUEST['participant']);
 
-    if(!$_REQUEST['id']){
-        $sql = "SELECT s.id,s.school_name, COALESCE(sum(al.DISTANCE),0) as sum_distance ,p.STATUS
-        FROM Schools s 
-            LEFT JOIN Users u ON u.SCHOOL = s.ID 
-            LEFT JOIN Participant p ON p.USER_ID = u.ID
-            LEFT JOIN ActivityLog al ON al.PARTICIPANT_ID = p.ID 
-        GROUP BY s.SCHOOL_NAME,s.ID,p.STATUS
-        ORDER BY sum(al.distance) desc,s.ID ;";
+    $sql = "SELECT activity_date, activity_time, result_time, distance, activity_image1, activity_image2, activity_image3
+        FROM ActivityLog
+        WHERE participant_id = '$participant_id'
+        ORDER BY id DESC;";
 
-        $activity_log = array();
-            $row_number = 1;
-            if ($result = $mysqli -> query($sql)) {
-                while ($row = $result -> fetch_assoc()) {
-                    $row['row_number'] = $row_number++;
-                    $activity_log[] = $row;
-                }
-                $result -> free_result();
-            }
+    $personal_activity = array();
+    $row_number = 1;
+    if ($result = $mysqli -> query($sql)) {
+        while ($row = $result -> fetch_assoc()) {
+            $row['row_number'] = $row_number++;
+            $row['activity_image1'] = ($row['activity_image1']) ? '<img src="data:image/jpeg;base64,'.base64_encode($row['activity_image1']).'" class="figure-img img-fluid rounded" >' : '';
+            $row['activity_image2'] = ($row['activity_image2']) ? '<img src="data:image/jpeg;base64,'.base64_encode($row['activity_image2']).'" class="figure-img img-fluid rounded" >' : '';
+            $row['activity_image3'] = ($row['activity_image3']) ? '<img src="data:image/jpeg;base64,'.base64_encode($row['activity_image3']).'" class="figure-img img-fluid rounded" >' : '';
+            $personal_activity[] = $row;
+        }
+        $result -> free_result();
+    }
 
-            $mysqli->close();
-            if($activity_log) {
-                echo json_encode(array('status' => true, 'activity_log' => $activity_log));
-                exit(0);
-            } else {
-                echo json_encode(array('status' => false));
-            }
-
-    }else{
-        $sql = "  SELECT s.school_name,sum(al.distance) as sum_distance ,s.ID,p.STATUS,u.FIRST_NAME ,u.last_name,p.bib_number
-                 FROM ActivityLog al 
-                 inner join Participant p on al.participant_id = p.id 
-                 inner join Users u on u.id = p.user_id 
-                 inner join Schools s on s.id = u.school 
-                 WHERE s.id = ".$_REQUEST['id'] ."
-                 GROUP BY s.SCHOOL_NAME,s.ID,p.STATUS,u.FIRST_NAME ,u.last_name,p.bib_number 
-                 ORDER BY sum(al.distance) desc,s.ID  ";
-        $activity_log_person = array();
-        $row_number = 1;
-        if ($result = $mysqli -> query($sql)) {
-            while ($row = $result -> fetch_assoc()) {
-                         $row['row_number'] = $row_number++;
-                         $$activity_log_person[] = $row;
-                     }
-                     $result -> free_result();
-            }
-            
-            $mysqli->close();
-            if($$activity_log_person) {
-                echo json_encode(array('status' => true, 'activity_log_person' => $$activity_log_person));
-                exit(0);
-            } else {
-                echo json_encode(array('status' => false));
-            }
+    $mysqli->close();
+    if($personal_activity) {
+        echo json_encode(array('status' => true, 'personalActivity' => $personal_activity));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
     }
 }
 
