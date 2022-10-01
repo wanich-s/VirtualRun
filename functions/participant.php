@@ -19,8 +19,11 @@ switch (strtoupper($_REQUEST['_method'])) {
 function getParticipant() {
     global $mysqli;
 
-    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id, p.bib_number, CASE WHEN p.status = 1 THEN 'ชำระเงินแล้ว' ELSE 'ยังไม่ชำระเงิน' END AS status
+    $query = $mysqli -> query("SELECT u.first_name, u.last_name, u.tel, u.shirt_size, u.address, p.id AS participant_id, p.bib_number
+    , CASE WHEN p.status = 1 THEN 'ชำระเงินแล้ว' ELSE 'ยังไม่ชำระเงิน' END AS status
+    , COALESCE(s.school_name, 'บุคคลทั่วไป') AS school_name 
     FROM Users u 
+    LEFT JOIN Schools s ON u.school = s.id
     INNER JOIN Participant p ON u.id = p.user_id
     WHERE u.id = '$_SESSION[UserID]';");
     $participant = $query -> fetch_array(MYSQLI_ASSOC);

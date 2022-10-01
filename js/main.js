@@ -414,6 +414,7 @@ if(modalActivityLogEl) {
         $('#previewActivityImage').html('');
         getParticipant((data) => {
             $('#participant').val(`${ data.participant['participant_id'] }`);
+            $('#input-school').val(`${ data.participant['school_name'] }`);
             $('#input-bib-number').val(`${ (data.participant['bib_number']) ? data.participant['bib_number'] : '' }`);
             $('#input-status').val(`${ data.participant['status'] }`);
             if(!(data.participant['bib_number'])) {
