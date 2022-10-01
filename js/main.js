@@ -704,7 +704,7 @@ function getParticipant(callback) {
     $.ajax({
         method: "GET",
         url: "api.php",
-        data: { func: 'participant', _method: 'get' },
+        data: { func: 'participant', _method: 'get', activity: '1' },
     }).done(function( res ) {
         try {
             let data = JSON.parse(res);
