@@ -2,7 +2,7 @@
   $db_host = '127.0.0.1';
   $db_user = 'root';
   $db_password = 'root';
-  $db_db = 'VirtualRun';
+  $db_db = 'virtualrun';
   $db_port = 8889;
 
   $mysqli = new mysqli(

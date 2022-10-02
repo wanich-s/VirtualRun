@@ -81,18 +81,20 @@ function doRegister() {
     $user_id = $stmt->insert_id;
     $stmt -> close();
 
-    // Insert Applicant
-    $applicant_query = $mysqli -> query("INSERT INTO Participant (user_id, activity_id, application_date)
-    VALUES ($user_id, $activity_id, CURDATE());");
-
-    // Disconnect
-    $mysqli->close();
-
     if($user_id) {
+        // Insert Applicant
+        $applicant_query = $mysqli -> query("INSERT INTO Participant (user_id, activity_id, application_date)
+        VALUES ($user_id, $activity_id, CURDATE());");
+
+        // Disconnect
+        $mysqli->close();
+    
         logged($user_id, $user_name);
         echo json_encode(array('func' => $function, 'status' => true, 'logged' => true, 'username' => $user_name));
         exit(0);
     }
+    // Disconnect
+    $mysqli->close();
     echo json_encode(array('func' => $function, 'status' => false, 'logged' => false));
 }
 
