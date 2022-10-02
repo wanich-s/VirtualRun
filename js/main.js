@@ -196,15 +196,14 @@ $( document ).ready(function() {
     $( "input[name*='beAMemberWith']" ).on('change', (e) => {
         if($('#flexRadio1').is(":checked")) {
             $('#collapseCareer').show();
-            $( "input[name*='career']" ).attr("required", "true");
-            $( "#selectSchool" ).attr("required", "true");
+            $( "input[name='career']" ).attr("required", true);
+            $( "#selectSchool" ).attr("required", true);
         } else {
             $('#collapseCareer').hide();
-            $( "input[name*='career']" ).val('');
-            $( "input[name*='career']" ).removeAttr("required");
+            $( "input[name='career']" ).removeAttr("required");
             $( "#selectSchool" ).removeAttr("required");
             $( "#selectSchool" ).val('');
-            $( "input[name*='career']" ).prop('checked', false);
+            $( "input[name='career']" ).prop('checked', false);
             $( "#select-pick-up-place" ).val('');
             $( "#select-pick-up-place" ).removeAttr("required");
         }
@@ -213,7 +212,7 @@ $( document ).ready(function() {
     $( "#selectSchool" ).on('change', function(e) {
         if($(this).val() == '9') {
             $('#pick-up-place').show();    
-            $( "#select-pick-up-place" ).attr("required", "true");
+            $( "#select-pick-up-place" ).attr("required", true);
         } else {
             $('#pick-up-place').hide();
             $( "#select-pick-up-place" ).removeAttr("required");
@@ -791,6 +790,9 @@ function serializeFormData(form) {
                 [].forEach.call(input.files, function (file) {
                     fd.append('files[]', file);
                 });
+                break;
+            case 'radio':
+                fd.append(input.name, $("input[name=" + input.name + "]:checked").val());
                 break;
             default:
                 fd.append(input.name, input.value);

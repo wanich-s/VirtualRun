@@ -92,12 +92,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="formApplication" name="formApplication" action="api.php?func=register&_method=post&activity=1" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
-                            <div class="col-md-8 offset-md-2">
-                                <div id="applicationAlert">
-                                    <!-- alert message -->
-                                </div>
-                            </div>
+                        <form id="formApplication" name="formApplication" action="api.php?func=register&_method=post&activity=1" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>                            
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="beAMemberWith" id="flexRadio1" checked required>
                                 <label class="form-check-label" for="flexRadio1">
@@ -107,24 +102,24 @@
                             <div class="collapse show" id="collapseCareer">
                                 <div class="card card-body">
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="career" id="radioCareer1" value="1" required>
-                                        <label class="form-check-label" for="inlineRadio1">นักเรียน</label>
+                                        <input class="form-check-input" type="radio" name="career" value="1" required>
+                                        <label class="form-check-label">นักเรียน</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="career" id="radioCareer2" value="2" required>
-                                        <label class="form-check-label" for="inlineRadio2">ครู</label>
+                                        <input class="form-check-input" type="radio" name="career" value="2">
+                                        <label class="form-check-label">ครู</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="career" id="radioCareer3" value="3" required>
-                                        <label class="form-check-label" for="inlineRadio3">บุคลากร/เจ้าหน้าที่</label>
+                                        <input class="form-check-input" type="radio" name="career" value="3">
+                                        <label class="form-check-label">บุคลากร/เจ้าหน้าที่</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="career" id="radioCareer4" value="4" required>
-                                        <label class="form-check-label" for="inlineRadio4">ผู้ปกครอง</label>
+                                        <input class="form-check-input" type="radio" name="career" value="4">
+                                        <label class="form-check-label">ผู้ปกครอง</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="career" id="radioCareer5" value="5" required>
-                                        <label class="form-check-label" for="inlineRadio5">ศิษย์เก่า</label>
+                                        <input class="form-check-input" type="radio" name="career" value="5">
+                                        <label class="form-check-label">ศิษย์เก่า</label>
                                     </div>
                                     <div class="mb-2 mt-2">
                                         <label class="form-label">กรุณาเลือกโรงเรียนที่ท่านสังกัด</label>
@@ -240,6 +235,11 @@
                                     <option value="4XL">4XL (รอบอก 48" ความยาว 30") </option>
                                     <option value="5XL">5XL (รอบอก 50" ความยาว 30") </option>
                                 </select>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div id="applicationAlert">
+                                    <!-- alert message -->
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
