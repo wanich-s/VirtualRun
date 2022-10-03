@@ -61,9 +61,9 @@ function updateMyInformation() {
     $user_id = $_SESSION['UserID'];
         
     // Update Users
-    $sql = "UPDATE Users SET first_name = ?, last_name = ?, email = ?, id_card = ?, tel = ?, address = ? WHERE id = '$user_id';";
+    $sql = "UPDATE Users SET first_name = ?, last_name = ?, email = ?, id_card = ?, tel = ?, address = ? , career = ? WHERE id = '$user_id';";
     $stmt = $mysqli -> prepare($sql);
-    $stmt -> bind_param('ssssss', $first_name, $last_name, $email, $id_card, $tel, $address);
+    $stmt -> bind_param('sssssss', $first_name, $last_name, $email, $id_card, $tel, $address, $career);
     
     $first_name = htmlspecialchars($_REQUEST['first_name']);
     $last_name = htmlspecialchars($_REQUEST['last_name']);
@@ -71,6 +71,7 @@ function updateMyInformation() {
     $id_card = htmlspecialchars($_REQUEST['id_card']);
     $tel = htmlspecialchars($_REQUEST['tel']);
     $address = htmlspecialchars($_REQUEST['address']);
+    $career = htmlspecialchars($_REQUEST['career']);
 
     $stmt -> execute();
     $affected_rows = $stmt->affected_rows;
