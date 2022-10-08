@@ -7,7 +7,7 @@
         $function = $_REQUEST['func'];
         $logged = login_state();
         // check login status
-        $allow_functions = array('loginState', 'login', 'register', 'checkUsername', 'checkIDCard', 'activityLog');
+        $allow_functions = array('loginState', 'login', 'register', 'resetPassword', 'checkUsername', 'checkIDCard', 'activityLog');
         if(!in_array($function, $allow_functions) && !$logged) {
             echo json_encode(array('func' => $function, 'logged' => false));
             exit(0);
@@ -37,6 +37,7 @@
                 break;
             case 'myinfo':
             case 'login':
+            case 'resetPassword':
                 include 'functions/user.php';
                 break;
             case 'activityLog':

@@ -143,52 +143,6 @@ $( document ).ready(function() {
                 ],
         }]
     };
-    // var modalResultAll = document.getElementById('myChart');
-    // var myChart = new Chart(modalResultAll, {
-    //     type : 'bar',
-    //     data : data1,
-    //     options: options
-    // });
-    /* ******** Ex Chart doughnut ************ */
-    // var data2 = {
-    //     labels : ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"],
-    //     datasets: [{
-    //       label: 'My First Dataset',
-    //       data: [1, 2, 3, 4, 5, 6, 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22],
-    //       backgroundColor: [
-    //         'rgb(220,20,60)',
-    //         'rgb(255,127,80)',
-    //         'rgb(250,128,114)',
-    //         'rgb(255,165,0)',
-    //         'rgb(218,165,32)',
-    //         'rgb(189,183,107)',
-    //         'rgb(255,255,0)',
-    //         'rgb(107,142,35)',
-    //         'rgb(173,255,47)',
-    //         'rgb(34,139,34)',
-    //         'rgb(32,178,170)',
-    //         'rgb(0,255,255)',
-    //         'rgb(72,209,204)',
-    //         'rgb(100,149,237)',
-    //         'rgb(65,105,225)',
-    //         'rgb(123,104,238)',
-    //         'rgb(186,85,211)',
-    //         'rgb(255,0,255)',
-    //         'rgb(210,105,30)',
-    //         'rgb(188,143,143)',
-    //         'rgb(112,128,144)',
-    //         'rgb(123,104,238)',
-    //         'rgb(240,255,240)'
-    //       ],
-    //       hoverOffset: 4
-    //     }]
-    //   };
-
-    // var modalResultAll = document.getElementById('myChart1');
-    // var myChart1 = new Chart(modalResultAll, {
-    //     type : 'doughnut',
-    //     data : data2,
-    // });
 
     // Enable tooltips everywhere
     $('[data-toggle="tooltip"]').tooltip();
@@ -272,6 +226,27 @@ $( document ).ready(function() {
         }
     });
 
+    $('#btnForgetPassword').on('click', (e) => {
+        const modalResetPassword = new bootstrap.Modal(modalResetPasswordEl, {
+            keyboard: true
+        });
+        modalResetPassword.show();
+        e.preventDefault();
+    });
+
+    $("#input-reset-idcard, #input-reset-email").on('blur', (e) => {
+        const id_card = $("#input-reset-idcard").val();
+        const email = $("#input-reset-email").val();
+        if(id_card && email) {
+            ajaxAPI('post', false, { func: 'resetPassword', _method: 'getResetUser', id_card: id_card, email: email }, function(data) {
+                $('#reset-user-id').val(data.userInfo['id']);
+                const form = document.getElementById('formResetPassword');
+                mapFormElements(form, data.userInfo);
+            });
+        }
+        e.preventDefault();
+    });
+
     $('#linkLogout').on('click', (e) => {
         logOut();
     });
@@ -333,7 +308,7 @@ $( document ).ready(function() {
         _modal = null;
         loginState(showModal, modalPaymentDetails);
         e.preventDefault();
-    });    
+    });
 
     $( window ).on('focus', function(e) {
         loginState(userMenu);
@@ -352,6 +327,21 @@ if(modalLoginEl) {
     });
     modalLoginEl.addEventListener('shown.bs.modal', function (event) {
         $('#input-username').focus();
+    });
+}
+
+// modalResetPassword
+var modalResetPasswordEl = document.querySelector('#modalResetPassword');
+if(modalResetPasswordEl) {
+    modalResetPasswordEl.addEventListener('show.bs.modal', function (event) {
+        _modal = null;
+        const form = $('#formResetPassword');
+        form.trigger("reset");
+        form.removeClass('was-validated');
+        $(":submit").prop('disabled', false);
+    });
+    modalResetPasswordEl.addEventListener('shown.bs.modal', function (event) {
+        $("input[name*='id_card']").focus();
     });
 }
 
@@ -548,27 +538,6 @@ function manageParticipants(callback) {
     });
 }
 
-// function ResultRankingSchool(callback) {
-//     $.ajax({
-//         method: "GET",
-//         url: "api.php",
-//         data: { func: "activityLog", _method: 'get', activity: "1" },
-//         async: false,
-//         cache: false,
-//         contentType: false,
-//         timeout: 60000,
-//     }).done(function(res) {
-//         try {
-//             let data = JSON.parse(res);
-//             callback(data);
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }).fail(function(res) {
-//         console.log(res);
-//     });
-// }
-
 function getActivity() {
     $.ajax({
         method: "GET",
@@ -692,7 +661,9 @@ function mapFormElements(form, data) {
     try {
         const inputs = Array.from(form.elements);
         inputs.map((el) => {
-            el.value = data[el.name];
+            if(data[el.name]) {
+                el.value = data[el.name];
+            }
         });
     } catch (error) {
         console.log(error);
@@ -748,40 +719,6 @@ function userMenu(user) {
     }
 }
 
-// $('input[type="file"]').on('change', function (e) {
-//     [].forEach.call(this.files, function (file) {
-//         fd.append('filename[]', file);
-//     });
-// });
-
-// function uploadImage(inputFile) {
-//     let fd = new FormData();
-//     fd.append('func', 'uploadFile');
-//     [].forEach.call(inputFile.files, function (file) {
-//         fd.append('filename[]', file);
-//     });
-//     fd.append('file', files[0]);
-//     $.ajax({
-//         method: "POST",
-//         url: 'api.php',
-//         data: fd,
-//         async: false,
-//         cache: false,
-//         contentType: false,
-//         processData: false,
-//         enctype: 'multipart/form-data',
-//         timeout: 60000,
-//     }).done(function(res) {
-//         try {
-//             let user = JSON.parse(res);
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }).fail(function(res) {
-//         console.log(res);
-//     });
-// }
-
 function serializeFormData(form) {
     let fd = new FormData();
     $.each($(form)[0], function(i, input) {
@@ -820,6 +757,9 @@ function afterSubmit(form, data) {
                 }, timeout);
             }            
             $(":submit").prop('disabled', false);
+            break;
+        case 'resetPassword':
+            $('.alert-div').html(alert('รีเซ็ตรหัสผ่านเป็นเลขบัตรประชาชนของท่าน เรียบร้อยแล้ว', 'success'));
             break;
         case 'myinfo':
             if(data.status) {

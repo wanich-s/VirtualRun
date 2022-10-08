@@ -10,6 +10,12 @@ switch (strtoupper($_REQUEST['_method'])) {
     case 'PUT':
         updateMyInformation();
         break;
+    case 'GETRESETUSER':
+        getUserInfo();
+        break;
+    case 'RESETPASSWORD':
+        resetPassword();
+        break;
     default:
         # code...
         break;
@@ -38,6 +44,55 @@ function login() {
         exit(0);
     }
     echo json_encode(array('func' => $function, 'logged' => false));
+}
+
+function getUserInfo() {
+    global $mysqli;
+
+    $id_card = htmlspecialchars($_REQUEST['id_card']);
+    $email = htmlspecialchars($_REQUEST['email']);
+
+    $query = $mysqli -> query("SELECT u.id, u.user_name, u.first_name, u.last_name, u.id_card, u.email 
+    FROM Users u 
+    WHERE u.id_card = '$id_card' AND u.email = '$email'
+    AND NOT EXISTS (SELECT ad.user_id FROM Administrator ad WHERE u.id = ad.user_id AND ad.profile = 'admin');");
+    $user_info = $query -> fetch_array(MYSQLI_ASSOC);
+    $mysqli->close();
+    if($user_info) {
+        echo json_encode(array('status' => true, 'userInfo' => $user_info));
+        exit(0);
+    } else {
+        echo json_encode(array('status' => false));
+    }
+}
+
+function resetPassword() {
+    global $mysqli, $function;
+
+    $user_id = htmlspecialchars($_REQUEST['user_id']);
+    if(!$user_id) {
+        echo json_encode(array('func' => $function, 'status' => false));
+        exit(0);
+    }
+    // Reset Password
+    $sql = "UPDATE Users SET password = ? WHERE id = '$user_id';";
+    $stmt = $mysqli -> prepare($sql);
+    $stmt -> bind_param('s', $password);
+    
+    $password = md5(htmlspecialchars($_REQUEST['reset-id-card']));
+
+    $stmt -> execute();
+    $affected_rows = $stmt->affected_rows;
+    $stmt -> close();
+
+    // Disconnect
+    $mysqli->close();
+
+    if($affected_rows) {
+        echo json_encode(array('func' => $function, 'status' => true));
+        exit(0);
+    }
+    echo json_encode(array('func' => $function, 'status' => false));
 }
 
 function getMyInformation() {

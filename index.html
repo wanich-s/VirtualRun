@@ -572,26 +572,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011-04-25</td>
-                                        <td>$320,800</td>
-                                    </tr> -->
+                                    <!-- data -->
                                 </tbody>
-                                <!-- <tfoot>
-                                    <tr>
-                                        <th>ชื่อ</th>
-                                        <th>นามสกุล</th>
-                                        <th>เบอร์ติดต่อ</th>
-                                        <th>ขนาดเสื้อ</th>
-                                        <th>ที่อยู่สำหรับจัดส่ง</th>
-                                        <th>เลข BIB</th>
-                                        <th>หลักฐานการชำระเงิน</th>
-                                    </tr>
-                                </tfoot> -->
                             </table>
                         </div>
                     </div>
@@ -721,9 +703,72 @@
                                 <div class="invalid-feedback">
                                     กรุณาระบุรหัสผ่าน
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="col-md-8 offset-md-2">
+                                <button id="btnForgetPassword" type="button" class="btn btn-link mb-2" data-bs-dismiss="modal" tabindex="99">ลืมรหัสผ่าน</button>
                                 <button type="submit" class="btn btn-primary w-100" >เข้าสู่ระบบ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Reset Password -->
+        <div class="modal fade" id="modalResetPassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalResetPasswordLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-lg-down modal-lg">
+                <div class="modal-content">                    
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalResetPasswordLabel">ระบุข้อมูลที่ใช้ในการสมัครเพื่อรีเซ็ตรหัสผ่าน</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formResetPassword" name="formResetPassword" action="api.php?func=resetPassword&_method=resetPassword" method="POST" class="row g-3 needs-validation" autocomplete="off" novalidate>
+                            <input id="reset-user-id" type="hidden" name="user_id">
+                            <div class="col-md-6" has-validation>
+                                <label class="form-label">หมายเลขบัตรประชาชน</label>
+                                <input type="text" class="form-control" id="input-reset-idcard" name="reset-id-card" placeholder="ระบุหมายเลขบัตรประชาชนที่ใช้สมัคร" pattern="[a-zA-Z0-9]{7,13}" required>
+                                <div class="invalid-feedback check-idcard-feedback">
+                                    <!-- feedback message -->
+                                </div>
+                            </div>
+                            <div class="col-md-6" has-validation>
+                                <label class="form-label">อีเมล์ที่ใช้สมัคร</label>
+                                <input type="email" class="form-control" id="input-reset-email" name="reset-email" placeholder="ระบุอีเมล์ที่ใช้สมัคร" required>
+                                <div class="invalid-feedback check-email-feedback">
+                                    <!-- feedback message -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">ชื่อผู้ใช้</label>
+                                <input type="text" name="user_name" minlength="1" maxlength="64" class="form-control" disabled />
+                            </div>
+                            <div class="col-md-6">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">ชื่อ</label>
+                                <input type="text" class="form-control" name="first_name" pattern="[a-zA-Zก-๙]+$" maxlength="60" disabled>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">นามสกุล</label>
+                                <input type="text" class="form-control" name="last_name" pattern="[a-zA-Zก-๙]+$" maxlength="60" disabled>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" name="chk-confirm" required>
+                                  <label class="form-check-label">
+                                    ยืนยัน รีเซ็ตรหัสผ่าน
+                                  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-8 offset-md-2">
+                                <div class="alert-div">
+                                    <!-- alert message -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" >รีเซ็ตรหัสผ่าน</button>
                             </div>
                         </form>
                     </div>
@@ -748,7 +793,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.13.18/jquery.timepicker.min.js" integrity="sha512-WHnaxy6FscGMvbIB5EgmjW71v5BCQyz5kQTcZ5iMxann3HczLlBHH5PQk7030XmmK5siar66qzY+EJxKHZTPEQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="js/utility.js?v2"></script>
-        <script src="js/main.js?v13"></script>
+        <script src="js/main.js?v14"></script>
         <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  -->
 	</body>
