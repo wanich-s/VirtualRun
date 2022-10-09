@@ -62,7 +62,7 @@ function getUserInfo() {
         echo json_encode(array('status' => true, 'userInfo' => $user_info));
         exit(0);
     } else {
-        echo json_encode(array('status' => false));
+        echo json_encode(array('status' => true, 'msg' => 'ไม่พบข้อมูล'));
     }
 }
 

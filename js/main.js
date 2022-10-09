@@ -235,13 +235,25 @@ $( document ).ready(function() {
     });
 
     $("#input-reset-idcard, #input-reset-email").on('blur', (e) => {
+        const inputResetIDCard = document.getElementById('input-reset-idcard');
+        const inputResetEmail = document.getElementById('input-reset-email');
         const id_card = $("#input-reset-idcard").val();
         const email = $("#input-reset-email").val();
+        const input = e.currentTarget;
         if(id_card && email) {
             ajaxAPI('post', false, { func: 'resetPassword', _method: 'getResetUser', id_card: id_card, email: email }, function(data) {
-                $('#reset-user-id').val(data.userInfo['id']);
-                const form = document.getElementById('formResetPassword');
-                mapFormElements(form, data.userInfo);
+                if(data.userInfo) {
+                    $('#reset-user-id').val(data.userInfo['id']);
+                    const form = document.getElementById('formResetPassword');
+                    mapFormElements(form, data.userInfo);
+                    inputResetIDCard.setCustomValidity('');
+                    inputResetEmail.setCustomValidity('');
+                } else {
+                    inputResetIDCard.setCustomValidity('Error!');
+                    inputResetEmail.setCustomValidity('Error!');
+                    $('.check-idcard-feedback').html('ไม่พบข้อมูลเลขบัตรประชาชนนี้');
+                    $('.check-email-feedback').html('ไม่พบข้อมูลอีเมล์นี้');
+                }
             });
         }
         e.preventDefault();
