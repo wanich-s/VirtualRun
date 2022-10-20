@@ -370,7 +370,7 @@ if(modalApplication) {
 
     modalApplication.addEventListener('shown.bs.modal', function (event) {
         // Application deadline
-        const endDate = new Date('2022-10-21');
+        const endDate = new Date('2022-10-20:23:59:59');
         const now = new Date();
         if(now.getTime() > endDate.getTime()) {
             $('#applicationDeadline').html(alert('สิ้นสุดการรับสมัครแล้ว ค่ะ...', 'danger'));
