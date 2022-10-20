@@ -365,8 +365,19 @@ if(modalApplication) {
         form.trigger("reset");
         form.removeClass('was-validated');
         $('#pick-up-place').hide();
-        $( "input[name*='pickUpPlace']" ).attr("required", "true");
-        $(":submit").prop('disabled', false);
+        $( "input[name*='pickUpPlace']" ).attr("required", "true");        
+    });
+
+    modalApplication.addEventListener('shown.bs.modal', function (event) {
+        // Application deadline
+        const endDate = new Date('2022-10-21');
+        const now = new Date();
+        if(now.getTime() > endDate.getTime()) {
+            $('#applicationDeadline').html(alert('สิ้นสุดการรับสมัครแล้ว ค่ะ...', 'danger'));
+            $("#btnRegister").prop('disabled', true);
+        } else {
+            $("#btnRegister").prop('disabled', false);
+        }
     });
 }
 
