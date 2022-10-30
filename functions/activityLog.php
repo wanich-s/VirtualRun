@@ -10,7 +10,11 @@ switch (strtoupper($_REQUEST['_method'])) {
         }
         break;
     case 'POST':
-        activityLog();
+        if(is_activity_end()) {
+            echo json_encode(array('func' => $function, 'status' => true, 'msg' => 'หมดเวลาส่งผลกิจกรรมแล้วค่ะ...'));
+        } else {
+            activityLog();
+        }        
         break;
     case 'PATCH':
         getPersonalActivityLog();
@@ -18,6 +22,12 @@ switch (strtoupper($_REQUEST['_method'])) {
     default:
         # code...
         break;
+}
+
+function is_activity_end() {
+    $activity_end_date = new DateTime('2022-10-31 23:59:59 Asia/Bangkok');
+    $now = new DateTime("now Asia/Bangkok");
+    return $now > $activity_end_date;
 }
 
 function getResultBySchool() {

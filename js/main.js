@@ -835,13 +835,17 @@ function afterSubmit(form, data) {
             break;
         case 'activityLog':
             if(data.status) {
-                $('#activityLogAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
-                setTimeout(() => {
-                    $(form).trigger('reset');
-                    $(form).removeClass('was-validated');
-                    $('#activityLogAlert').fadeOut('fast');
-                    $('.modal, .show').hide();
-                }, timeout);
+                if(data.msg) {
+                    $('#activityLogAlert').html(alert(data.msg, 'danger'));
+                } else {
+                    $('#activityLogAlert').html(alert('บันทึกข้อมูลเรียบร้อย', 'success'));
+                    setTimeout(() => {
+                        $(form).trigger('reset');
+                        $(form).removeClass('was-validated');
+                        $('#activityLogAlert').fadeOut('fast');
+                        $('.modal, .show').hide();
+                    }, timeout);
+                }                
             } else {
                 $('#activityLogAlert').html(alert('เกิดข้อผิดพลาด !!!', 'danger'));
                 setTimeout(() => {
